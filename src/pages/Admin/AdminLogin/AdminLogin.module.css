@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.wrapper h1 {
+  font-size: 18px;
+  text-align: center;
+  color: var(--info);
+  margin-bottom: 10px;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid;
+  color: var(--info);
+  border-radius: 5px;
+  padding: 0.5rem;
+  margin-bottom: 5px;
+}
+.btn {
+  color: var(--white);
+  background-color: var(--info);
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+.input-box BiLock,
+BiUser {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
