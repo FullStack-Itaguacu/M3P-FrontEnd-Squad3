@@ -1,40 +1,34 @@
 import { Link } from "react-router-dom";
 import styles from "./AdminLogin.module.css";
-import { MdOutlineEmail, BiUser } from "react-icons/bi";
+import React from "react";
+import { MdEmail, MdVpnKey } from "react-icons/md";
 
 const AdminLogin = () => {
   return (
-    <div className={styles.wrapper}>
-      <form action="">
-        <h1 className={styles.title}>Bem Vindo</h1>
-        <div className={styles.input}>
+    <div className={styles["login-container"]}>
+      <form action={styles["formulario"]}>
+        <h1 className={styles["titulo"]}>Bem vindo</h1>
+        <div className={styles["input-container"]}>
+          <label for="email">e-mail</label>
           <input
             type="email"
-            className="input-field"
-            placeholder="Email"
-            required
+            name="email"
+            placeholder="digite seu email"
+            autoComplete="off"
           />
-          <BiUser className={styles.icon} />
-        </div>
-
-        <div className={styles["input-box"]}>
+          <MdEmail className={styles["icons"]} />
+          <label for="password">senha</label>
           <input
             type="password"
-            className="input-field"
-            placeholder="Senha"
-            required
+            name="password"
+            placeholder="digite sua senha"
           />
-          <MdOutlineEmail className={styles.icon} />
+          <MdVpnKey className={styles["icons"]} />
         </div>
-
-        <button type="submit" className={styles.btn}>
-          Login
-        </button>
-
-        <div className={styles["register-link"]}>
-          <p>
-            Não tem cadastro? <Link to="/">Cadastre-se</Link>
-          </p>
+        <input type="submit" value="Login" />
+        <div className={styles["register-container"]}>
+          <p>Não tem uma conta?</p>
+          <a href="#">Registrar</a>
         </div>
       </form>
     </div>

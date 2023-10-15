@@ -2,58 +2,87 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-.form {
-}
-
-.styles.title {
+  border: none;
 }
 
-.icon {
-  position: absolute;
-  top: 50%;
-  rigth: 10%;
-  transform: translateY(-50%);
-  color: var(--black);
-}
-.wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-.wrapper h1 {
-  font-size: 18px;
+h1.titulo {
   text-align: center;
   color: var(--info);
-  margin-bottom: 10px;
+}
+a,
+label {
+  font-size: 0.8rem;
+  justify-items: center;
+  justify-content: center;
+  text-align: center;
+}
+a:hover {
+  color: var(--info);
 }
 
-.input-box input {
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  border: none;
-  outline: none;
-  border: 2px solid;
-  color: var(--info);
-  border-radius: 5px;
-  padding: 0.5rem;
-  margin-bottom: 5px;
+login-container {
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
-.btn {
+
+form {
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+label,
+input {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  padding: 0.5rem;
+  text-align: left;
+  color: var(--info);
+}
+
+label {
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+input {
+  border-bottom: 2px solid #323232;
+  padding: 1px;
+  font-size: 1rem;
+  border-bottom: 2px solid var(--info);
+}
+
+input[type="submit"] {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  margin-top: 20px;
   color: var(--white);
   background-color: var(--info);
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 5px;
-  padding: 0.5rem;
+  cursor: pointer;
+  width: 150px;
+  height: 50px;
 }
-.input-box BiLock,
-BiUser {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+
+input[type="submit"]:hover {
+  background-color: var(--primary);
+  transition: 5s;
+}
+
+icons {
+  margin-left: 10px;
+}
+register-container {
+  margin-bottom: 10px;
+  text-align: center;
 }
