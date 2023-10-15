@@ -3,7 +3,19 @@
   padding: 0;
   box-sizing: border-box;
 }
+.form {
+}
 
+.styles.title {
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  rigth: 10%;
+  transform: translateY(-50%);
+  color: var(--black);
+}
 .wrapper {
   display: flex;
   justify-content: center;
