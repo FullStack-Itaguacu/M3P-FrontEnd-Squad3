@@ -26,11 +26,11 @@ const AdminLogin = () => {
           <MdVpnKey className={styles["icons"]} />
         </div>
         <input type="submit" value="Login" />
-        <div className={styles["register-container"]}>
-          <p>Não tem uma conta?</p>
-          <a href="#">Registrar</a>
-        </div>
       </form>
+      <div className={styles["register-container"]}>
+        <p>Não tem uma conta?</p>
+        <a href="#">Registrar</a>
+      </div>
     </div>
   );
 };
