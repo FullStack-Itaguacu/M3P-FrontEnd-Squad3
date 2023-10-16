@@ -11,7 +11,7 @@ h1.titulo {
 }
 a,
 label {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   justify-items: center;
   justify-content: center;
   text-align: center;
@@ -70,8 +70,8 @@ input[type="submit"] {
   color: var(--white);
   background-color: var(--info);
   cursor: pointer;
-  width: 150px;
-  height: 50px;
+  width: 120px;
+  height: 40px;
 }
 
 .input[type="submit"]:hover {
