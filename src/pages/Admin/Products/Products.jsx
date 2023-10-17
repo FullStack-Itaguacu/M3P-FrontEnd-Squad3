@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import {cadastrarProduto, uploadImage} from "../../../Services/api"
-//import Modal from "../../../components/Modal"
+import Table from "../../../components/Table/Table"
 import styles from "./Products.module.css"
 
 
@@ -95,7 +95,7 @@ function NewProduct () {
     
       if (!allValuesFilled) {
         
-        const registerProduct = await cadastrarProduto(product, auth);
+        const registerProduct = await cadastrarProduto(product);
         console.log(registerProduct);
 
       } else {
@@ -176,48 +176,9 @@ function NewProduct () {
                             <div>
                             <button className={styles.buttonProdutos}> Cadastrar </button>
                             </div>
-        
+                              <Table listProducts={listProducts} />
                     </form>
                 </div>
-
-                <div className={styles.tabelaProdutos}>
-        <h2 className={styles.listaProdutos}>Lista de produtos cadastrados</h2>
-        <div>
-          
-        <input className={styles.filtro} type="text" id="txtColuna1" placeholder="Pesquisar"/>
-        </div>
-        <table className={styles.colunasTabela}>
-          <thead >
-            <tr>
-              <th className={styles.colunaId} >ID</th>
-              <th className={styles.colunaNome}>Nome</th>
-              <th>Dosagem</th>
-              <th>Tipo do Produto</th>
-              <th>Preço R$</th>
-              <th>Descrição</th>
-              <th>Quantidade</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-
-          <tbody>
-             {listProducts.map((product, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{product.name}</td>
-                <td>{product.dosage}</td>
-                <td>{product.typeProduct}</td>
-                <td>{product.unitPrice}</td>
-                <td>{product.description}</td>
-                <td>{product.totalStock}</td>
-                <td>
-                  <button onClick={() => handleEdit(product)}>Editar</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
     </div>
   );
   
