@@ -10,6 +10,20 @@
     grid-gap: 5px;
     font-family: Poppins;
   }
+
+  .inputTipoProduto {
+    display: flex;
+    border: solid 3px;
+    border-radius: 3px;
+    border-color:#01B8C2;
+    font-family: Poppins;
+    font-size: 20px;
+    margin-top: 5px;
+    height: 40px;
+    width: 247px;
+    align-items: center;
+    text-align: center;
+  }
   .inputProduto {
     display: flex;
     border: solid 3px;

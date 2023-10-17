@@ -76,12 +76,7 @@ function NewProduct () {
               console.error("Erro ao fazer upload da imagem:", error);
           }
       }
-  };
-  // Função para lidar com a edição de produtos
-  const handleEdit = (product) => {
-    // Implemente a lógica de edição aqui
-  };
-       
+  }   
 
   async function haddlerNewProduct(event) {
     event.preventDefault();
@@ -97,7 +92,7 @@ function NewProduct () {
         
         const registerProduct = await cadastrarProduto(product);
         console.log(registerProduct);
-
+        handleAddProduct();
       } else {
         console.log("Pelo menos um valor obrigatório está vazio.",product);
       }
