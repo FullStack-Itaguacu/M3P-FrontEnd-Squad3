@@ -1,0 +1,17 @@
+:root {
+    --primary: #00B8C1;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --info: #17a2b8;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --white: #fff;
+    --black: #000;
+    --color-text-Primary: #55555;
+    --border-color:#01B8C2;
+    --border-color-hover:#01B8C2;
+    --border-color-focus:#01B8C2;
+    --border-color-active:#01B8C2;
+  }
