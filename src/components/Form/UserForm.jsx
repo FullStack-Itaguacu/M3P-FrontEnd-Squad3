@@ -113,28 +113,17 @@ const UserForm = ({
         />
       </label>
 
-      <label>
+      <label htmlFor="userType">
         Tipo de Usuário:
-        <input
-          type="checkbox"
-          id="userTypeAdmin"
+        <select
+          id="userType"
           name="userType"
-          value="ADMIN"
-          checked={user.userType === "ADMIN"}
+          value={user.userType}
           onChange={handleInputChange}
-        />
-        <label htmlFor="userTypeAdmin">Administrador</label>
-      </label>
-      <label>
-        <input
-          type="checkbox"
-          id="userTypeUser"
-          name="userType"
-          value="USER"
-          checked={user.userType === "USER"}
-          onChange={handleInputChange}
-        />
-        <label htmlFor="userTypeUser">Usuário</label>
+        >
+          <option value="ADMIN">Administrador</option>
+          <option value="BUYER">Comprador</option>
+        </select>
       </label>
 
       <label htmlFor="password">
@@ -184,7 +173,9 @@ const UserForm = ({
 
       <label htmlFor="cep">
         CEP:
-        <input
+        <InputMask
+          mask="99999-999"
+          maskPlaceholder={null}
           type="text"
           id="cep"
           name="cep"
