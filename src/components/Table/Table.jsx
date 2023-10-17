@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styles from'./Table.module.css';
 import axios from "axios";
 
 const Table = () => {
@@ -47,7 +48,7 @@ const Table = () => {
     return (
         <div>
             <input type="text" placeholder="Search..." value={searchTerm} onChange={handleSearch} />
-            <table>
+            <table  className={styles.colunasTabela}>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -71,13 +72,13 @@ const Table = () => {
                             <td>{product.description}</td>
                             <td>{product.quantity}</td>
                             <td>
-                                <button onClick={() => handleEdit(product.id, { name: "new name" })}>Editar</button>
+                                <button className={styles.buttonEditar} onClick={() => handleEdit(product.id, { name: "new name" })}>Editar</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <Pagination
+            <Pagination className={styles.filtro}
                 productsPerPage={productsPerPage}
                 totalProducts={filteredProducts.length}
                 paginate={paginate}
@@ -95,8 +96,8 @@ const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) =
     }
 
     return (
-        <div>
-            <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
+        <div >
+            <button className={styles.pagination} onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
                 Anterior
             </button>
             {pageNumbers.map((number) => (
@@ -104,7 +105,7 @@ const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) =
                     {number}
                 </button>
             ))}
-            <button
+            <button className={styles.pagination}
                 onClick={() => paginate(currentPage + 1)}
                 disabled={currentPage === Math.ceil(totalProducts / productsPerPage)}
             >
