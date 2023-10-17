@@ -96,7 +96,7 @@ function NewProduct () {
       if (!allValuesFilled) {
         
         const registerProduct = await cadastrarProduto(product, auth);
-        console.log(registerProduct);
+        console.log(registerProduct.data);
 
       } else {
         console.log("Pelo menos um valor obrigatório está vazio.",product);

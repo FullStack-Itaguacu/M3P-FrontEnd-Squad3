@@ -1,7 +1,10 @@
 .titulo{
     display: flex;
     margin-top: 100px;
-    margin-left: 40%;
+    margin-left: 35%;
+    color: #343a40;
+    font-size: 35px;
+    
 }
 
   .gridContainer {
@@ -13,12 +16,28 @@
   .inputProduto {
     display: flex;
     border: solid 3px;
-    border-radius: 3px;
+    border-radius: 9px;
     border-color:#01B8C2;
     font-family: Poppins;
     font-size: 20px;
     margin-top: 5px;
+    margin-bottom: 10px;
     height: 40px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .inputTipoProduto{
+    display: flex;
+    border: solid 3px;
+    border-radius: 9px;
+    border-color:#01B8C2;
+    font-family: Poppins;
+    font-size: 20px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    height: 40px;
+    width: 247px;
     align-items: center;
     text-align: center;
   }
@@ -26,11 +45,12 @@
   .inputDescricao {
     display: flex;
     border: solid 3px;
-    border-radius: 3px;
+    border-radius: 9px;
     border-color:#01B8C2;
     font-family: Poppins;
     font-size: 20px;
     margin-top: 5px;
+    margin-bottom: 10px;
     height: 60px;
     width: 247px;
     align-items: center;
@@ -40,11 +60,12 @@
   .selecDosagem {
     display: flex;
     border: solid 3px;
-    border-radius: 3px;
+    border-radius: 9px;
     border-color:#01B8C2;
     font-family: Poppins;
     font-size: 20px;
     margin-top: 5px;
+    margin-bottom: 10px;
     height: 40px;
     width: 247px;
     align-items: center;
@@ -67,8 +88,8 @@
     flex-direction: column;
     font-size: 20px;
     margin-top: 50px;
-    margin-left: 100px;
-    
+    margin-left: 150px;
+    color: #343a40
    
   }
 
@@ -76,16 +97,18 @@
     display: flex;
     flex-direction: column;
     font-size: 20px;
-    margin-top: -206px;
-    margin-left: 495px;
+    margin-top: -232px;
+    margin-left: 545px;
+    color: #343a40
   }
 
   .grupo3 {
     display: flex;
     flex-direction: column;
     font-size: 20px;
-    margin-top: -223px;
-    margin-left: 880px;
+    margin-top: -252px;
+    margin-left: 930px;
+    color: #343a40
   }
 
   .buttonProdutos {
@@ -100,8 +123,78 @@
     margin-left: 43%;
     width: 200px;
     height: 50px;
-    border-radius: 4px;
+    border-radius: 9px;
     align-items: center;
     text-align: center;
     cursor: pointer;
   }
+  .buttonProdutos:hover {
+    background-color: #343a40; /* Mudar a cor de fundo ao passar o mouse */
+  }
+
+ .filtro{
+  margin-left: 950px;
+  margin-top: 50px;
+  font-size: 20px;
+  font-family: Poppins;
+  border-radius: 9px;
+  border: 3px solid;
+  border-color: #343a40;
+  text-align: center;
+  height: 40px;
+  
+ }
+.listaProdutos {
+  display: flex;
+    margin-top: 100px;
+    margin-left: 35%;
+    color: #343a40;
+    font-size: 35px;
+    
+}
+
+.colunasTabela {
+  color:  #000;
+  margin-top: 10px;
+  margin-left: 140px;
+  margin-right: 150px;
+  margin-bottom: 50px;
+  border: 4px solid;
+  border-color: #343a40;
+  border-collapse: collapse;
+  width: 80%;
+  height: 50px;
+  font-family: Poppins;
+  font-size: 20px;
+}
+
+th, td {
+  border: 3px solid #343a40;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #6c757d;
+}
+
+.buttonEditar {
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  border-color:#000;
+  background-color: #6c757d;
+  font-family: Poppins;
+  color: #000;
+  margin-left: 13%;
+  width: 100px;
+  height: 50px;
+  border-radius: 9px;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.buttonEditar:hover {
+background-color: #343a40; /* Mudar a cor de fundo ao passar o mouse */
+}
