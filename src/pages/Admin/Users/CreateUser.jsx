@@ -39,7 +39,7 @@ const CreateUser = () => {
         }));
       }
     } catch (error) {
-      console.log(error);
+      alert("Erro: CEP não encontrado");
     }
   };
 

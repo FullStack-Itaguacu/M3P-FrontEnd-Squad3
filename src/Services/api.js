@@ -19,9 +19,14 @@ export async function getCep(cep) {
     const response = await api.get(
       `https://brasilapi.com.br/api/cep/v2/${cep}`
     );
+    if (response.data.errors && response.data.errors.length > 0) {
+      throw new Error("CEP não encontrado");
+    }
+
     return response.data;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 }
 
