@@ -1,9 +1,11 @@
 import React from "react";
 import { useState } from "react";
+import {cadastrarProduto, uploadImage} from "../../../Services/api"
+//import Modal from "../../../components/Modal"
 import styles from "./Products.module.css"
 
 
-function CadastrarProduto () {
+function NewProduct () {
     const [name, setName] = useState('');
     const [labName, setLabName] = useState('');
     const [imageLink, setImageLink] = useState ('');
@@ -13,59 +15,93 @@ function CadastrarProduto () {
     const [totalStock, setTotalStock] = useState('');
     const [typeProduct, setTypeProduct] = useState('');
     const [description, setDescription] = useState('');
+    const [listProducts, setListProducts] = useState([]);
 
+    
 
-    const produtos = {
-        name: name,
-        labName: labName,
-        imageLink: imageLink,
-        dosage: dosage,
-        typeDosage: typeDosage,
-        unitPrice: unitPrice,
-        totalStock: totalStock,
-        typeProduct: typeProduct,
-        description: description,
-        };
+    const auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJwZWRybzVAZ21haWwuY29tIiwiZnVsbE5hbWUiOiJQZWRybyBTaWx2YSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5NzQ5OTUyMH0.xevNkncng-I-5z2lN2ZTpOnqSwiWGXTFHgw6vsUhsfM"
 
-        const handleImageChange = (e) => {
-            const selectedImage = e.target.files[0];
-        
-            if (selectedImage) {
-              const reader = new FileReader();
-              reader.onload = () => {
-                setImage(reader.result);
-              };
-              reader.readAsDataURL(selectedImage);
-            } else {
-              setImage(null);
-            }
-          };
+    const product = {
+      name: name,
+      labName: labName,
+      imageLink: imageLink,
+      dosage: parseInt(dosage),
+      typeDosage: typeDosage,
+      unitPrice: parseFloat(unitPrice),
+      totalStock: parseInt(totalStock),
+      typeProduct: typeProduct,
+      description: description,
+  };
+
+        // Função para adicionar um novo produto à lista
+  const handleAddProduct = () => {
+    const newProduct = {
+      name,
+      labName,
+      image: image,
+      dosage,
+      typeDosage,
+      unitPrice,
+      totalStock,
+      typeProduct,
+      description,
+    };
+
+    // Adicionar o novo produto à lista
+    setListProducts([...listProducts, newProduct]);
+
+    // Limpar os campos após adicionar o produto
+    setName('');
+    setLabName('');
+    setImage(null);
+    setDosage('');
+    setTypeDosage('');
+    setUnitPrice('');
+    setTotalStock('');
+    setTypeProduct('');
+    setDescription('');
+  };
+
+  // Função para lidar com a mudança da imagem
+   const handleImageChange = async (e) => {
+      const selectedImage = e.target.files[0];
+
+      if (selectedImage) {
+          try {
+              const response = await uploadImage(selectedImage, auth);
+              setImageLink(response.links[0]);
+
+          } catch (error) {
+              // Lide com erros, se necessário.
+              console.error("Erro ao fazer upload da imagem:", error);
+          }
+      }
+  };
+  // Função para lidar com a edição de produtos
+  const handleEdit = (product) => {
+    // Implemente a lógica de edição aqui
+  };
        
 
-        function haddlerCadastrarProduto(event) {
-            event.preventDefault();
-            const nomeMedicamento = document.getElementById('nomeMedicamento').value;
-            if (produtoJaCadastrado(nomeMedicamento)) {
-                statusMessage.textContent = 'Produto já cadastrado com esse nome!';
-                return;
-              }
-            if(name !== "" && labName !== "" &&
-            imageLink !== "" && dosage !== "" && typeDosage !== ""
-            && unitPrice !== "" && totalStock !== "" && typeProduct !== ""){
-                alert("Produto cadastrado com sucesso!")
-                //navigate(tabela)
-
-            var resultadoDoCadastro = cadastrarNovoProduto();
-            var listaProdutos = JSON.parse(resultadoDoCadastro);
-            if(!Array.isArray(listaProdutos)){
-                listaProdutos=[];
-            }
-            listaProdutos.push({...produtos})
-           
-        }else{
-            alert("Preencha todos os campos!")
-            }}
+  async function haddlerNewProduct(event) {
+    event.preventDefault();
+    const allValuesFilled = Object.values(product).every((value, key) => {
+        if (key === "description") {
+          return false; 
+        }
         
+        return value !== undefined && value !== null && value !== "";
+      });
+    
+      if (!allValuesFilled) {
+        
+        const registerProduct = await cadastrarProduto(product, auth);
+        console.log(registerProduct);
+
+      } else {
+        console.log("Pelo menos um valor obrigatório está vazio.",product);
+      }
+}
             return (
                 <div className = {styles.fomulario}>
                     <div>
@@ -74,7 +110,7 @@ function CadastrarProduto () {
 
                     <div className={styles.gridContainer}>
 
-                    <form onSubmit={haddlerCadastrarProduto}>
+                    <form onSubmit={haddlerNewProduct}>
                             
                         <div className={styles.grupo1}>
                         <div>
@@ -85,14 +121,23 @@ function CadastrarProduto () {
                         <div className={styles.tipoMedicamento}>
                             <label className={styles.labelTipoMedicamento} htmlFor="tipoProduto">Tipo Produto:</label>
                             <select className={styles.selecDosagem}  name="tipo-produto" id="tipo-produto"   onChange={(e) => setTypeProduct(e.target.value)} required>
-                                <option value="produto-controlado">Não controlado</option>
-                                <option value="produto-comum">Controlado</option>
+                                <option value="">Selecione</option>
+                                <option value="Não controlado">Não controlado</option>
+                                <option value="Controlado">Controlado</option>
                             </select>
                         </div>
 
                             <div>
                             <label htmlFor="tipo-dosagem-produto">Tipo dosagem:</label>
-                            <input className={styles.inputProduto} type="text" name="tipo-dosagem-produto" id="tipo-dosagem-produto" placeholder="Tipo de dosagem"  onChange={(e) => setTypeDosage(e.target.value)} required/>
+                            <select className={styles.inputTipoProduto}  name="tipo-dosagem" id="tipo-dosagem"   onChange={(e) => setTypeDosage(e.target.value)} required>
+                                <option value="">Selecione</option>
+                                <option value="mg">mg</option>
+                                <option value="mcg">mcg</option>
+                                <option value="g">g</option>
+                                <option value="ml">ml</option>
+                                <option value="%">%</option>
+                                <option value="outro">outro</option>
+                            </select>
                         </div>
                         
                         </div>
@@ -134,8 +179,49 @@ function CadastrarProduto () {
         
                     </form>
                 </div>
-                </div>
-            )}
+
+                <div className={styles.tabelaProdutos}>
+        <h2 className={styles.listaProdutos}>Lista de produtos cadastrados</h2>
+        <div>
+          
+        <input className={styles.filtro} type="text" id="txtColuna1" placeholder="Pesquisar"/>
+        </div>
+        <table className={styles.colunasTabela}>
+          <thead >
+            <tr>
+              <th className={styles.colunaId} >ID</th>
+              <th className={styles.colunaNome}>Nome</th>
+              <th>Dosagem</th>
+              <th>Tipo do Produto</th>
+              <th>Preço R$</th>
+              <th>Descrição</th>
+              <th>Quantidade</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+
+          <tbody>
+             {listProducts.map((product, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{product.name}</td>
+                <td>{product.dosage}</td>
+                <td>{product.typeProduct}</td>
+                <td>{product.unitPrice}</td>
+                <td>{product.description}</td>
+                <td>{product.totalStock}</td>
+                <td>
+                  <button onClick={() => handleEdit(product)}>Editar</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+  
+            }
             
 
-            export default CadastrarProduto;
+            export default NewProduct;
