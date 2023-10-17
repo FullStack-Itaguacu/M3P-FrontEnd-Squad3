@@ -11,18 +11,29 @@ const UserForm = ({
   handleInputChange,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const phoneRegex = /^\(\d{3}\) \d{5}-\d{4}$/;
 
   const handleCPFChange = (e) => {
-    //const formattedCPF = formatCpf(e.target.value);
-    const isValid = isCPFValid(e.target.value); // Realize a validação do CPF
+    const isValid = isCPFValid(e.target.value);
     handleInputChange({
       ...e,
       target: { ...e.target, value: e.target.value },
     });
 
-    // Pode exibir uma mensagem de erro se o CPF for inválido
     if (!isValid) {
       alert("CPF inválido. Verifique o formato.");
+    }
+  };
+
+  const handlePhoneChange = (e) => {
+    const isValid = phoneRegex.test(e.target.value);
+    handleInputChange({
+      ...e,
+      target: { ...e.target, value: e.target.value },
+    });
+
+    if (!isValid) {
+      alert("Telefone inválido. Verifique o formato (048) 99999-9999.");
     }
   };
   return (
@@ -76,13 +87,19 @@ const UserForm = ({
       </label>
       <label htmlFor="phone">
         Telefone:
-        <input
+        <InputMask
+          mask="(999) 99999-9999"
+          maskPlaceholder={null}
           type="text"
           id="phone"
           name="phone"
           value={user.phone}
+          onBlur={handlePhoneChange}
           onChange={handleInputChange}
         />
+        {!phoneRegex.test(user.phone) && user.phone && (
+          <span className="error">Telefone inválido. Verifique o formato.</span>
+        )}
       </label>
 
       <label htmlFor="email">
