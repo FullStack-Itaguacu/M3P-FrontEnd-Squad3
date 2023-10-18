@@ -14,12 +14,6 @@ function AdminLogin() {
     return valEmail.test(email);
   }
 
-  function validarSenha(senha) {
-    const valSenha = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!])(?=\S+$).{8,}$/;
-    return valSenha.test(senha);
-
-  }
-
   async function validLog(e) {
     e.preventDefault();
 
@@ -29,24 +23,18 @@ function AdminLogin() {
     }
     setErroEmail("");
 
-    if (!validarSenha(senha)) {
-      setErroSenha(
-        "A senha deve ter pelo menos 8 caracteres entre letras e números."
-      );
-      return;
-    }
     setErroSenha("");
-
     console.log("email", email);
 
-   // const data = ResponseLogin(response)
-
+    
     const response = await loginAdmin(email, senha);
+    const data = ResponseLogin(response)
   }
 
     function ResponseLogin(response) {
       if (!response.ok) {
         throw new Error(response.statusText);
+        
       }
       return response.json();
 }
@@ -84,9 +72,8 @@ function AdminLogin() {
           onChange={(e) => setSenha(e.target.value)}
           type="password"
           name="password"
-          minLength="6"
+          minLength="8"
           id="password"
-          pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!])(?=\S+$).{8,}$"
           placeholder="digite sua senha"
         />
         {erroSenha && (
