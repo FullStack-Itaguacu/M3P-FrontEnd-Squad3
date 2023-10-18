@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NotFound from '../pages/NotFound/NotFound';
 import Index from '../pages/Home/Index';
 import AdminLogin from '../pages/Admin/AdminLogin/AdminLogin';
+import UserLogin from "../pages/Admin/Users/Users";
 import PrivateRoute from '../components/PrivateRoute';
 import CadastrarProduto from '../pages/Admin/Products/Products';
 import typeUserEnum from '../constants/enums/typeUserEnum';
@@ -15,7 +16,8 @@ export default function AllRoutes() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/login/admin" element={<AdminLogin />} />
-       
+        <Route post="/user/login" element={<UserLogin />} />
+        
         <Route
           path="/admin/product"
           element={
