@@ -1,8 +1,7 @@
 import axios from "axios";
-import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.URL_HOST_API,
+  baseURL: import.meta.env.VITE_URL_HOST_API,
 });
 
 // Autenticação
@@ -25,7 +24,7 @@ export const signupUser = async (userData, addresses) => {
   return response.data;
 };
 
-export const signupAdmin = async (adminData, addresses) => {
+export const signupAdmin = async (adminData, addresses, token) => {
   const response = await api.post(
     "/user/admin/signup",
     {
@@ -215,19 +214,19 @@ export const getSaleById = async (token, saleId) => {
   });
 
   return response.data;
-
-  export async function getCep(cep) {
-    try {
-      const response = await api.get(
-        `https://brasilapi.com.br/api/cep/v2/${cep}`
-      );
-      if (response.data.errors && response.data.errors.length > 0) {
-        throw new Error("CEP não encontrado");
-      }
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  }
 };
+
+export async function getCep(cep) {
+  try {
+    const response = await api.get(
+      `https://brasilapi.com.br/api/cep/v2/${cep}`
+    );
+    if (response.data.errors && response.data.errors.length > 0) {
+      throw new Error("CEP não encontrado");
+    }
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
