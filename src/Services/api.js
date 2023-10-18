@@ -7,12 +7,13 @@ const api = axios.create({
 // Autenticação
 export const loginUser = async (email, password) => {
   const response = await api.post('/user/login', {email, password});
-  return response.data;
+ 
+  return response;
 }
 
 export const loginAdmin = async (email, password) => {
   const response = await api.post('/user/admin/login', {email, password});
-  return response.data;  
+  return response;  
 }
 
 // Usuários
@@ -130,10 +131,8 @@ export const listProducts = async (offset, limit, filters={}) => {
   return response.data;
 }
 
-export const listAdminProducts = async (token, offset, limit, filters={}) => {
+export const listAdminProducts = async (token, offset=0, limit=20, filters={}) => {
   const params = {
-    offset, 
-    limit,
     ...filters
   };
   
