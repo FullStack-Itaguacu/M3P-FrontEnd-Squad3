@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import {cadastrarProduto, uploadImage} from "../../../Services/api"
 import Table from "../../../components/Table/Table"
+import useApi from "../../../hooks/useApi";
 import styles from "./Products.module.css"
 
 
@@ -17,9 +17,10 @@ function NewProduct () {
     const [description, setDescription] = useState('');
     const [listProducts, setListProducts] = useState([]);
 
-    
+    const [auth, setAuth] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJwZWRybzVAZ21haWwuY29tIiwiZnVsbE5hbWUiOiJQZWRybyBTaWx2YSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5NzY2NjIxN30.sNn3jspV1IgYvs44ww2LYbO5fe7j0O7r4REvXI0CTXk');
+    const { uploadImage } = useApi();
+    const { cadastrarProduto } = useApi();
 
-    const auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJwZWRybzVAZ21haWwuY29tIiwiZnVsbE5hbWUiOiJQZWRybyBTaWx2YSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5NzQ5OTUyMH0.xevNkncng-I-5z2lN2ZTpOnqSwiWGXTFHgw6vsUhsfM"
 
     const product = {
       name: name,
@@ -38,7 +39,7 @@ function NewProduct () {
     const newProduct = {
       name,
       labName,
-      image: image,
+      imageLink,
       dosage,
       typeDosage,
       unitPrice,
@@ -62,6 +63,7 @@ function NewProduct () {
     setDescription('');
   };
 
+  
   // Função para lidar com a mudança da imagem
    const handleImageChange = async (e) => {
       const selectedImage = e.target.files[0];
@@ -70,7 +72,6 @@ function NewProduct () {
           try {
               const response = await uploadImage(selectedImage, auth);
               setImageLink(response.links[0]);
-
           } catch (error) {
               // Lide com erros, se necessário.
               console.error("Erro ao fazer upload da imagem:", error);
@@ -78,24 +79,29 @@ function NewProduct () {
       }
   }   
 
-  async function haddlerNewProduct(event) {
+function handleOpenTable() {
+  const newWindow = window.open('', '_blank', 'width=800,height=600');
+  const tableContainer = newWindow.document.getElementById('table');
+  ReactDOM.render(<Table data={listProducts} />, tableContainer);
+}
+
+async function haddlerNewProduct(event) {
     event.preventDefault();
     const allValuesFilled = Object.values(product).every((value, key) => {
         if (key === "description") {
-          return false; 
+            return false; 
         }
-        
         return value !== undefined && value !== null && value !== "";
-      });
+    });
     
-      if (!allValuesFilled) {
-        
-        const registerProduct = await cadastrarProduto(product);
+    if (!allValuesFilled) {
+        const registerProduct = await cadastrarProduto(product, auth);
         console.log(registerProduct);
         handleAddProduct();
-      } else {
+        handleOpenTable();
+    } else {
         console.log("Pelo menos um valor obrigatório está vazio.",product);
-      }
+    }
 }
             return (
                 <div className = {styles.fomulario}>
@@ -171,7 +177,7 @@ function NewProduct () {
                             <div>
                             <button className={styles.buttonProdutos}> Cadastrar </button>
                             </div>
-                              <Table listProducts={listProducts} />
+                        
                     </form>
                 </div>
     </div>

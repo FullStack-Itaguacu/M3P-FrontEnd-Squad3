@@ -14,10 +14,11 @@
   font-family: Poppins;
 }
 .inputProduto {
+  background-color: #d2eef0;
   display: flex;
-  border: solid 3px;
+  border: solid 2px;
   border-radius: 9px;
-  border-color:#01B8C2;
+  border-color:#343a40;
   font-family: Poppins;
   font-size: 20px;
   margin-top: 5px;
@@ -28,10 +29,11 @@
 }
 
 .inputTipoProduto{
+  background-color: #d2eef0;
   display: flex;
-  border: solid 3px;
+  border: solid 2px;
   border-radius: 9px;
-  border-color:#01B8C2;
+  border-color:#343a40;
   font-family: Poppins;
   font-size: 20px;
   margin-top: 5px;
@@ -43,10 +45,11 @@
 }
 
 .inputDescricao {
+  background-color: #d2eef0;
   display: flex;
-  border: solid 3px;
+  border: solid 2px;
   border-radius: 9px;
-  border-color:#01B8C2;
+  border-color:#343a40;
   font-family: Poppins;
   font-size: 20px;
   margin-top: 5px;
@@ -58,10 +61,11 @@
 }
 
 .selecDosagem {
+  background-color: #d2eef0;
   display: flex;
-  border: solid 3px;
+  border: solid 2px;
   border-radius: 9px;
-  border-color:#01B8C2;
+  border-color:#343a40;
   font-family: Poppins;
   font-size: 20px;
   margin-top: 5px;
