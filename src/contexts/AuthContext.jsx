@@ -24,6 +24,12 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    function isTokenValid(decoded) {
+        return (decoded.exp * 1000) > new Date().getTime();
+
+    }
+
+
     const adminLogin = async (email, password) => {
 
         try {
@@ -64,10 +70,6 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     }
 
-    function isTokenValid(decoded) {
-        return (decoded.exp * 1000) > new Date().getTime();
-
-    }
 
 
 
