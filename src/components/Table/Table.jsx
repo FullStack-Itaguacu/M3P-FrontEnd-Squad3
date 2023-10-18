@@ -9,6 +9,8 @@ const Table = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [productsPerPage] = useState(30);
 
+
+    
     useEffect(() => {
         const fetchProducts = async () => {
             const res = await axios.get(`/products/admin/${(currentPage - 1) * productsPerPage}/${productsPerPage}`);
@@ -47,7 +49,7 @@ const Table = () => {
 
     return (
         <div>
-            <input type="text" placeholder="Search..." value={searchTerm} onChange={handleSearch} />
+            <input type="text" placeholder="Search..." value={searchTerm} onChange={handleSearch} className={styles.filtro} />
             <table  className={styles.colunasTabela}>
                 <thead>
                     <tr>
@@ -78,7 +80,7 @@ const Table = () => {
                     ))}
                 </tbody>
             </table>
-            <Pagination className={styles.filtro}
+            <Pagination 
                 productsPerPage={productsPerPage}
                 totalProducts={filteredProducts.length}
                 paginate={paginate}
@@ -97,7 +99,7 @@ const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) =
 
     return (
         <div >
-            <button className={styles.pagination} onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
+            <button className={styles.buttonAnterior } onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
                 Anterior
             </button>
             {pageNumbers.map((number) => (
@@ -105,7 +107,7 @@ const Pagination = ({ productsPerPage, totalProducts, paginate, currentPage }) =
                     {number}
                 </button>
             ))}
-            <button className={styles.pagination}
+            <button className={styles.buttonProximo }
                 onClick={() => paginate(currentPage + 1)}
                 disabled={currentPage === Math.ceil(totalProducts / productsPerPage)}
             >
