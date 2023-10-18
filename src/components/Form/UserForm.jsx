@@ -11,6 +11,8 @@ const UserForm = ({
   handleInputChange,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [userRegistered, setUserRegistered] = useState(false);
+
   const phoneRegex = /^\(\d{3}\) \d{5}-\d{4}$/;
 
   const handleCPFChange = (e) => {
@@ -36,12 +38,65 @@ const UserForm = ({
       alert("Telefone inválido. Verifique o formato (048) 99999-9999.");
     }
   };
+
+  const handleCadastroClick = async () => {
+    const cpfWithoutMask = user.cpf.replace(/[\D]/g, "");
+
+    const phoneWithoutMask = user.phone.replace(/[\D]/g, "");
+    if (
+      isFormValid(user) &&
+      isCPFValid(cpfWithoutMask) &&
+      isPasswordValid(user.password)
+    ) {
+      const formattedUser = {
+        user: {
+          fullName: user.fullName,
+          email: user.email,
+          cpf: cpfWithoutMask,
+          birthDate: user.birthDate,
+          phone: phoneWithoutMask,
+          password: user.password,
+          typeUser: user.userType,
+        },
+        addresses: [
+          {
+            street: user.street,
+            numberStreet: user.number,
+            complement: user.complement,
+            neighborhood: user.neighborhood,
+            city: user.city,
+            state: user.state,
+            zip: user.cep.replace(/[\D]/g, ""), // Remove a formatação do CEP
+            lat: user.latitude,
+            long: user.longitude,
+          },
+        ],
+      };
+
+      try {
+        console.log(formattedUser);
+
+        setUserRegistered(true);
+      } catch (error) {
+        alert(
+          "Erro ao cadastrar usuário. Verifique os dados e tente novamente."
+        );
+      }
+    } else {
+      alert(
+        "Por favor, verifique se todos os campos foram preenchidos corretamente."
+      );
+    }
+  };
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
         if (isFormValid(user) && isCPFValid(user.cpf)) {
           handleSubmit(e);
+
+          setUserRegistered(true);
         } else {
           alert(
             "Por favor, verifique se a senha digitada atende os requisitos ou se o CPF é válido."
@@ -49,6 +104,10 @@ const UserForm = ({
         }
       }}
     >
+      {userRegistered && (
+        <div className="success-message">Usuário cadastrado.</div>
+      )}
+
       <label htmlFor="fullName">
         Nome Completo:
         <input
@@ -57,6 +116,7 @@ const UserForm = ({
           name="fullName"
           value={user.fullName}
           onChange={handleInputChange}
+          required
         />
       </label>
       <label htmlFor="cpf">
@@ -70,6 +130,7 @@ const UserForm = ({
           value={user.cpf}
           onBlur={handleCPFChange}
           onChange={handleInputChange}
+          required
         />
         {!isCPFValid(user.cpf) && user.cpf && (
           <span className="error">CPF inválido. Verifique o formato.</span>
@@ -96,6 +157,7 @@ const UserForm = ({
           value={user.phone}
           onBlur={handlePhoneChange}
           onChange={handleInputChange}
+          required
         />
         {!phoneRegex.test(user.phone) && user.phone && (
           <span className="error">Telefone inválido. Verifique o formato.</span>
@@ -110,6 +172,7 @@ const UserForm = ({
           name="email"
           value={user.email}
           onChange={handleInputChange}
+          required
         />
       </label>
 
@@ -120,6 +183,7 @@ const UserForm = ({
           name="userType"
           value={user.userType}
           onChange={handleInputChange}
+          required
         >
           <option value="ADMIN">Administrador</option>
           <option value="BUYER">Comprador</option>
@@ -129,17 +193,18 @@ const UserForm = ({
       <label htmlFor="password">
         Senha:
         <input
-          type={showPassword ? "text" : "password"} // Altera o tipo para exibir/ocultar senha
+          type={showPassword ? "text" : "password"}
           id="password"
           name="password"
           value={user.password}
           onChange={(e) => {
             handleInputChange(e);
-            // Chama a validação da senha ao alterar o campo
+
             if (e.target.value) {
               isPasswordValid(e.target.value);
             }
           }}
+          required
         />
         {!isPasswordValid(user.password) && user.password && (
           <span className="error">
@@ -164,10 +229,7 @@ const UserForm = ({
         )}
       </label>
 
-      <button
-        type="button"
-        onClick={() => setShowPassword(!showPassword)} // Alterna entre exibir/ocultar senha
-      >
+      <button type="button" onClick={() => setShowPassword(!showPassword)}>
         {showPassword ? "Ocultar Senha" : "Mostrar Senha"}
       </button>
 
@@ -181,6 +243,7 @@ const UserForm = ({
           name="cep"
           value={user.cep}
           onChange={handleInputChange}
+          required
         />
       </label>
 
@@ -188,13 +251,14 @@ const UserForm = ({
         Buscar CEP
       </button>
       <label>
-        Rua:
+        Logradouro:
         <input
           type="text"
           id="street"
           name="street"
           value={user.street}
           onChange={handleInputChange}
+          required
         />
       </label>
       <label>
@@ -205,6 +269,7 @@ const UserForm = ({
           name="number"
           value={user.number}
           onChange={handleInputChange}
+          required
         />
       </label>
       <label>
@@ -215,6 +280,7 @@ const UserForm = ({
           name="neighborhood"
           value={user.neighborhood}
           onChange={handleInputChange}
+          required
         />
       </label>
       <label>
@@ -225,6 +291,7 @@ const UserForm = ({
           name="city"
           value={user.city}
           onChange={handleInputChange}
+          required
         />
       </label>
       <label>
@@ -235,6 +302,7 @@ const UserForm = ({
           name="state"
           value={user.state}
           onChange={handleInputChange}
+          required
         />
       </label>
       <label>
@@ -268,7 +336,9 @@ const UserForm = ({
         />
       </label>
 
-      <button type="submit">Cadastrar</button>
+      <button type="button" onClick={handleCadastroClick}>
+        Cadastrar
+      </button>
     </form>
   );
 };

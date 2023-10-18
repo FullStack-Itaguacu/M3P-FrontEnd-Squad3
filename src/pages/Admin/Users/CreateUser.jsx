@@ -12,15 +12,15 @@ const CreateUser = () => {
     userType: "",
     password: "",
     confirmPassword: "",
-    cep: "",
+    zip: "",
     street: "",
     number: "",
     neighborhood: "",
     city: "",
     state: "",
     complement: "",
-    latitude: "",
-    longitude: "",
+    lat: "",
+    long: "",
   });
 
   const handleSearchCep = async () => {
