@@ -2,54 +2,24 @@ import styles from "../Users/Users.module.css";
 import React, { useState } from "react";
 import { MdEmail, MdVpnKey } from "react-icons/md";
 import { userLogin } from "../../../Services/api";
-
+const { userLogin } = useAuth();
+ 
 function UserLogin() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [erroEmail, setErroEmail] = useState("");
   const [erroSenha, setErroSenha] = useState("");
 
-  function validarEmail(email) {
-    const valEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return valEmail.test(email);
+  async function loginUser(email, password) {
+    const chamarLogin = await userLogin(email, password)
+    console.log(chamarLogin);
   }
-
-  function validarSenha(senha) {
-    const valSenha = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&+=!])(?=\S+$).{8,}$/;
-    return valSenha.test(senha);
-
-  }
-
-  async function validLog(e) {
+  const handleeSubmit = async (e) => {
     e.preventDefault();
-
-    if (!validarEmail(email)) {
-      setErroEmail("Campo email é obrigatório!");
-      return;
-    }
-    setErroEmail("");
-
-    if (!validarSenha(senha)) {
-      setErroSenha(
-        "A senha deve ter pelo menos 8 caracteres entre letras e números."
-      );
-      return;
-    }
-    setErroSenha("");
-
-    console.log("email", email);
-
-   const data = ResponseLogin(response)
-
-    const response = await loginAdminUser(email, senha);
+    const response = await userLogin(email, senha); 
+    console.log(response);
   }
-
-    function ResponseLogin(response) {
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      return response.json();
-}
+  
 
   return (
     <div className={styles.contPrimario}>
@@ -57,9 +27,8 @@ function UserLogin() {
         <img src="/screen.png" alt="" />
       </div>
       <h1 className={styles.titLogin}>Bem vindo</h1>
-      <form className={styles.forContainer} onSubmit={validLog}>
+      <form className={styles.forContainer} onSubmit={handleeSubmit}>
         <label htmlFor="email">e-mail</label>
-
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
