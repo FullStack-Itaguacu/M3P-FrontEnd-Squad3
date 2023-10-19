@@ -17,6 +17,8 @@ function NewProduct () {
     const [description, setDescription] = useState('');
     const [listProducts, setListProducts] = useState([]);
     const { cadastrarProduto,uploadImage } = useApi();
+    const [cadastroOk, setCadastroOk] = useState(false);
+    const [carregandoImagem, setCarregandoImagem] = useState(false);
 
     const product = {
       name: name,
@@ -64,15 +66,12 @@ const handleImageChange = async (e) => {
 
     if (selectedImage) {
         try {
-            setIsUploading(true);
             const response = await uploadImage(selectedImage);
             setImageLink(response.links[0]);
-            console.log(response.links[0]);
-            setIsUploading(false);
+            setCarregandoImagem(true);
         } catch (error) {
             // Lide com erros, se necessário.
             console.error("Erro ao fazer upload da imagem:", error);
-            setIsUploading(false);
         }
     }
 }
@@ -102,9 +101,10 @@ async function haddlerNewProduct(event) {
     console.log(product);
     const registerProduct = await cadastrarProduto(product);
     console.log(registerProduct);
-        
-        handleAddProduct();
-        handleOpenTable();
+
+    if (registerProduct.status === 201) {
+        setCadastroOk(true);
+    }
 }
             return (
                 <div className = {styles.fomulario}>
@@ -177,13 +177,19 @@ async function haddlerNewProduct(event) {
                         </div>
                         </div>
 
-                            <div>
-                            <button className={styles.buttonProdutos}> Cadastrar </button>
-                            </div>
-                        
-                    </form>
-                </div>
-    </div>
+                        <div>
+                        <button
+                            className={styles.buttonProdutos}
+                        >
+                            {carregandoImagem ? "Cadastrar" : "Aguarde o upload da imagem"}
+                        </button>
+
+                    </div>
+
+                </form>
+            </div>
+            {cadastroOk && <Table />}
+        </div>
   );
   
             }
