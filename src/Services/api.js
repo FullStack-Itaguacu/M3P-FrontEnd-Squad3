@@ -207,4 +207,4 @@ export const getSaleById = async (token, saleId) => {
     }
   });
   return response.data;
-}
+};
