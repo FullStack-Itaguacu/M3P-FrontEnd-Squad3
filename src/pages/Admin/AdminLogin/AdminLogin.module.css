@@ -34,6 +34,10 @@
   width: 100%;
 }
 
+.formContainer input:focus {
+  outline: none;
+}
+
 .formContainer label {
   font-size: 0.9rem;
   text-align: left;
