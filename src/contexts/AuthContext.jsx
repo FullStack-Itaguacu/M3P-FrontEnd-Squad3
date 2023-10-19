@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react';
 import { loginAdmin, loginUser } from '../Services/api';
-import jwtDecode from 'jwt-decode';
+import validateToken from '../utils/validateToken';
 
 export const AuthContext = createContext();
 
@@ -10,19 +10,22 @@ export const AuthProvider = ({ children }) => {
 
 
 
-    const onLoadUser = () => {
-        const token = localStorage.getItem('token');
-
-        if (token) {
-            const decoded = jwtDecode(token);
-
-            if (!isTokenValid(decoded)) {
-                logout();
-            } else {
-                setUser(decoded);
-            }
+    const onLoadUser = async () => {
+        try {
+          const decoded = await validateToken.decodeToken();
+          if (decoded) {
+            setUser(decoded);
+          } else {
+            logout(); 
+          }
+        } catch (error) {
+          logout(); 
         }
-    };
+      };
+
+
+    
+
 
     const adminLogin = async (email, password) => {
 
@@ -64,10 +67,6 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     }
 
-    function isTokenValid(decoded) {
-        return (decoded.exp * 1000) > new Date().getTime();
-
-    }
 
 
 
@@ -80,6 +79,7 @@ export const AuthProvider = ({ children }) => {
                 userLogin,
                 user,
                 onLoadUser,
+                logout
 
             }}
         >
