@@ -1,13 +1,21 @@
 import { useState} from "react";
-import * as api from '../Services/api'; 
+import * as api from '../Services/api';
+import validateToken from "../utils/validateToken";
+
+ 
 
 export default function useApi() {
   const [token, setToken] = useState("");
   
 
   async function getTokenFromStorage() {
-    const getTokneStorage = localStorage.getItem("token");
-    return getTokneStorage;
+    const getTokneStorage = await validateToken.getToken();
+    try {
+      return getTokneStorage;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 
  
@@ -60,12 +68,14 @@ export default function useApi() {
 
   async function cadastrarProduto(CadastrarProduto) {
     const token = await getTokenFromStorage();
-    return api.CadastrarProduto(token, CadastrarProduto);
+    return api.cadastrarProduto(token, CadastrarProduto);
   }
 
   async function uploadImage(imageFile) {
     const token = await getTokenFromStorage();
+    if(!token) return false;
     return api.uploadImage(token, imageFile);
+  
   }
 
   async function listProducts(offset, limit, filters) {
@@ -73,9 +83,22 @@ export default function useApi() {
     return api.listProducts(offset, limit, filters);
   }
 
-  async function listAdminProducts(offset, limit, filters) {
+/**
+ * Lista produtos para o admin
+ *
+ * @param {string} token - Token JWT de autenticação
+ * @param {object} params - Parâmetros da requisição
+ * @param {number} params.offset - Offset para paginação 
+ * @param {number} params.limit - Limite de resultados
+ * @param {string} params.name - Filtro por nome do produto
+ * @param {string} params.typeProduct - Filtro por tipo de produto
+ *
+
+*/
+
+  async function listAdminProducts(params) {
     const token = await getTokenFromStorage();
-    return api.listAdminProducts(token, offset, limit, filters);
+    return api.listAdminProducts(token, params);
   }
 
   async function getProductById(productId) {
