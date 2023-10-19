@@ -60,7 +60,7 @@ export default function useApi() {
 
   async function cadastrarProduto(CadastrarProduto) {
     const token = await getTokenFromStorage();
-    return api.CadastrarProduto(token, CadastrarProduto);
+    return api.cadastrarProduto(token, CadastrarProduto);
   }
 
   async function uploadImage(imageFile) {
