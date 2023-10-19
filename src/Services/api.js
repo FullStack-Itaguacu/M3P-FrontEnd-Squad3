@@ -74,12 +74,11 @@ export const updateUser = async (token, userId, userData) => {
   return response.data;
 }
 
-// Produtos
-export const cadastrarProduto = async (CadastrarProduto, authToken) => {
+export const cadastrarProduto = async (token,CadastrarProduto) => {
   try {
     const config = {
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -96,7 +95,8 @@ export const cadastrarProduto = async (CadastrarProduto, authToken) => {
 };
 
 
-export const uploadImage = async (imageFile, authToken) => {
+export const uploadImage = async (token,imageFile ) => {
+
   try {
     const formData = new FormData();
     formData.append("image", imageFile);
@@ -104,7 +104,7 @@ export const uploadImage = async (imageFile, authToken) => {
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -116,7 +116,6 @@ export const uploadImage = async (imageFile, authToken) => {
     throw error;
   }
 };
-
 
 export const listProducts = async (offset, limit, filters={}) => {
   const params = {
