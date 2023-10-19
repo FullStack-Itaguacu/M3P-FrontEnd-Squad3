@@ -16,11 +16,7 @@ function NewProduct () {
     const [typeProduct, setTypeProduct] = useState('');
     const [description, setDescription] = useState('');
     const [listProducts, setListProducts] = useState([]);
-
-    const [auth, setAuth] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJwZWRybzVAZ21haWwuY29tIiwiZnVsbE5hbWUiOiJQZWRybyBTaWx2YSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5NzY2NjIxN30.sNn3jspV1IgYvs44ww2LYbO5fe7j0O7r4REvXI0CTXk');
-    const { uploadImage } = useApi();
-    const { cadastrarProduto } = useApi();
-
+    const { cadastrarProduto,uploadImage } = useApi();
 
     const product = {
       name: name,
@@ -34,7 +30,6 @@ function NewProduct () {
       description: description,
   };
 
-        // Função para adicionar um novo produto à lista
   const handleAddProduct = () => {
     const newProduct = {
       name,
@@ -48,13 +43,12 @@ function NewProduct () {
       description,
     };
 
-    // Adicionar o novo produto à lista
     setListProducts([...listProducts, newProduct]);
 
     // Limpar os campos após adicionar o produto
     setName('');
     setLabName('');
-    setImage(null);
+    setImageLink('');
     setDosage('');
     setTypeDosage('');
     setUnitPrice('');
@@ -63,21 +57,39 @@ function NewProduct () {
     setDescription('');
   };
 
-  
-  // Função para lidar com a mudança da imagem
-   const handleImageChange = async (e) => {
-      const selectedImage = e.target.files[0];
+const [isUploading, setIsUploading] = useState(false);
 
-      if (selectedImage) {
-          try {
-              const response = await uploadImage(selectedImage, auth);
-              setImageLink(response.links[0]);
-          } catch (error) {
-              // Lide com erros, se necessário.
-              console.error("Erro ao fazer upload da imagem:", error);
-          }
-      }
-  }   
+const handleImageChange = async (e) => {
+    const selectedImage = e.target.files[0];
+
+    if (selectedImage) {
+        try {
+            setIsUploading(true);
+            const response = await uploadImage(selectedImage);
+            setImageLink(response.links[0]);
+            console.log(response.links[0]);
+            setIsUploading(false);
+        } catch (error) {
+            // Lide com erros, se necessário.
+            console.error("Erro ao fazer upload da imagem:", error);
+            setIsUploading(false);
+        }
+    }
+}
+
+async function haddlerNewProduct(event) {
+    event.preventDefault();
+    console.log(product);
+
+    if (!isUploading) {
+        const registerProduct = await cadastrarProduto(product);
+        console.log(registerProduct);
+        handleAddProduct();
+        handleOpenTable();
+    } else {
+        console.log("Aguarde o upload da imagem ser concluído.");
+    }
+}
 
 function handleOpenTable() {
   const newWindow = window.open('', '_blank', 'width=800,height=600');
@@ -87,21 +99,12 @@ function handleOpenTable() {
 
 async function haddlerNewProduct(event) {
     event.preventDefault();
-    const allValuesFilled = Object.values(product).every((value, key) => {
-        if (key === "description") {
-            return false; 
-        }
-        return value !== undefined && value !== null && value !== "";
-    });
-    
-    if (!allValuesFilled) {
-        const registerProduct = await cadastrarProduto(product, auth);
-        console.log(registerProduct);
+    console.log(product);
+    const registerProduct = await cadastrarProduto(product);
+    console.log(registerProduct);
+        
         handleAddProduct();
         handleOpenTable();
-    } else {
-        console.log("Pelo menos um valor obrigatório está vazio.",product);
-    }
 }
             return (
                 <div className = {styles.fomulario}>
