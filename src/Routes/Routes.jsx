@@ -3,7 +3,7 @@ import NotFound from '../pages/NotFound/NotFound';
 import Index from '../pages/Home/Index';
 import AdminLogin from '../pages/Admin/AdminLogin/AdminLogin';
 import NewProduct from '../pages/Admin/Products/Products'
-
+import Table from "../components/Table/Table"
 import PrivateRoute from '../components/PrivateRoute';
 import CadastrarProduto from '../pages/Admin/Products/Products';
 import typeUserEnum from '../constants/enums/typeUserEnum';
@@ -18,6 +18,7 @@ export default function AllRoutes() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/login/admin" element={<AdminLogin />} />
+        <Route path="/product/table" element={<Table />} />
 
         <Route path="/product" element={<NewProduct />} />
 
