@@ -79,7 +79,7 @@ export const updateUser = async (token, userId, userData) => {
 };
 
 // Produtos
-export const cadastrarProduto = async (CadastrarProduto, authToken) => {
+export const cadastrarProduto = async (token, CadastrarProduto) => {
   try {
     const config = {
       headers: {
@@ -99,8 +99,7 @@ export const cadastrarProduto = async (CadastrarProduto, authToken) => {
   }
 };
 
-
-export const uploadImage = async (imageFile, authToken) => {
+export const uploadImage = async (token, imageFile) => {
   try {
     const formData = new FormData();
     formData.append("image", imageFile);
@@ -116,11 +115,23 @@ export const uploadImage = async (imageFile, authToken) => {
 
     return response.data;
   } catch (error) {
-    console.error(error);
-    throw error;
+    return error.response.data;
   }
 };
 
+/**
+ * Lista produtos para o admin
+ *
+ * @param {string} token - Token JWT de autenticação
+ * @param {object} params - Parâmetros da requisição- exemplo: {offset: 0, limit: 20, name: 'Produto', typeProduct: 'Bebida', totalStock: 'asc'}
+ * @param {number} params.offset - Offset para paginação 
+ * @param {number} params.limit - Limite de resultados
+ * @param {string} params.name - Filtro por nome do produto
+ * @param {string} params.typeProduct - Filtro por tipo de produto
+ * @param {string} params.totalStock - Filtro por estoque total - enum: ['asc', 'desc']
+ *
+
+*/
 
 export const listProducts = async (params) => {
 
