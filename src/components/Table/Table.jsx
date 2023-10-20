@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from './Table.module.css';
 import useApi from "../../hooks/useApi";
+import Modal from "../Modal/Modal";
 
 const Table = () => {
     const [products, setProducts] = useState({ products: [] });
@@ -9,6 +10,8 @@ const Table = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [buscar, setBuscar] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
     const { listAdminProducts } = useApi();
 
@@ -35,8 +38,26 @@ const Table = () => {
         setSearchType(e.target.value);
     };
 
-    const handleEdit = (id) => {
-        console.log(id);
+    const handleEdit = (product) => {
+        setSelectedProduct(product);
+        setShowModal(true);
+    };
+
+    const handleModalClose = () => {
+        setShowModal(false);
+        setSelectedProduct(null);
+    };
+
+    const handleModalSave = (updatedProduct) => {
+        const updatedProducts = products.products.map((product) => {
+            if (product.id === updatedProduct.id) {
+                return updatedProduct;
+            }
+            return product;
+        });
+        setProducts({ products: updatedProducts });
+        setShowModal(false);
+        setSelectedProduct(null);
     };
 
     const mapProducts = () => {
@@ -59,7 +80,7 @@ const Table = () => {
                 <td>{product.description}</td>
                 <td>{product.totalStock}</td>
                 <td className={styles.containerBtn}>
-                    <button className={styles.buttonEditar} onClick={() => handleEdit(product.id)}>Editar</button>
+                    <button className={styles.buttonEditar} onClick={() => handleEdit(product)}>Editar</button>
                 </td>
             </tr>
         ));
@@ -94,13 +115,28 @@ const Table = () => {
                 </tbody>
             </table>
             <div className={styles.containerPagination}>
-              {/* adiciona 2 botoes de paginação */}
-                <button className={styles.buttonPagination}
-                onClick={() => setCurrentPage(currentPage - 1)}>Anterior</button>
-                <button className={styles.buttonPagination}
-                onClick={() => setCurrentPage(currentPage + 1)}>Próxima</button>
-              
+                <button className={styles.buttonPagination} onClick={() => setCurrentPage(currentPage - 1)}>Anterior</button>
+                <button className={styles.buttonPagination} onClick={() => setCurrentPage(currentPage + 1)}>Próxima</button>
             </div>
+            {showModal && (
+                <Modal onClose={handleModalClose}>
+                    <h2>Editar Produto</h2>
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        handleModalSave(selectedProduct);
+                    }}>
+                        <label htmlFor="name">Nome:</label>
+                        <input type="text" id="name" value={selectedProduct.name} onChange={(e) => setSelectedProduct({ ...selectedProduct, name: e.target.value })} />
+                        <label htmlFor="image">Imagem:</label>
+                        <input type="text" id="image" value={selectedProduct.image} onChange={(e) => setSelectedProduct({ ...selectedProduct, image: e.target.value })} />
+                        <label htmlFor="dosage">Dosagem:</label>
+                        <input type="text" id="dosage" value={selectedProduct.dosage} onChange={(e) => setSelectedProduct({ ...selectedProduct, dosage: e.target.value })} />
+                        <label htmlFor="quantity">Quantidade:</label>
+                        <input type="text" id="quantity" value={selectedProduct.totalStock} onChange={(e) => setSelectedProduct({ ...selectedProduct, totalStock: e.target.value })} />
+                        <button type="submit">Salvar</button>
+                    </form>
+                </Modal>
+            )}
         </div>
     );
 };
