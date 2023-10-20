@@ -6,6 +6,7 @@ import PrivateRoute from '../components/PrivateRoute';
 import CadastrarProduto from '../pages/Admin/Products/Products';
 import typeUserEnum from '../constants/enums/typeUserEnum';
 import Unauthorized from '../pages/Unauthorized/Unauthorized';
+import Login from "../pages/Auth/Login/Login";
 
 
 
@@ -15,6 +16,8 @@ export default function AllRoutes() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/login/admin" element={<AdminLogin />} />
+        <Route path="/user/login" element={<Login/>} />
+
 
         
         <Route

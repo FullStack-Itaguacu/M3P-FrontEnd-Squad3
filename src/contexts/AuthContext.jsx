@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import { loginAdmin, userLogin } from '../Services/api';
+import { loginAdmin, loginUser } from '../Services/api';
 import jwtDecode from 'jwt-decode';
 
 export const AuthContext = createContext();
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
 
         try {
-            const response = await userLogin(email, password);
+            const response = await loginUser(email, password);
             if (response.status === 200) {
                 localStorage.setItem('token', response.data.token);
                 return { status: response.status };
@@ -69,9 +69,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('token');
         setUser(null);
     }
-
-
-
 
 
 
