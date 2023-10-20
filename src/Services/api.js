@@ -17,6 +17,7 @@ export const loginAdmin = async (email, password) => {
   return response;
 };
 
+
 // Usuários
 export const signupUser = async (userData, addresses) => {
   const response = await api.post("/user/signup", {
@@ -26,13 +27,34 @@ export const signupUser = async (userData, addresses) => {
   return response.data;
 };
 
-export const signupAdmin = async (adminData, addresses) => {
+/**
+ * Realiza o cadastro de um novo usuário com informações e endereço.
+ *
+ * @param {object} payload - Dados para o cadastro.
+ * @param {object} payload.user - Informações do usuário.
+ * @param {string} payload.user.fullName - Nome completo do usuário.
+ * @param {string} payload.user.email - Endereço de e-mail do usuário.
+ * @param {string} payload.user.cpf - CPF do usuário.
+ * @param {string} payload.user.birthDate - Data de nascimento do usuário (no formato "YYYY-MM-DD").
+ * @param {string} payload.user.phone - Número de telefone do usuário.
+ * @param {string} payload.user.password - Senha do usuário.
+ * @param {string} payload.user.typeUser - Tipo de usuário (por exemplo, "ADMIN").
+ * @param {object[]} payload.addresses - Lista de endereços associados ao usuário.
+ * @param {string} payload.addresses.street - Rua do endereço.
+ * @param {number} payload.addresses.numberStreet - Número do endereço.
+ * @param {string} payload.addresses.complement - Complemento do endereço.
+ * @param {string} payload.addresses.neighborhood - Bairro do endereço.
+ * @param {string} payload.addresses.city - Cidade do endereço.
+ * @param {string} payload.addresses.state - Estado do endereço.
+ * @param {string} payload.addresses.zip - CEP do endereço.
+ * @param {string} payload.addresses.lat - Latitude do endereço (opcional).
+ * @param {string} payload.addresses.long - Longitude do endereço (opcional).
+ * @returns {Promise} Uma promessa que representa o resultado da operação de cadastro.
+ */
+export const signupAdmin = async (payload) => {
   const response = await api.post(
     "/user/admin/signup",
-    {
-      user: adminData,
-      addresses,
-    },
+    payload,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -78,8 +100,18 @@ export const updateUser = async (token, userId, userData) => {
   return response.data;
 };
 
-// Produtos
-export const cadastrarProduto = async (token, CadastrarProduto) => {
+
+/**
+ * @param {Object} cadastrarProduto
+ * @param {string} cadastrarProduto.name - Nome do laboratório. 
+ * @param {string} cadastrarProduto.imageLink - Link da imagem.
+ * @param {string} cadastrarProduto.typeDosage - Tipo de dosagem.
+ * @param {number} cadastrarProduto.dosage - Dosagem.
+ * @param {number} cadastrarProduto.unitPrice - Preço unitário.
+ * @param {string} cadastrarProduto.typeProduct - Tipo do produto- enum: ['Controlado', 'Não controlado']
+ * @param {number} cadastrarProduto.totalStock - Estoque total.
+ */
+export const cadastrarProduto = async (token, cadastrarProduto) => {
   try {
     const config = {
       headers: {
@@ -89,7 +121,7 @@ export const cadastrarProduto = async (token, CadastrarProduto) => {
 
     const response = await api.post(
       "/products/admin",
-      CadastrarProduto,
+      cadastrarProduto,
       config
     );
 
@@ -130,9 +162,7 @@ export const uploadImage = async (token, imageFile) => {
  * @param {string} params.typeProduct - Filtro por tipo de produto
  * @param {string} params.totalStock - Filtro por estoque total - enum: ['asc', 'desc']
  *
-
 */
-
 export const listProducts = async (params) => {
 
   const { offset = 0, limit = 20 } = params || {};
@@ -158,16 +188,14 @@ export const listProducts = async (params) => {
  * Lista produtos para o admin
  *
  * @param {string} token - Token JWT de autenticação
- * @param {object} params - Parâmetros da requisição- exemplo: {offset: 0, limit: 20, name: 'Produto', typeProduct: 'Bebida'}
+ * @param {object} params - Parâmetros da requisição- exemplo: {offset: 0, limit: 20, name: 'Produto', typeProduct: 'Controlado', totalStock: 'asc'}
  * @param {number} params.offset - Offset para paginação 
  * @param {number} params.limit - Limite de resultados
  * @param {string} params.name - Filtro por nome do produto
- * @param {string} params.typeProduct - Filtro por tipo de produto
+ * @param {string} params.typeProduct - Filtro por tipo de produto - enum: ['Controlado', 'Não controlado']
  * @param {string} params.totalStock - Filtro por estoque total - enum: ['asc', 'desc']
  *
-
 */
-
 export const listAdminProducts = async (token, params) => {
   const { offset = 0, limit = 20 } = params || {};
 
@@ -195,6 +223,11 @@ export const listAdminProducts = async (token, params) => {
   return response.data;
 };
 
+/**
+ * @param {string} token - Token JWT de autenticação
+ * @param {string} productId - ID do produto
+*/
+
 export const getProductById = async (token, productId) => {
   const response = await api.get(`/products/${productId}`, {
     headers: {
@@ -204,22 +237,39 @@ export const getProductById = async (token, productId) => {
   return response.data;
 };
 
-export const updateProduct = async (token, productId, productData) => {
+  /**
+  * @param {object} updateProduct - Dados do produto a ser atualizado
+  * @param {string} updateProduct.id - ID do produto
+  * @param {string} updateProduct.name - Nome do produto
+  * @param {string} updateProduct.imageLink - link da imagem do produto
+  * @param {number} updateProduct.dosage - dosagem do produto
+  * @param {number} updateProduct.totalStock - Total de estoque do produto - obrigatorio
+  */
+export const updateProduct = async (token,updateProduct) => {
   const response = await api.patch(
-    `/products/admin/${productId}`,
-    productData,
+    `/products/admin/${updateProduct.id}`,
+    updateProduct,
     {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }
   );
-  return response.data;
+  return response;
 };
 
+
+/**
+ * @param {Object[]} orders - Lista de pedidos deve estar dentro de um array
+ * @param {number} orders[].productId - ID do produto
+ * @param {number} orders[].amountBuy - Quantidade comprada
+ * @param {number} orders[].addressId - ID do endereço de entrega
+ * @param {string} orders[].typePayment - Tipo de pagamento
+*/
+
 // Vendas
-export const createSale = async (token, items) => {
-  const response = await api.post("/sales", items, {
+export const createSale = async (token, orders) => {
+  const response = await api.post("/sales", orders, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
