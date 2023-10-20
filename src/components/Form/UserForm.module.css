@@ -1,0 +1,105 @@
+@import "../../styles/variable.css";
+
+.container {
+  display: flex;
+}
+
+.user_container {
+  width: 45%;
+  margin: 10px 10px;
+  padding: 10px;
+  float: left;
+}
+.address_container {
+  width: 45%;
+  margin: 10px 10px;
+  padding: 10px;
+  float: right;
+}
+
+/* Estilos para o formulário */
+.form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: var(--color-text-Primary);
+}
+
+/* Estilos para o campo de texto */
+.input_bigger {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 16px;
+  color: var(--color-text-Primary);
+}
+
+.input_smaller {
+  width: 40%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 16px;
+  color: var(--color-text-Primary);
+}
+
+.select {
+  width: 40%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 16px;
+  color: var(--color-text-Primary);
+  background-color: var(--white);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-position: right center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Estilos para os rótulos (labels) */
+.label {
+  display: block;
+  font-weight: bold;
+  color: var(--color-text-Primary);
+}
+
+.button_container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.button_signup {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.error_message {
+  text-align: center;
+  color: var(--danger);
+  margin-top: 10px;
+}
+
+.success_message {
+  text-align: center;
+  color: var(--success);
+  margin-top: 10px;
+}
