@@ -1,76 +1,121 @@
 import React, { useState, useEffect } from "react";
 import styles from './Table.module.css';
 import useApi from "../../hooks/useApi";
-import Modal from "../Modal/Modal";
+import ModalEdit from "../Modal/Modal";
 
-const Table = () => {
+const Table = ({ buscarProduct }) => {
     const [products, setProducts] = useState({ products: [] });
     const [searchTerm, setSearchTerm] = useState("");
-    const [searchType, setSearchType] = useState("name"); 
-    const [searchResults, setSearchResults] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [buscar, setBuscar] = useState(false);
+    const [searchType, setSearchType] = useState("name");
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [typeProduct, setTypeProduct] = useState('');
+    const [searchName, setSearchName] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [modalProductId, setModalProductId] = useState(null);
+
 
     const { listAdminProducts } = useApi();
+    const RESULTS_PER_PAGE = 20;
+
 
     useEffect(() => {
-        if (buscar) {
-            fetchProducts();
+
+        fetchProducts()
+
+    }, [buscarProduct]);
+
+
+    // Função para buscar os dados com base na página
+    async function fetchPage(page) {
+        const offset = page * RESULTS_PER_PAGE;
+        const params = {
+            offset,
+            limit: RESULTS_PER_PAGE,
+            typeProduct: typeProduct,
+            name: searchName
         }
-    }, [buscar]);
+        const data = await listAdminProducts(params);
+        console.log(data);
+
+        // retorna dados e informações de paginação
+        return {
+            data,
+            total: data.total,
+            currentPage: page
+        }
+    }
+
+
+
+
+    // Função para calcular o total de páginas
+    function getTotalPages(totalResults) {
+        return Math.ceil(totalResults / RESULTS_PER_PAGE);
+    }
+
+    // Usando as funções quando o componente é montado e quando a página é alterada
+    useEffect(() => {
+        fetchPage(currentPage).then(response => {
+            setProducts(response.data);
+            setTotalPages(getTotalPages(response.total));
+        })
+    }, [currentPage])
+
+
 
     async function fetchProducts() {
         const data = await listAdminProducts();
         setProducts(data);
+
     }
-    async function fetchProductsFilter(filter) {
-        const data = await listAdminProducts(filter);
+    async function fetchProductsFilter(params) {
+        const data = await listAdminProducts(params);
         setProducts(data);
     }
+    console.log(products.total);
 
+    const handleNext = () => {
+        if (products.total < 20) {
+            return;
+        }
+        if (currentPage < totalPages - 1) {
+            setCurrentPage(currentPage + 1);
+        }
+    }
+
+    const handlePrev = () => {
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1);
+        }
+    }
     const handleSearch = (e) => {
-        setSearchTerm(e.target.value);
+
+        const params = {
+            name: searchName
+        }
+        fetchProductsFilter(params);
     };
 
-    const handleSearchTypeChange = (e) => {
-        setSearchType(e.target.value);
+    const searchTypeProduct = async (e) => {
+        setTypeProduct(e.target.value);
+        const params = {
+            typeProduct: e.target.value
+        }
+        fetchProductsFilter(params);;
+
     };
 
-    const handleEdit = (product) => {
-        setSelectedProduct(product);
+
+    const handleEdit = (id) => {
+        setModalProductId(id);
         setShowModal(true);
     };
 
-    const handleModalClose = () => {
-        setShowModal(false);
-        setSelectedProduct(null);
-    };
-
-    const handleModalSave = (updatedProduct) => {
-        const updatedProducts = products.products.map((product) => {
-            if (product.id === updatedProduct.id) {
-                return updatedProduct;
-            }
-            return product;
-        });
-        setProducts({ products: updatedProducts });
-        setShowModal(false);
-        setSelectedProduct(null);
-    };
 
     const mapProducts = () => {
-        const filteredProducts = products.products.filter((product) => {
-            if (searchTerm) {
-                if (searchType === "name") {
-                    return product.name.toLowerCase().includes(searchTerm.toLowerCase());
-                }
-            }
-            return true;
-        });
 
-        return filteredProducts.map((product) => (
+        return products.products.map((product) => (
             <tr key={product.id}>
                 <td>{product.id}</td>
                 <td>{product.name}</td>
@@ -80,7 +125,8 @@ const Table = () => {
                 <td>{product.description}</td>
                 <td>{product.totalStock}</td>
                 <td className={styles.containerBtn}>
-                    <button className={styles.buttonEditar} onClick={() => handleEdit(product)}>Editar</button>
+                    <button className={styles.buttonEditar} onClick={() => handleEdit(product.id)}>Editar</button>
+
                 </td>
             </tr>
         ));
@@ -88,14 +134,26 @@ const Table = () => {
 
     return (
         <div className={styles.containerPrimary}>
-            <div>
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchTerm}
-                    onChange={handleSearch}
-                />
-                <button onClick={() => setBuscar(true)}>Buscar Produtos</button>
+            <div className={styles.search}>
+                <div className={styles.containerInput}>
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        value={searchName}
+                        onChange={(e) => setSearchName(e.target.value)}
+                    />
+                    <button
+                        onClick={handleSearch}
+                    >Buscar</button>
+                </div>
+                <select
+                    value={typeProduct}
+                    onChange={searchTypeProduct}
+                >
+                    <option value="">Selecione</option>
+                    <option value="Não controlado">Não controlado</option>
+                    <option value="Controlado">Controlado</option>
+                </select>
             </div>
             <table className={styles.colunasTabela}>
                 <thead>
@@ -111,32 +169,23 @@ const Table = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {buscar ? mapProducts() : null}
+                    {mapProducts()}
                 </tbody>
             </table>
             <div className={styles.containerPagination}>
-                <button className={styles.buttonPagination} onClick={() => setCurrentPage(currentPage - 1)}>Anterior</button>
-                <button className={styles.buttonPagination} onClick={() => setCurrentPage(currentPage + 1)}>Próxima</button>
+                <button className={styles.buttonPagination}
+                    onClick={handlePrev}>Anterior</button>
+                <button className={styles.buttonPagination}
+                    onClick={handleNext}>Próxima</button>
+
             </div>
-            {showModal && (
-                <Modal onClose={handleModalClose}>
-                    <h2>Editar Produto</h2>
-                    <form onSubmit={(e) => {
-                        e.preventDefault();
-                        handleModalSave(selectedProduct);
-                    }}>
-                        <label htmlFor="name">Nome:</label>
-                        <input type="text" id="name" value={selectedProduct.name} onChange={(e) => setSelectedProduct({ ...selectedProduct, name: e.target.value })} />
-                        <label htmlFor="image">Imagem:</label>
-                        <input type="text" id="image" value={selectedProduct.image} onChange={(e) => setSelectedProduct({ ...selectedProduct, image: e.target.value })} />
-                        <label htmlFor="dosage">Dosagem:</label>
-                        <input type="text" id="dosage" value={selectedProduct.dosage} onChange={(e) => setSelectedProduct({ ...selectedProduct, dosage: e.target.value })} />
-                        <label htmlFor="quantity">Quantidade:</label>
-                        <input type="text" id="quantity" value={selectedProduct.totalStock} onChange={(e) => setSelectedProduct({ ...selectedProduct, totalStock: e.target.value })} />
-                        <button type="submit">Salvar</button>
-                    </form>
-                </Modal>
-            )}
+            <ModalEdit
+                id={modalProductId}
+                showModal={showModal}
+                onShowModal={() => setShowModal(true)}
+                onCloseModal={() => setShowModal(false)}
+            />
+
         </div>
     );
 };
