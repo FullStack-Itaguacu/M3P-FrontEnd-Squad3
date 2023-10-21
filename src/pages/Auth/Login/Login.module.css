@@ -1,0 +1,93 @@
+
+
+.containerDireita{
+display: flex;
+flex-direction: column;
+justify-content: center;
+width: 100%;
+}
+
+.imgContainer{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.contPrimario {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.titLogin {
+  text-align: center;
+  color: var(--info);
+}
+
+.forEsquerda{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.forContainer {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  color: var(--info);
+  width: 300px;
+}
+
+.forContainer input {
+  border-bottom: 2px solid #323232;
+  padding: 4px;
+  font-size: 1rem;
+  border-bottom: 1px solid var(--info);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  display: flex;
+  width: 100%;
+}
+
+.forContainer label {
+  font-size: 0.9rem;
+  text-align: left;
+  margin-top: 20px;
+  display: flex;
+  width: 100%;
+  padding: 0.5rem;
+  color: var(--info);
+}
+
+.icon {
+  color: var(--info);
+  display: block;
+  width: 100%;
+  left: 0;
+}
+
+.registerLink{
+  text-align: right;
+  margin-top: 10px;
+}
+.envLogin {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  margin-top: 30px;
+  color: var(--white);
+  background-color: var(--info);
+  cursor: pointer;
+  width: 50%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
