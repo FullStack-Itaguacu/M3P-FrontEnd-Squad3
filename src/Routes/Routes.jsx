@@ -6,6 +6,12 @@ import PrivateRoute from '../components/PrivateRoute';
 import CadastrarProduto from '../pages/Admin/Products/Products';
 import typeUserEnum from '../constants/enums/typeUserEnum';
 import Unauthorized from '../pages/Unauthorized/Unauthorized';
+import Dashbord from '../pages/Admin/Dashboard/Dashboard';
+import Table from '../components/Table/Table';
+import Sales from '../pages/Admin/Sales/Sales';
+import Users from '../pages/Admin/Users/Users';
+import DashBoardIndex from '../pages/Admin/DashBoardIndex/DashBoardIndex';
+
 
 
 
@@ -15,15 +21,26 @@ export default function AllRoutes() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/login/admin" element={<AdminLogin />} />
-       
+
         <Route
           path="/admin/product"
           element={
-            <PrivateRoute acessControll={typeUserEnum.ADMIN}>
             <CadastrarProduto />
-            </PrivateRoute>
           }
         />
+        <Route path='/admin/dashboard'
+          element={
+            // <PrivateRoute acessControll={typeUserEnum.ADMIN}>
+              <Dashbord
+              />
+            // </PrivateRoute>
+          }>
+          <Route path='register/products' element={<CadastrarProduto />} />
+          <Route path='products' element={<Table />} />
+          <Route path='sales' element={<Sales />} />
+          <Route path='users' element={<Users />} />
+          <Route path='vendas' element={<DashBoardIndex />} />
+        </Route>
 
 
         <Route path="*" element={<NotFound />} />

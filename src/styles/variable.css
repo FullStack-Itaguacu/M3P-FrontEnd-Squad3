@@ -1,6 +1,7 @@
 :root {
     --primary: #00B8C1;
     --secondary: #6c757d;
+    --hover:#01B8C2;
     --success: #28a745;
     --danger: #dc3545;
     --warning: #ffc107;
@@ -9,9 +10,12 @@
     --dark: #343a40;
     --white: #fff;
     --black: #000;
-    --color-text-Primary: #55555;
+    --color-text-Primary: #5555;
+    --color-hover:#01B8C2
     --border-color:#01B8C2;
     --border-color-hover:#01B8C2;
     --border-color-focus:#01B8C2;
     --border-color-active:#01B8C2;
+    --color-border:#01B8C2;
+    --bg-color-hover-btn:#EDF4FF;
   }
