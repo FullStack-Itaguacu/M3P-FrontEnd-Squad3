@@ -5,7 +5,7 @@ import { AuthContext } from '../contexts/AuthContext';
 
 export default function useAuth() {
 
-  const {adminLogin, userLogin,user,onLoadUser} = useContext(AuthContext);
+  const {adminLogin, userLogin,user,onLoadUser,logout} = useContext(AuthContext);
 
 
  
@@ -14,7 +14,8 @@ export default function useAuth() {
     adminLogin,
     userLogin,
     user,
-    onLoadUser
+    onLoadUser,
+    logout
   }
 
 }
