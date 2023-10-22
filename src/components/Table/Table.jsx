@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styles from './Table.module.css';
 import useApi from "../../hooks/useApi";
-import ModalEdit from "../Modal/Modal";
+import ModalEdit from "../Modal/ModalEdit";
 
-const Table = ({ buscarProduct }) => {
+const Table = () => {
     const [products, setProducts] = useState({ products: [] });
     const [searchTerm, setSearchTerm] = useState("");
     const [searchType, setSearchType] = useState("name");
@@ -12,7 +12,8 @@ const Table = ({ buscarProduct }) => {
     const [typeProduct, setTypeProduct] = useState('');
     const [searchName, setSearchName] = useState('');
     const [showModal, setShowModal] = useState(false);
-    const [modalProductId, setModalProductId] = useState(null);
+    const [modalEdiProduct, setModalEdiProduct] = useState({});
+    const [editOk, setEditOk] = useState(false);
 
 
     const { listAdminProducts } = useApi();
@@ -22,8 +23,9 @@ const Table = ({ buscarProduct }) => {
     useEffect(() => {
 
         fetchProducts()
+        setEditOk(false);
 
-    }, [buscarProduct]);
+    }, [editOk]);
 
 
     // Função para buscar os dados com base na página
@@ -36,7 +38,7 @@ const Table = ({ buscarProduct }) => {
             name: searchName
         }
         const data = await listAdminProducts(params);
-        console.log(data);
+ 
 
         // retorna dados e informações de paginação
         return {
@@ -54,15 +56,12 @@ const Table = ({ buscarProduct }) => {
         return Math.ceil(totalResults / RESULTS_PER_PAGE);
     }
 
-    // Usando as funções quando o componente é montado e quando a página é alterada
     useEffect(() => {
         fetchPage(currentPage).then(response => {
             setProducts(response.data);
             setTotalPages(getTotalPages(response.total));
         })
     }, [currentPage])
-
-
 
     async function fetchProducts() {
         const data = await listAdminProducts();
@@ -73,7 +72,6 @@ const Table = ({ buscarProduct }) => {
         const data = await listAdminProducts(params);
         setProducts(data);
     }
-    console.log(products.total);
 
     const handleNext = () => {
         if (products.total < 20) {
@@ -106,9 +104,19 @@ const Table = ({ buscarProduct }) => {
 
     };
 
+    const handleCloseModalOk = () => {
+        setEditOk(true);
+    }
 
-    const handleEdit = (id) => {
-        setModalProductId(id);
+
+    const handleEdit = (product) => {
+        setModalEdiProduct({
+            id: product.id,
+            name: product.name,
+            imageLink: product.imageLink,
+            dosage: product.dosage,
+            totalStock: product.totalStock,
+        });
         setShowModal(true);
     };
 
@@ -125,7 +133,7 @@ const Table = ({ buscarProduct }) => {
                 <td>{product.description}</td>
                 <td>{product.totalStock}</td>
                 <td className={styles.containerBtn}>
-                    <button className={styles.buttonEditar} onClick={() => handleEdit(product.id)}>Editar</button>
+                    <button className={styles.buttonEditar} onClick={() => handleEdit(product)}>Editar</button>
 
                 </td>
             </tr>
@@ -180,10 +188,11 @@ const Table = ({ buscarProduct }) => {
 
             </div>
             <ModalEdit
-                id={modalProductId}
+                 data={modalEdiProduct}
                 showModal={showModal}
                 onShowModal={() => setShowModal(true)}
                 onCloseModal={() => setShowModal(false)}
+                onCloseModalOk={handleCloseModalOk} 
             />
 
         </div>
