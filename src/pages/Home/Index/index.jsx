@@ -1,11 +1,8 @@
-import styles from './index.module.css'
-
-const Index = () => {   
+const Index = () => {
     return (
         <div>
-            <h1 className={styles.text}>Home</h1>
+        <h1>Index</h1>
         </div>
-    )
-}
-
-export default Index
+    );
+    }
+    export default Index
