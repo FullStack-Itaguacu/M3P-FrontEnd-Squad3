@@ -23,8 +23,11 @@ const DashboardSidebar = () => {
     }, [pathname]);
 
 const handleLogout = () => {
+    window.location.href = "/login/admin";
+
     logout();
 }
+
 
     return (
         <aside className={styles.sidebar}>
@@ -68,7 +71,7 @@ const handleLogout = () => {
                         Meus Produtos
                     </Link>
                 </li>
-                <li><a >
+                <li onClick={handleLogout}><a >
                     <AiOutlineSetting />
                     Sair</a></li>
             </ul>
