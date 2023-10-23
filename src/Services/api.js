@@ -51,7 +51,7 @@ export const signupUser = async (userData, addresses) => {
  * @param {string} payload.addresses.long - Longitude do endereço (opcional).
  * @returns {Promise} Uma promessa que representa o resultado da operação de cadastro.
  */
-export const signupAdmin = async (payload) => {
+export const signupAdmin = async (token ,payload) => {
   const response = await api.post(
     "/user/admin/signup",
     payload,
@@ -60,8 +60,9 @@ export const signupAdmin = async (payload) => {
         Authorization: `Bearer ${token}`,
       },
     }
-  );
-  return response.data;
+    );
+    console.log(response);
+  return response;
 };
 
 export const getUserAddresses = async (token) => {
@@ -311,4 +312,14 @@ export const getSaleById = async (token, saleId) => {
     },
   });
   return response.data;
+};
+
+export const getCep = async (cep) => {
+  try {
+    const response = await api.get(`https://brasilapi.com.br/api/cep/v2/${cep}`);
+  return response.data;
+  } catch (error) {
+    return error.response.data;
+    
+  }
 };
