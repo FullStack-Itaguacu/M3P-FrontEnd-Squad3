@@ -50,7 +50,7 @@ export const signupUser = async (userData, addresses) => {
  * @param {string} payload.addresses.long - Longitude do endereço (opcional).
  * @returns {Promise} Uma promessa que representa o resultado da operação de cadastro.
  */
-export const signupAdmin = async (payload) => {
+export const signupAdmin = async (payload, token) => {
   const response = await api.post("/user/admin/signup", payload, {
     headers: {
       Authorization: `Bearer ${token}`,
