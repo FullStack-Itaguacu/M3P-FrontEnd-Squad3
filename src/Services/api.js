@@ -289,3 +289,14 @@ export const getSaleById = async (token, saleId) => {
 
   return response.data;
 };
+
+export async function getCep(cep) {
+  try {
+    const response = await api.get(
+      `https://brasilapi.com.br/api/cep/v2/${cep}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
