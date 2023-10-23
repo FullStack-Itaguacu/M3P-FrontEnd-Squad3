@@ -30,15 +30,24 @@ const handleLogout = () => {
         <aside className={styles.sidebar}>
             <ul>
                 <li>
-                    <Link to="/admin/dashboard/vendas">
+                    <Link to="/admin/dashboard/resumo"
+                    
+                    className={pathname === '/admin/dashboard/resumo' ? `${styles.ativo}` : ''}
+                    >
                         <AiOutlineHome />
                         Resultado de vendas
                     </Link>
                 </li>
-                <li><Link to="/admin/dashboard/sales">
+                <li><Link to="/admin/dashboard/sales"
+                className={pathname === '/admin/dashboard/sales' ? `${styles.ativo}` : ''}
+                >
+                    
                     <AiOutlineShoppingCart />
                     Vendas</Link></li>
-                <li><Link to="/admin/dashboard/users">
+                <li><Link to="/admin/dashboard/users"
+                
+                className={pathname === '/admin/dashboard/users' ? `${styles.ativo}` : ''}
+                >
                     <AiOutlineTeam />
                     Usuários</Link></li>
                 <li>
