@@ -4,9 +4,9 @@ import Index from "../pages/Home/Index";
 import AdminLogin from "../pages/Admin/AdminLogin/AdminLogin";
 import PrivateRoute from "../components/PrivateRoute";
 import CadastrarProduto from "../pages/Admin/Products/Products";
+import CreateUser from "../pages/Admin/Users/CreateUser";
 import typeUserEnum from "../constants/enums/typeUserEnum";
 import Unauthorized from "../pages/Unauthorized/Unauthorized";
-import CreateUser from "../pages/Admin/Users/CreateUser";
 
 export default function AllRoutes() {
   return (
