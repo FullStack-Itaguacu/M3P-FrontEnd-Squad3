@@ -92,7 +92,7 @@ export default function useApi() {
  */
   async function signupAdmin(payload) {
     const token = await getTokenFromStorage();
-    await api.signupAdmin(token,payload);
+    return api.signupAdmin(token,payload);
   }
 
   async function getUserAddresses() {
@@ -217,6 +217,11 @@ export default function useApi() {
     const token = await getTokenFromStorage();
     return api.getSaleById(token, saleId);
   }
+
+async function getCep(cep) {
+  return api.getCep(cep);
+}
+
   return {
     token,
     loginUser,
@@ -237,6 +242,7 @@ export default function useApi() {
     updateUser,
     signupAdmin,
     cadastrarProduto,
-    uploadImage
+    uploadImage,
+    getCep
   };
 }
