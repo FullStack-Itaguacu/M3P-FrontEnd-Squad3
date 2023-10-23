@@ -34,7 +34,7 @@ function AdminLogin() {
         setErroLogin(response.data.cause);
         setLoading(false);
         break;
-      case 401:
+      case 403:
         setErroLogin(response.data.cause);
         setLoading(false);
       default:
