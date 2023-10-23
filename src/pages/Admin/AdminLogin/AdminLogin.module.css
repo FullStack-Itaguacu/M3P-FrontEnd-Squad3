@@ -24,7 +24,8 @@
 
 .formContainer input {
   border-bottom: 2px solid #323232;
-  padding: 4px;
+  color: var(--info);
+  padding: 4px 4px 4px 25px;
   font-size: 1rem;
   border-bottom: 1px solid var(--info);
   border-top: none;
@@ -32,6 +33,10 @@
   border-right: none;
   display: flex;
   width: 100%;
+}
+
+.formContainer input::placeholder {
+  color: var(--info);
 }
 
 .formContainer input:focus {
@@ -50,9 +55,16 @@
 
 .icons {
   color: var(--info);
-  display: block;
+  display: flex;
+  align-items: center;
+
   width: 100%;
-  left: 0;
+}
+.icons svg {
+  margin-right: -18px;
+position: absolute;
+  background-color: transparent;
+  z-index: 5;
 }
 
 .enviarLogin {
@@ -67,6 +79,26 @@
   cursor: pointer;
   width: 50%;
   height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.enviarLogin:hover {
+  background-color: var(--hover);
+  color: var(--white);
+}
+
+.erroLogin{
+  background-color:var(--bg-danger) ;
+  padding: 10px;
+  border-radius: 5px;
+  border:solid 1px var(--danger);
+  color: var(--danger);
+  font-size: 0.8rem;
+  margin-top: 10px;
+  text-align: center;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

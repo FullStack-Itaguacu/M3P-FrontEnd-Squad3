@@ -36,10 +36,10 @@ export default function AllRoutes() {
         />
         <Route path='/admin/dashboard'
           element={
-            // <PrivateRoute acessControll={typeUserEnum.ADMIN}>
+            <PrivateRoute acessControll={typeUserEnum.ADMIN}>
               <Dashbord
               />
-            // </PrivateRoute>
+            </PrivateRoute>
           }>
           <Route path='resumo' element={<DashBoardIndex />} />
           <Route path='register/products' element={<CadastrarProduto />} />
