@@ -94,9 +94,15 @@ export default function useApi() {
     return api.getUserAddresses(token);
   }
 
-  async function listUsers(offset, limit) {
+  /**
+* @param {string} token - Token JWT de autenticação
+* @param {object} PageParams - Parâmetros da requisição- exemplo: {offset: 0, limit: 20}
+* @param {number} PageParams.offset - inicio da paginação
+* @param {number} PageParams.limit - fim da paginação
+*/
+  async function listUsers(PageParams) {
     const token = await getTokenFromStorage();
-    return api.listUsers(token, offset, limit);
+    return api.listUsers(token, PageParams);
   }
 
   async function getUserById(userId) {
@@ -104,9 +110,9 @@ export default function useApi() {
     return api.getUserById(token, userId);
   }
 
-  async function updateUser(userId, userData) {
+  async function updateUser(dataUpdateUser) {
     const token = await getTokenFromStorage();
-    return api.updateUser(token, userId, userData);
+    return api.updateUser(token, dataUpdateUser);
   }
 
   async function getProductById(productId) {

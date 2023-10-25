@@ -12,6 +12,7 @@ import Table from "../components/Table/Table";
 import Users from "../pages/Admin/Users/Users";
 import DashBoardIndex from "../pages/Admin/DashBoardIndex/DashBoardIndex";
 import Sales from "../pages/Admin/Sales/Sales";
+import AllUsers from "../pages/Admin/AllUsers/AllUsers";
 
 export default function AllRoutes() {
   return (
@@ -35,7 +36,8 @@ export default function AllRoutes() {
           <Route path="register/products" element={<CadastrarProduto />} />
           <Route path="sales" element={<Sales />} />
           <Route path="products" element={<Table />} />
-          <Route path="users" element={<Users />} />
+          <Route path="register/user" element={<Users />} />
+          <Route path="users" element={<AllUsers />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
