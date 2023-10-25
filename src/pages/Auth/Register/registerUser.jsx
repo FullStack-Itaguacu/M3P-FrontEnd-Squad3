@@ -1,110 +1,150 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import styles from "./RegisterUser.module.css"
+import useApi from "../../../hooks/useApi";
+import styles from "./RegisterUser.module.css";
 import { useNavigate } from "react-router-dom";
-
-
-
+import { isValidCpf, isValidEmail, isValidPassword, formatDateForBackend } from "../../../utils/validateRegisterUser";
 
 const RegisterUser = () => {
-    const [cpf, setCpf] = useState('');
-    const [birthDate, setBirthDate] = useState('');
-    const [fullName, setFullName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
-    const [cep, setCep] = useState('');
-    const [state, setState] = useState('');
-    const [city, setCity] = useState('');
-    const [neighborhood, setNeighborhood] = useState('');
-    const [street, setStreet] = useState('');
-    const [number, setNumber] = useState('');
-    const [complement, setComplement] = useState('');
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
-    const [listUser, setListUser] = useState([])
-    //const [signupUser] = useApi();
-    const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
-    const navigate = useNavigate();
+  const [cpf, setCpf] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [zip, setZip] = useState(''); // Corrigi o nome da variável para "cep"
+  const [state, setState] = useState('');
+  const [city, setCity] = useState('');
+  const [neighborhood, setNeighborhood] = useState('');
+  const [street, setStreet] = useState('');
+  const [number, setNumber] = useState('');
+  const [complement, setComplement] = useState('');
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
+  const [listUser, setListUser] = useState([]);
+  const { signupUser } = useApi();
+  const { getCep } = useApi();
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [fetchingCep, setFetchingCep] = useState(false);
+  const navigate = useNavigate();
 
-    const handleAssUser = () => {
-    const newUser ={
-        cpf:cpf,
-        birthDate:birthDate,
-        fullName:fullName,
-        email:email,
-        phone:phone,
-        password:password,
-        cep:cep,
-        state:state,
-        city:city,
-        neighborhood:neighborhood,
-        street:street,
-        number:number,
-        complement:complement,
-        latitude:latitude,
-        longitude:longitude,
-        };
+  const handleAssUser = () => {
+    setListUser([...listUser, newUser]);
+    
+    setCpf('');
+  setBirthDate('');
+  setFullName('');
+  setEmail('');
+  setPhone('');
+  setPassword('');
+  setZip('');
+  setState('');
+  setCity('');
+  setNeighborhood('');
+  setStreet('');
+  setNumber('');
+  setComplement('');
+  setLatitude('');
+  setLongitude('');
+  };
 
-        setListUser([...listUser, newUser])
-
-        setCpf(''),
-        setBirthDate(''),
-        setFullName(''),
-        setEmail(''),
-        setPhone(''),
-        setPassword(''),
-        setCep(''),
-        setState(''),
-        setCity(''),
-        setNeighborhood(''),
-        setStreet(''),
-        setNumber(''),
-        setComplement(''),
-        setLatitude(''),
-        setLongitude('')
-    }
-    const handleCepChange = async (event) => {
-        const cep = event.target.value;
-        setCep(cep);
-
-        if (cep.length === 8) {
-            try {
-                const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-                setState(response.data.uf);
-                setCity(response.data.localidade);
-                setNeighborhood(response.data.bairro);
-                setStreet(response.data.logradouro);
-                setComplement(response.data.complemento);
-                setLatitude(response.data.latitude);
-                setLongitude(response.data.longitude);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    };
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        try {
-            const registerUser = await json(newUser);
-            console.log ("Respota da API:", registerUser);
+const handleCepChange = async (event) => {
+    if (fetchingCep) {
+        return;
+      }
+    
+    if (zip.length === 8) {
             
-            if(registerUser.status===201) {
-            handleAssUser ();
-            setSuccessMessage('Seu cadastro foi realizado com sucesso.');
-            navigate("/user/login")
+        try {
+            setFetchingCep(true);
+            const response = await getCep(zip);
+            
+            if (response) {
+                setState(response.state);
+                setCity(response.city);
+                setNeighborhood(response.neighborhood);
+                setStreet(response.street);
+                setLatitude(response.latitude);
+                setLongitude(response.longitude);
+            } else {
+                console.log("Invalid response:", response);
             }
         } catch (error) {
-            if (error.response.status === 409) {
-                setErrorMessage('E-mail já cadastrado.');
-            } else {
-                setErrorMessage('Ocorreu um erro ao realizar o cadastro, tente novamente mais tarde.');
-            }
+            console.log("API error:", error);
+        } finally {
+            setFetchingCep(false);
+    }
+};
+}
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    
+    if (!isValidCpf(cpf)) {
+      setErrorMessage('CPF inválido.');
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setErrorMessage('E-mail inválido.');
+      return;
+    }
+
+    if (!isValidPassword(password)) {
+      setErrorMessage('A senha não atende aos critérios de segurança.');
+      return;
+    }
+
+    if (!formatDateForBackend(birthDate)) {
+      setErrorMessage('Data de nascimento inválida.');
+      return;
+    }
+
+    if (!zip || !state || !city || !neighborhood || !street || !number) {
+        setErrorMessage('Por favor, preencha todos os campos do endereço.');
+        return;
+      }
+  
+    const newUser = {
+        user: {
+          cpf: cpf,
+          birthDate: formatDateForBackend(birthDate),
+          fullName: fullName,
+          email: email,
+          phone: phone,
+          password: password,
+        },
+        addresses: [{
+            zip: zip,
+            state: state,
+            city: city,
+            neighborhood: neighborhood,
+            street: street,
+            numberStreet: number,
+            complement: complement,
+            lat: latitude,
+            long: longitude,
+        },]
+      };
+
+    try {
+        const registerUser = await signupUser(newUser);
+        
+        console.log("Resposta da API:", registerUser);
+    
+        if (registerUser.status === 201) {
+          setSuccessMessage('Seu cadastro foi realizado com sucesso.');
+          handleAssUser(); 
+          navigate("/user/login");
         }
-    };
+    } catch (error) {
+      if (error.response.status === 409) {
+        setErrorMessage('E-mail já cadastrado.');
+      } else {
+        setErrorMessage('Ocorreu um erro ao realizar o cadastro, tente novamente mais tarde.');
+      }
+    }
+  }
 
     return (
 
@@ -152,7 +192,6 @@ const RegisterUser = () => {
                     placeholder='(48)99999-9999'
                     onChange={(event) => setPhone(event.target.value)}
                     required
-                    pattern="\(\d{2}\) \d{5}-\d{4}"
                 />
             </div>
         </div>
@@ -167,7 +206,6 @@ const RegisterUser = () => {
                     placeholder='000.000.000-00'
                     onChange={(event) => setCpf(event.target.value)}
                     required
-                    pattern="\d{3}\\d{3}\\d{3}\d{2}"
                 />
             </div>
             <div>
@@ -179,7 +217,6 @@ const RegisterUser = () => {
                     placeholder='DD/MM/AAAA'
                     onChange={(event) => setBirthDate(event.target.value)}
                     required
-                    pattern="\d{2}/\d{2}/\d{4}"
                 />
             </div>
             <div>
@@ -191,7 +228,6 @@ const RegisterUser = () => {
                     placeholder='Senha'
                     onChange={(event) => setPassword(event.target.value)}
                     required
-                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$"
                 />
             </div>
         </div>
@@ -202,15 +238,15 @@ const RegisterUser = () => {
 
             <div className={styles.grup3}>
             <div>
-                <label className={styles.labelAddress} htmlFor="cep">CEP</label>
+                <label className={styles.labelAddress} htmlFor="zip">CEP</label>
                 <input className={styles.inputAddress}
                     type="text"
-                    id="cep"
-                    value={cep}
+                    id="zip"
+                    value={zip}
                     placeholder='88888-888'
-                    onChange={handleCepChange}
+                    onChange= {(event) => setZip(event.target.value)}
+                    onBlur ={handleCepChange}
                     required
-                    pattern="\d{5}-\d{3}"
                 />
             </div>
             <div>
@@ -304,12 +340,13 @@ const RegisterUser = () => {
                     onChange={(event) => setLongitude(event.target.value)}
                 />
             </div>
+            
         </div>
+        <button type="submit" className={styles.buttonUser}>Cadastrar</button>
         </form>
         </div>
 
             <div >
-            <button className={styles.buttonUser}>Cadastrar</button>
 
             {errorMessage && <p>{errorMessage}</p>}
             {successMessage && <p>{successMessage}</p>}
@@ -318,6 +355,6 @@ const RegisterUser = () => {
        
         </div>
     );
-};
+    }
 
 export default RegisterUser;
