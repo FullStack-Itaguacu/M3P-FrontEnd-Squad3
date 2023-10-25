@@ -2,6 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { isPasswordValid, isFormValid } from "../../Services/PasswordValidate";
 import { isCPFValid } from "../../Services/CpfValidate";
+import { BsEyeSlash, BsEye } from "react-icons/bs";
 import InputMask from "react-input-mask";
 import styles from "./UserForm.module.css";
 
@@ -12,9 +13,23 @@ const UserForm = ({
   handleInputChange,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [touchedConfirmPassword, setTouchedConfirmPassword] = useState(false);
   const [userRegistered, setUserRegistered] = useState(false);
   const [cpfError, setCPFError] = useState("");
   const [ageError, setAgeError] = useState("");
+
+  const handleClick = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleConfirmPasswordBlur = () => {
+    setTouchedConfirmPassword(true);
+  };
+
+  const handleConfirmPasswordChange = (event) => {
+    handleInputChange(event);
+    setTouchedConfirmPassword(true);
+  };
 
   const handleDateChange = (e) => {
     const dob = new Date(e.target.value);
@@ -82,13 +97,13 @@ const UserForm = ({
           {
             street: user.street,
             numberStreet: user.number,
-            complement: user.complement,
             neighborhood: user.neighborhood,
             city: user.city,
             state: user.state,
             zip: user.cep.replace(/[\D]/g, ""), // Remove a formatação do CEP
             lat: user.latitude,
             long: user.longitude,
+            ...(user.complement && { complement: user.complement }),
           },
         ],
       };
@@ -243,36 +258,40 @@ const UserForm = ({
                 <div className={styles.input_double}>
                   <div className={styles.input_box2}>
                     <label htmlFor="password">Senha:</label>
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Senha"
-                      id="password"
-                      name="password"
-                      value={user.password}
-                      onChange={(e) => {
-                        handleInputChange(e);
-                        if (e.target.value) {
-                          isPasswordValid(e.target.value);
+                    <div className={styles.input_password}>
+                      <input
+                        className={styles.input}
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Senha"
+                        id="password"
+                        name="password"
+                        value={user.password}
+                        onChange={(e) => {
+                          handleInputChange(e);
+                          if (e.target.value) {
+                            isPasswordValid(e.target.value);
+                          }
+                        }}
+                        required
+                      />
+                      <span
+                        className={styles.icon}
+                        onClick={handleClick}
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
                         }
-                      }}
-                      required
-                    />
+                      >
+                        {showPassword ? <BsEyeSlash /> : <BsEye />}
+                      </span>
+                    </div>
+
                     {!isPasswordValid(user.password) && user.password && (
                       <span className={styles.error_message}>
-                        Senha inválida. Deve conter no mínimo 8 caracteres,
-                        incluindo uma letra maiúscula, uma letra minúscula, um
-                        número e um caractere especial.
+                        A Senha Deve conter no mínimo 8 caracteres
+                        incluindo:letra maiúscula, letra minúscula, número e
+                        caractere especial.
                       </span>
                     )}
-                  </div>
-                  <div>
-                    <button
-                      className={styles.button_password}
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? "Ocultar" : "Mostrar"}
-                    </button>
                   </div>
                   <div className={styles.input_box2}>
                     <label htmlFor="confirmPassword">Confirmar Senha:</label>
@@ -282,14 +301,20 @@ const UserForm = ({
                       id="confirmPassword"
                       name="confirmPassword"
                       value={user.confirmPassword}
-                      onChange={handleInputChange}
+                      onChange={handleConfirmPasswordChange}
+                      onBlur={handleConfirmPasswordBlur}
                     />
                   </div>
-                  {user.password !== user.confirmPassword && (
-                    <span className={styles.error_message}>
-                      As senhas não coincidem
-                    </span>
-                  )}
+                  <div className={styles.messagePass}>
+                    {touchedConfirmPassword &&
+                      user.password !== user.confirmPassword && (
+                        <div className={styles.error_container}>
+                          <span className={styles.error_message}>
+                            As senhas não coincidem
+                          </span>
+                        </div>
+                      )}
+                  </div>
                 </div>
               </div>
             </div>
