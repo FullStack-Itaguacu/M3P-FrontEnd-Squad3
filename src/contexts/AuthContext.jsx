@@ -42,11 +42,7 @@ export const AuthProvider = ({ children }) => {
                 return { status: response.status };
             }
         } catch (error) {
-            return {
-                error: error.response.data.message,
-                code: error.response.data.code,
-                status: error.response.status,
-            };
+            return error.response;
         }
     }
 

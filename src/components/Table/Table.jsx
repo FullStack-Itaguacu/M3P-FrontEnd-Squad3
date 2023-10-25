@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import styles from './Table.module.css';
 import useApi from "../../hooks/useApi";
@@ -199,4 +200,4 @@ const Table = () => {
     );
 };
 
-export default Table;
+
