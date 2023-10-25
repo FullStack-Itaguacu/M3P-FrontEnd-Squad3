@@ -11,7 +11,7 @@ import Login from "../pages/Auth/Login/Login";
 import Dashbord from '../pages/Admin/Dashboard/Dashboard';
 import Table from '../components/Table/Table';
 import Users from '../pages/Admin/Users/Users';
-import RegisterUser from "../pages/Admin/Users/registerUser"
+import RegisterUser from "../pages/Auth/Register/registerUser"
 import DashBoardIndex from '../pages/Admin/DashBoardIndex/DashBoardIndex';
 import Sales from '../pages/Admin/Sales/Sales';
 
