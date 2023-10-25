@@ -19,12 +19,13 @@ export const loginAdmin = async (email, password) => {
 
 
 // Usuários
-export const signupUser = async (userData, addresses) => {
-  const response = await api.post("/user/signup", {
-    user: userData,
-    addresses,
-  });
-  return response.data;
+export const signupUser = async (payload) => {
+  const response = await api.post("/user/signup", 
+    payload
+  );
+
+  console.log(response);
+  return response;
 };
 
 /**
