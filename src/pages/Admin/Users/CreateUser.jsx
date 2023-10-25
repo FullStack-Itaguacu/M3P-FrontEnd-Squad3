@@ -1,6 +1,7 @@
 import { useState } from "react";
 import UserForm from "../../../components/Form/UserForm";
 import { getCep } from "../../../Services/api";
+import styles from "./CreateUser.module.css";
 
 const CreateUser = () => {
   const [user, setUser] = useState({
@@ -56,6 +57,12 @@ const CreateUser = () => {
 
   return (
     <>
+      <div className={styles.header}>
+        <div>
+          <img src="/screen.png" alt="" />
+        </div>
+      </div>
+      <h1 className={styles.titulo}>Criar novo usuário</h1>
       <UserForm
         user={user}
         handleSearchCep={handleSearchCep}
