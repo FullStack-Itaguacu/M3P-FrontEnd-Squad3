@@ -152,46 +152,57 @@ const UserForm = ({
                   />
                 </div>
                 <div className={styles.input_box}>
-                  <label htmlFor="cpf" className={styles.label}>
-                    CPF:
+                  <label htmlFor="email" className={styles.label}>
+                    E-mail:
                   </label>
-                  <InputMask
-                    className={styles.input_smaller}
-                    mask="999.999.999-99"
-                    maskPlaceholder={null}
-                    placeholder="somente números"
-                    type="text"
-                    id="cpf"
-                    name="cpf"
-                    value={user.cpf}
-                    onBlur={handleCPFChange}
+                  <input
+                    className={styles.input_bigger}
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="email@email.com"
+                    value={user.email}
                     onChange={handleInputChange}
                     required
                   />
-                  {cpfError && (
-                    <span className={`${styles.error_message}`}>
-                      {cpfError}
-                    </span>
-                  )}
                 </div>
-                <div className={styles.input_box}>
-                  <label htmlFor="birthDate" className={styles.label}>
-                    Data de Nascimento:
-                  </label>
-                  <input
-                    className={styles.input_smaller}
-                    type="date"
-                    id="birthDate"
-                    name="birthDate"
-                    value={user.birthDate}
-                    onBlur={handleDateChange}
-                    onChange={handleInputChange}
-                  />
-                  {ageError && (
-                    <span className={`${styles.error_message}`}>
-                      {ageError}
-                    </span>
-                  )}
+                <div className={styles.input_double}>
+                  <div className={styles.input_box2}>
+                    <label htmlFor="cpf">CPF:</label>
+                    <InputMask
+                      mask="999.999.999-99"
+                      maskPlaceholder={null}
+                      placeholder="somente números"
+                      type="text"
+                      id="cpf"
+                      name="cpf"
+                      value={user.cpf}
+                      onBlur={handleCPFChange}
+                      onChange={handleInputChange}
+                      required
+                    />
+                    {cpfError && (
+                      <span className={`${styles.error_message}`}>
+                        {cpfError}
+                      </span>
+                    )}
+                  </div>
+                  <div className={styles.input_box2}>
+                    <label htmlFor="birthDate">Data de Nascimento:</label>
+                    <input
+                      type="date"
+                      id="birthDate"
+                      name="birthDate"
+                      value={user.birthDate}
+                      onBlur={handleDateChange}
+                      onChange={handleInputChange}
+                    />
+                    {ageError && (
+                      <span className={`${styles.error_message}`}>
+                        {ageError}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div className={styles.input_box}>
                   <label htmlFor="phone" className={styles.label}>
@@ -211,21 +222,7 @@ const UserForm = ({
                     required
                   />
                 </div>
-                <div className={styles.input_box}>
-                  <label htmlFor="email" className={styles.label}>
-                    E-mail:
-                  </label>
-                  <input
-                    className={styles.input_bigger}
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="email@email.com"
-                    value={user.email}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
+
                 <div className={styles.input_box}>
                   <label htmlFor="userType" className={styles.label}>
                     Tipo de Usuário:
@@ -243,64 +240,57 @@ const UserForm = ({
                     <option value="BUYER">Comprador</option>
                   </select>
                 </div>
-                <div className={styles.input_box}>
-                  <label htmlFor="password" className={styles.label}>
-                    Senha:
-                  </label>
-                  <input
-                    className={styles.input_smaller}
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Senha"
-                    id="password"
-                    name="password"
-                    value={user.password}
-                    onChange={(e) => {
-                      handleInputChange(e);
-
-                      if (e.target.value) {
-                        isPasswordValid(e.target.value);
-                      }
-                    }}
-                    required
-                  />
-                  {!isPasswordValid(user.password) && user.password && (
+                <div className={styles.input_double}>
+                  <div className={styles.input_box2}>
+                    <label htmlFor="password">Senha:</label>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Senha"
+                      id="password"
+                      name="password"
+                      value={user.password}
+                      onChange={(e) => {
+                        handleInputChange(e);
+                        if (e.target.value) {
+                          isPasswordValid(e.target.value);
+                        }
+                      }}
+                      required
+                    />
+                    {!isPasswordValid(user.password) && user.password && (
+                      <span className={styles.error_message}>
+                        Senha inválida. Deve conter no mínimo 8 caracteres,
+                        incluindo uma letra maiúscula, uma letra minúscula, um
+                        número e um caractere especial.
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <button
+                      className={styles.button_password}
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? "Ocultar" : "Mostrar"}
+                    </button>
+                  </div>
+                  <div className={styles.input_box2}>
+                    <label htmlFor="confirmPassword">Confirmar Senha:</label>
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Confirmar Senha"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      value={user.confirmPassword}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  {user.password !== user.confirmPassword && (
                     <span className={styles.error_message}>
-                      Senha inválida. Deve conter no mínimo 8 caracteres,
-                      incluindo uma letra maiúscula, uma letra minúscula, um
-                      número e um caractere especial.
+                      As senhas não coincidem
                     </span>
                   )}
                 </div>
-                <div>
-                  <button
-                    className={styles.button_password}
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? "Ocultar" : "Mostrar"}
-                  </button>
-                </div>
-
-                <div className={styles.input_box}>
-                  <label htmlFor="confirmPassword" className={styles.label}>
-                    Confirmar Senha:
-                  </label>
-                  <input
-                    className={styles.input_smaller}
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Confirmar Senha"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={user.confirmPassword}
-                    onChange={handleInputChange}
-                  />
-                </div>
-
-                {user.password !== user.confirmPassword && (
-                  <span className={styles.error_message}>
-                    As senhas não coincidem
-                  </span>
-                )}
               </div>
             </div>
             <div className={styles.address_container}>
@@ -320,17 +310,9 @@ const UserForm = ({
                     name="cep"
                     value={user.cep}
                     onChange={handleInputChange}
+                    onBlur={handleSearchCep}
                     required
                   />
-                </div>
-                <div>
-                  <button
-                    className={styles.button_cep}
-                    type="button"
-                    onClick={handleSearchCep}
-                  >
-                    Buscar CEP
-                  </button>
                 </div>
                 <div className={styles.input_box}>
                   <label className={styles.label}>Logradouro:</label>
@@ -346,58 +328,6 @@ const UserForm = ({
                   />
                 </div>
                 <div className={styles.input_box}>
-                  <label className={styles.label}>Número:</label>
-                  <input
-                    className={styles.input_smaller}
-                    type="text"
-                    id="number"
-                    name="number"
-                    value={user.number}
-                    onChange={handleInputChange}
-                    placeholder="Número"
-                    required
-                  />
-                </div>
-                <div className={styles.input_box}>
-                  <label className={styles.label}>Bairro:</label>
-                  <input
-                    className={styles.input_smaller}
-                    type="text"
-                    id="neighborhood"
-                    name="neighborhood"
-                    value={user.neighborhood}
-                    onChange={handleInputChange}
-                    placeholder="Bairro"
-                    required
-                  />
-                </div>
-                <div className={styles.input_box}>
-                  <label className={styles.label}>Cidade:</label>
-                  <input
-                    className={styles.input_smaller}
-                    type="text"
-                    id="city"
-                    name="city"
-                    value={user.city}
-                    onChange={handleInputChange}
-                    placeholder="Cidade"
-                    required
-                  />
-                </div>
-                <div className={styles.input_box}>
-                  <label className={styles.label}>Estado:</label>
-                  <input
-                    className={styles.input_smaller}
-                    type="text"
-                    id="state"
-                    name="state"
-                    value={user.state}
-                    onChange={handleInputChange}
-                    placeholder="Estado"
-                    required
-                  />
-                </div>
-                <div className={styles.input_box}>
                   <label className={styles.label}>Complemento:</label>
                   <input
                     className={styles.input_bigger}
@@ -409,29 +339,81 @@ const UserForm = ({
                     placeholder="Complemento"
                   />
                 </div>
-                <div className={styles.input_box}>
-                  <label className={styles.label}>Latitude:</label>
-                  <input
-                    className={styles.input_smaller}
-                    type="text"
-                    id="latitude"
-                    name="latitude"
-                    value={user.latitude}
-                    onChange={handleInputChange}
-                    placeholder="Latitude"
-                  />
+                <div className={styles.input_double}>
+                  <div className={styles.input_box2}>
+                    <label>Número:</label>
+                    <input
+                      type="text"
+                      id="number"
+                      name="number"
+                      value={user.number}
+                      onChange={handleInputChange}
+                      placeholder="Número"
+                      required
+                    />
+                  </div>
+                  <div className={styles.input_box2}>
+                    <label>Bairro:</label>
+                    <input
+                      type="text"
+                      id="neighborhood"
+                      name="neighborhood"
+                      value={user.neighborhood}
+                      onChange={handleInputChange}
+                      placeholder="Bairro"
+                      required
+                    />
+                  </div>
                 </div>
-                <div className={styles.input_box}>
-                  <label className={styles.label}>Longitude:</label>
-                  <input
-                    className={styles.input_smaller}
-                    type="text"
-                    id="longitude"
-                    name="longitude"
-                    value={user.longitude}
-                    onChange={handleInputChange}
-                    placeholder="Longitude"
-                  />
+                <div className={styles.input_double}>
+                  <div className={styles.input_box2}>
+                    <label>Cidade:</label>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      value={user.city}
+                      onChange={handleInputChange}
+                      placeholder="Cidade"
+                      required
+                    />
+                  </div>
+                  <div className={styles.input_box2}>
+                    <label>Estado:</label>
+                    <input
+                      type="text"
+                      id="state"
+                      name="state"
+                      value={user.state}
+                      onChange={handleInputChange}
+                      placeholder="Estado"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className={styles.input_double}>
+                  <div className={styles.input_box2}>
+                    <label>Latitude:</label>
+                    <input
+                      type="text"
+                      id="latitude"
+                      name="latitude"
+                      value={user.latitude}
+                      onChange={handleInputChange}
+                      placeholder="Latitude"
+                    />
+                  </div>
+                  <div className={styles.input_box2}>
+                    <label>Longitude:</label>
+                    <input
+                      type="text"
+                      id="longitude"
+                      name="longitude"
+                      value={user.longitude}
+                      onChange={handleInputChange}
+                      placeholder="Longitude"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
