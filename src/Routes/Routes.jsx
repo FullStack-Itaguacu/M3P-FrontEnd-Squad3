@@ -8,11 +8,10 @@ import typeUserEnum from "../constants/enums/typeUserEnum";
 import Unauthorized from "../pages/Unauthorized/Unauthorized";
 import Login from "../pages/Auth/Login/Login";
 import Dashbord from "../pages/Admin/Dashboard/Dashboard";
-// import Table from "../components/Table/Table";
-import Sales from "../pages/Admin/Sales/Sales";
+import Table from "../components/Table/Table";
 import Users from "../pages/Admin/Users/Users";
 import DashBoardIndex from "../pages/Admin/DashBoardIndex/DashBoardIndex";
-import SidebarAdmin from "../pages/Admin/Sales/Sales";
+import Sales from "../pages/Admin/Sales/Sales";
 
 export default function AllRoutes() {
   return (
@@ -21,22 +20,22 @@ export default function AllRoutes() {
         <Route path="/" element={<Index />} />
         <Route path="/login/admin" element={<AdminLogin />} />
         <Route path="/user/login" element={<Login />} />
-        <Route path="/sales/dashboard/admin" element={<SidebarAdmin />} />
+        <Route path="/sales/dashboard/admin" element={<DashBoardIndex />} />
 
         <Route path="/admin/product" element={<CadastrarProduto />} />
         <Route
           path="/admin/dashboard"
           element={
-            // <PrivateRoute acessControll={typeUserEnum.ADMIN}>
-            <Dashbord />
-            // </PrivateRoute>
+            <PrivateRoute acessControll={typeUserEnum.ADMIN}>
+              <Dashbord />
+            </PrivateRoute>
           }
         >
+          <Route path="resumo" element={<DashBoardIndex />} />
           <Route path="register/products" element={<CadastrarProduto />} />
-          <Route path="products" element={<Table />} />
           <Route path="sales" element={<Sales />} />
+          <Route path="products" element={<Table />} />
           <Route path="users" element={<Users />} />
-          <Route path="vendas" element={<DashBoardIndex />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

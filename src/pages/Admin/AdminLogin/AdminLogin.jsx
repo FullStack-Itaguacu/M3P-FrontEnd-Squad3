@@ -1,43 +1,47 @@
 import styles from "./AdminLogin.module.css";
 import React, { useState } from "react";
 import { MdEmail, MdVpnKey } from "react-icons/md";
-import { loginAdmin } from "../../../Services/api";
+import useAuth from "../../../hooks/useAuth"
+import LoadingSpinner from "../../../components/Loading_Snipper/Loading_Snipper";
 
 function AdminLogin() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [erroEmail, setErroEmail] = useState("");
-  const [erroSenha, setErroSenha] = useState("");
+  const [erroLogin, setErroLogin] = useState("");
 
-  function validarEmail(email) {
-    const valEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return valEmail.test(email);
-  }
+  const [loading, setLoading] = useState(false);
 
-  async function validLog(e) {
+  const { adminLogin } = useAuth();
+
+
+
+  async function HandleLogin(e) {
     e.preventDefault();
 
-    if (!validarEmail(email)) {
-      setErroEmail("Campo email é obrigatório!");
-      return;
+
+    setLoading(true);
+    const response = await adminLogin(email, senha);
+    switch (response.status) {
+      case 200:
+        window.location.href = "/admin/dashboard/resumo";
+        setLoading(false);
+        break;
+      case 401:
+        setErroLogin(response.data.cause);
+        setLoading(false);
+        break;
+      case 400:
+        setErroLogin(response.data.cause);
+        setLoading(false);
+        break;
+      case 403:
+        setErroLogin(response.data.cause);
+        setLoading(false);
+      default:
+
     }
-    setErroEmail("");
-
-    setErroSenha("");
-    console.log("email", email);
-
-    
-    const response = await loginAdmin(email, senha);
-    const data = ResponseLogin(response)
   }
 
-    function ResponseLogin(response) {
-      if (!response.ok) {
-        throw new Error(response.statusText);
-        
-      }
-      return response.json();
-}
 
   return (
     <div className={styles.containerPrimario}>
@@ -45,49 +49,55 @@ function AdminLogin() {
         <img src="/screen.png" alt="" />
       </div>
       <h1 className={styles.tituloLogin}>Bem vindo</h1>
-      <form className={styles.formContainer} onSubmit={validLog}>
+      <form className={styles.formContainer} onSubmit={HandleLogin}>
         <label htmlFor="email">e-mail</label>
 
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="email"
-          name="email"
-          id="email"
-          placeholder="digite seu email"
-          autoComplete="off"
-        />
-        {erroEmail && (
-          <div className={styles.alertWarning} role="alert">
-            {erroEmail}
-          </div>
-        )}
         <div className={styles.icons}>
           <MdEmail />
+          <input
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setErroLogin("")
+            }}
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Digite seu email"
+            autoComplete="off"
+          />
+
         </div>
         <label htmlFor="password">senha</label>
-        <input
-          required
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-          type="password"
-          name="password"
-          minLength="8"
-          id="password"
-          placeholder="digite sua senha"
-        />
-        {erroSenha && (
-          <div className={styles.alertWarning} role="alert">
-            {erroSenha}
-          </div>
-        )}
         <div className={styles.icons}>
           <MdVpnKey />
+          <input
+            required
+            value={senha}
+            onChange={(e) => {
+              setSenha(e.target.value);
+              setErroLogin("");
+            }}
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Digite sua senha"
+          />
+
         </div>
-        <button className={styles.enviarLogin} type="submit" value="Entrar">
-          Entrar
-        </button>
+
+        {erroLogin && <p className={styles.erroLogin}>{erroLogin}</p>}
+
+        {loading ? (
+
+          <LoadingSpinner />
+        ) : (
+          <button className={styles.enviarLogin} type="submit" value="Entrar">
+            Entrar
+          </button>
+        )}
       </form>
+
     </div>
   );
 }
