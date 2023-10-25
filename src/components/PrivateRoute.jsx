@@ -4,22 +4,27 @@ import useAuth from '../hooks/useAuth';
 import typeUserEnum from '../constants/enums/typeUserEnum';
 
 function PrivateRoute({ children, acessControll }) {
-
-    const [ready, setReady] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const { user, onLoadUser } = useAuth();
 
     useEffect(() => {
-        onLoadUser(); 
-        setReady(true);
-    }, []);
+        const loadUser = async () => {
+            await onLoadUser();
+            setIsLoading(false);
+        };
 
-    if (!ready) {
-        return (
-            <div> <h1>Loading...</h1> </div>
-        );
+        if (isLoading) {
+            loadUser();
+        }
+    }, [isLoading, onLoadUser]);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
     }
+
     if (!user) {
         if (acessControll && acessControll.includes(typeUserEnum.ADMIN)) {
+            console.log("entrou");
             return <Navigate to="/login/admin" />;
         }
         return <Navigate to="/login" />;
@@ -28,6 +33,8 @@ function PrivateRoute({ children, acessControll }) {
     if (acessControll && !acessControll.includes(user.role)) {
         return <Navigate to="/unauthorized" />;
     }
+
     return children;
 }
+
 export default PrivateRoute;
