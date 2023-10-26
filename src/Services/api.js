@@ -335,8 +335,11 @@ export const getSaleById = async (token, saleId) => {
       Authorization: `Bearer ${token}`,
     },
   });
+
   return response;
 };
+
+
 
 export const getCep = async (cep) => {
   try {
@@ -348,3 +351,4 @@ export const getCep = async (cep) => {
     return error.response.data;
   }
 };
+
