@@ -1,5 +1,5 @@
 import { isEmail } from 'validator';
-import { validate } from 'gerador-validador-cpf'; // Importe a função validate apropriada
+import { validate } from 'gerador-validador-cpf'; 
 
 export const isValidEmail = (email) => {
   return isEmail(email);
@@ -7,13 +7,12 @@ export const isValidEmail = (email) => {
 
 export const isValidCpf = (cpf) => {
   if (cpf.length === 11) {
-    return validate(cpf); // Certifique-se de que a função validate esteja disponível
+    return validate(cpf); 
   }
   return false;
 };
 
 export const isValidPassword = (password) => {
-  // Senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um número.
   const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/;
   return passwordRegex.test(password);
 };
