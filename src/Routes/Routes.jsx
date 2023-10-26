@@ -36,8 +36,8 @@ export default function AllRoutes() {
           <Route path="sales" element={<Sales />} />
           <Route path="products" element={<Table />} />
           <Route path="users" element={<Users />} />
+          <Route path="register/user" element={<CreateUser />} />
         </Route>
-        <Route path="/admin/criar-usuario" element={<CreateUser />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
       </Routes>

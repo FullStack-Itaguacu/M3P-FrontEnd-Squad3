@@ -145,7 +145,9 @@ const UserForm = ({
           <div className={styles.flex_container}>
             <div className={styles.user_container}>
               {userRegistered && (
-                <div className={styles.success_message}>Usuário cadastrado</div>
+                <div className={styles.success_message}>
+                  Usuário cadastrado com sucesso
+                </div>
               )}
 
               <h3>Dados pessoais</h3>
@@ -443,12 +445,12 @@ const UserForm = ({
               </div>
             </div>
           </div>
+          <div className={styles.button_signup}>
+            <button type="button" onClick={handleCadastroClick}>
+              Cadastrar
+            </button>
+          </div>
         </form>
-      </div>
-      <div className={styles.button_signup}>
-        <button type="button" onClick={handleCadastroClick}>
-          Cadastrar
-        </button>
       </div>
     </>
   );

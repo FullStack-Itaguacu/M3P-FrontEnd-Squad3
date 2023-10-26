@@ -1,8 +1,8 @@
 import { useState } from "react";
 import UserForm from "../../../components/Form/UserForm";
 import { getCep } from "../../../Services/api";
-import styles from "./CreateUser.module.css";
 import { signupAdmin } from "../../../Services/api";
+//import { useApi } from "../../../hooks/useApi";
 
 const CreateUser = () => {
   const [user, setUser] = useState({
@@ -29,7 +29,14 @@ const CreateUser = () => {
     try {
       const response = await getCep(user.cep);
 
-      if (response) {
+      if (
+        response.name === "CepPromiseError" &&
+        response.errors.some((error) => error.message === "CEP NAO ENCONTRADO")
+      ) {
+        alert("CEP não encontrado");
+
+        setUser((prevUser) => ({ ...prevUser, cep: "" }));
+      } else {
         setUser((prevUser) => ({
           ...prevUser,
           street: response.street,
@@ -41,7 +48,8 @@ const CreateUser = () => {
         }));
       }
     } catch (error) {
-      alert("Erro: CEP não encontrado");
+      alert("Erro ao buscar o CEP");
+      console.log(error);
     }
   };
 
@@ -56,7 +64,30 @@ const CreateUser = () => {
 
     try {
       signupAdmin(user);
-      alert("Usuário cadastrado com sucesso!");
+
+      if (cadastrarUser.status === 201) {
+        alert("Usuário cadastrado com sucesso!");
+      }
+
+      if (cadastrarUser.status === 400) {
+        alert("requisição inválida");
+      }
+
+      if (cadastrarUser.status === 401) {
+        alert("não autorizado");
+      }
+
+      if (cadastrarUser.status === 403) {
+        alert("proibido");
+      }
+
+      if (cadastrarUser.status === 409) {
+        alert("conflito");
+      }
+
+      if (cadastrarUser.status === 422) {
+        alert("entidade invalida");
+      }
     } catch (error) {
       console.error("Erro no cadastro:", error);
     }
@@ -64,12 +95,6 @@ const CreateUser = () => {
 
   return (
     <>
-      <div className={styles.header}>
-        <div>
-          <img src="/screen.png" alt="" />
-        </div>
-      </div>
-      <h1 className={styles.titulo}>Criar novo usuário</h1>
       <UserForm
         user={user}
         handleSearchCep={handleSearchCep}
