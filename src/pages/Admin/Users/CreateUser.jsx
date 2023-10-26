@@ -2,6 +2,7 @@ import { useState } from "react";
 import UserForm from "../../../components/Form/UserForm";
 import { getCep } from "../../../Services/api";
 import styles from "./CreateUser.module.css";
+import { signupAdmin } from "../../../Services/api";
 
 const CreateUser = () => {
   const [user, setUser] = useState({
@@ -52,7 +53,13 @@ const CreateUser = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(user);
+
+    try {
+      signupAdmin(user);
+      alert("Usuário cadastrado com sucesso!");
+    } catch (error) {
+      console.error("Erro no cadastro:", error);
+    }
   };
 
   return (
