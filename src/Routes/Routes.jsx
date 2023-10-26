@@ -50,7 +50,6 @@ export default function AllRoutes() {
           <Route path='resumo' element={<DashBoardIndex />} />
           <Route path='register/products' element={<CadastrarProduto />} />
           <Route path='sales' element={<Sales />} />
-          <Route path='products' element={<Table />} />
           <Route path='users' element={<Users />} />
         </Route>
 
