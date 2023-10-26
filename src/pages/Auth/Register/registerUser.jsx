@@ -3,9 +3,10 @@ import useApi from "../../../hooks/useApi";
 import styles from "./RegisterUser.module.css";
 import { useNavigate } from "react-router-dom";
 import InputMask from 'react-input-mask'
-import { isValidCpf, isValidEmail, isValidPassword, formatDateForBackend } from "../../../utils/validateRegisterUser";
+
 
 const RegisterUser = () => {
+    
   const [cpf, setCpf] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [fullName, setFullName] = useState('');
@@ -24,8 +25,6 @@ const RegisterUser = () => {
   const [listUser, setListUser] = useState([]);
   const { signupUser } = useApi();
   const { getCep } = useApi();
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
   const [fetchingCep, setFetchingCep] = useState(false);
   const navigate = useNavigate();
 
@@ -51,14 +50,13 @@ const RegisterUser = () => {
 
 const handleCepChange = async (event) => {
     if (fetchingCep) {
-        return;
-      }
+    }
     
-    if (zip.length === 8) {
+    if (zip.length===8) {
             
         try {
             setFetchingCep(true);
-            const response = await getCep(zip);
+            const response = await getCep( zip.replace(/[-\s]/g, ''));
             
             if (response) {
                 setState(response.state);
@@ -71,81 +69,61 @@ const handleCepChange = async (event) => {
                 console.log("Invalid response:", response);
             }
         } catch (error) {
-            console.log("API error:", error);
+            alert("Erro: CEP não encontrado");
         } finally {
             setFetchingCep(false);
     }
 };
+console.log("CEP:", zip)
 }
 
 const handleSubmit = async (event) => {
     event.preventDefault();
-   
-    if (!isValidCpf(cpf)) {
-        console.log("Cadastrando usuário... parou aqui no cpf");
-      setErrorMessage('CPF inválido.');
-
-    }
-
-    if (!isValidEmail(email)) {
-        console.log("Cadastrando usuário... parou aqui no email");
-      setErrorMessage('E-mail inválido.');
-
-    }
-
-    if (!isValidPassword(password)) {
-        console.log("Cadastrando usuário... parou aqui no password");
-      setErrorMessage('A senha não atende aos critérios de segurança.');
-
-    }
-
-    if (!formatDateForBackend(birthDate)) {
-        console.log("Cadastrando usuário... parou aqui no data de aniversario");
-      setErrorMessage('Data de nascimento inválida.');
-        }
+    console.log("Cadastrando usuário...");
 
     if (!zip || !state || !city || !neighborhood || !street || !number) {
         console.log("Cadastrando usuário... parou aqui no no endereço");
         setErrorMessage('Por favor, preencha todos os campos do endereço.');
       }
-  
+
+    
     const newUser = {
         user: {
-          cpf: cpf,
-          birthDate: formatDateForBackend(birthDate),
+          cpf: zip.replace(/[-\s]/g, ''),
+          birthDate: birthDate.split("/").reverse().join("-"),
           fullName: fullName,
           email: email,
-          phone: phone,
+          phone:phone.replace(/\D/g, ""),
           password: password,
         },
         addresses: [{
-            zip: zip,
+            zip: zip.replace(/[-\s]/g, ''),
             state: state,
             city: city,
             neighborhood: neighborhood,
             street: street,
             numberStreet: number,
-            complement: complement,
+            ...(complement ? { complement } : {}),
             lat: latitude,
             long: longitude,
         },]
       };
+
       const registerUser = await signupUser(newUser);
       
       console.log("Resposta da API:", registerUser);
 
-  
     
         if (registerUser.status === 201) {
-          setSuccessMessage('Seu cadastro foi realizado com sucesso.');
+          alert("Cadastro realizado com sucesso.");
           handleAssUser(); 
           navigate("/user/login");
         }
    
       if (error.response.status === 409) {
-        setErrorMessage('E-mail já cadastrado.');
+        alert("E-mail já cadastrado.");
       } else {
-        setErrorMessage('Ocorreu um erro ao realizar o cadastro, tente novamente mais tarde.');
+        alert("correu um erro ao realizar o cadastro, tente novamente mais tarde.");
       }
     }
 
@@ -253,6 +231,7 @@ const handleSubmit = async (event) => {
             <div>
                 <label className={styles.labelAddress} htmlFor="zip">CEP</label>
                 <InputMask
+                    className={styles.inputAddress}
                     mask="99999-999"
                     maskChar=""
                     value={zip}
@@ -260,7 +239,6 @@ const handleSubmit = async (event) => {
                     placeholder="88888-888"
                     id="zip"
                     type="text"
-                    className={styles.inputAddress}
                     required
                     onBlur={handleCepChange}
                 />
@@ -361,14 +339,7 @@ const handleSubmit = async (event) => {
         <button type="submit" className={styles.buttonUser}>Cadastrar</button>
         </form>
         </div>
-
-            <div >
-
-            {errorMessage && <p>{errorMessage}</p>}
-            {successMessage && <p>{successMessage}</p>}
-            </div>
         
-       
         </div>
     );
     }
