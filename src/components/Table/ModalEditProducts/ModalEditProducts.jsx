@@ -12,6 +12,11 @@ const ModalEditProducts = ({ productId, onClose, onSave }) => {
     const [totalStock, setTotalStock] = useState('');
     const [unitPrice, setUnitPrice] = useState('');
     const [loading, setLoading] = useState(true);
+    const [typeDosage, setTypeDosage] = useState('');
+    const [error, setError] = useState({
+        input: '',
+        error: '',
+    });
 
     const { logout } = useAuth();
     const { updateProduct, uploadImage, getProductById } = useApi();
@@ -29,7 +34,8 @@ const ModalEditProducts = ({ productId, onClose, onSave }) => {
         setImageLink(data.produto.imageLink);
         setDosage(data.produto.dosage);
         setTotalStock(data.produto.totalStock);
-        setUnitPrice(`R$ ${data.produto.unitPrice},00`);
+        setUnitPrice(data.produto.unitPrice);
+        setTypeDosage(data.produto.typeDosage)
         setLoading(false);
 
     };
@@ -41,7 +47,7 @@ const ModalEditProducts = ({ productId, onClose, onSave }) => {
         if (selectedImage) {
             try {
                 const response = await uploadImage(selectedImage);
-               
+
                 setImageLink(response.data.links[0]);
             } catch (error) {
                 console.log(error);
@@ -50,19 +56,33 @@ const ModalEditProducts = ({ productId, onClose, onSave }) => {
         }
     }
 
+    const handleChange = (e) => {
+        setTotalStock(e.target.value);
+        setError('')
+    }
+
 
     const handleSave = async (e) => {
         e.preventDefault();
 
 
-        const dataUpdateUser = {
-            productId: productId,
-
+        const dataUpdateProduct = {
+            id:productId,
+            product:{
+                name,
+                imageLink,
+                dosage,
+                totalStock,
+                unitPrice
+            }
+           
         }
-
-        const updateDataUer = await updateUser(dataUpdateUser);
-        console.log(updateDataUer);
-        onSave();
+        const update = await updateProduct(dataUpdateProduct);
+        switch (update.status) {
+            case 204:
+                onSave();
+              break;
+          }
     };
 
     return (
@@ -83,22 +103,25 @@ const ModalEditProducts = ({ productId, onClose, onSave }) => {
                         <div className={styles.inputImagem}>
                             <label htmlFor="imageLink">Imagem:</label>
                             <div className={styles.modalImg}><img src={imageLink} alt="" /></div>
-                            
-                                <input
-                                    type="file"
-                                    name="imageLink"
-                                    id="imageLink"
-                                    accept="image/*" onChange={handleImageChange} />
-                            
+
+                            <input
+                                type="file"
+                                name="imageLink"
+                                id="imageLink"
+                                accept="image/*" onChange={handleImageChange} />
+
                         </div>
                         <div className={styles.formGroup}>
                             <label htmlFor="dosage">Dosagem:</label>
-                            <input
-                                type="text"
-                                id="dosage"
-                                value={dosage}
-                                onChange={(e) => setDosage(e.target.value)}
-                            />
+                            <div className={styles.inputDosage}>
+                                <input
+                                    type="number"
+                                    id="dosage"
+                                    value={dosage}
+                                    onChange={(e) => setDosage(e.target.value)}
+                                />
+                                <p>{typeDosage}</p>
+                            </div>
                         </div>
                         <div className={styles.formGroup}>
                             <label htmlFor="totalStock">Total em Estoque:</label>
@@ -106,21 +129,56 @@ const ModalEditProducts = ({ productId, onClose, onSave }) => {
                                 type="number"
                                 id="totalStock"
                                 value={totalStock}
-                                onChange={(e) => setTotalStock(e.target.value)}
+                                onChange={(e) => {
+                                    setTotalStock(e.target.value);
+                                    setError('');
+                                }}
+
+                                onBlur={(e) => {
+                                    if (totalStock <= 0) {
+                                        setError({
+                                            input: "stock",
+                                            error: 'Não é permito estoque igual a zero.'
+                                        });
+                                    }
+                                }}
+
                             />
+                            {error.input === "stock" ? <div className={styles.error}>{error.error}</div> : null}
                         </div>
                         <div className={styles.formGroup}>
                             <label htmlFor="unitPrice">Preço Unitário:</label>
-                            <input
-                                type="string"
-                                id="unitPrice"
-                                value={unitPrice}
-                                onChange={(e) => setUnitPrice(e.target.value)}
-                            />
+                            <div className={styles.inputUnitPrice}>
+                                <p>R$:</p>
+                                <input
+                                    type="number"
+                                    id="unitPrice"
+                                    value={unitPrice}
+                                    onChange={(e) => {
+                                        setUnitPrice(e.target.value);
+                                        setError('');
+                                    }}
+                                    onBlur={(e) => {
+                                        if (unitPrice <= 0) {
+                                            setError({
+                                                input: "price",
+                                                error: 'Não é possivel produto com valor 0.'
+                                            });
+                                        }
+                                    }}
+
+                                />
+                            </div>
+                            {error.input === "price" ? <div className={styles.error}>{error.error}</div> : null}
                         </div>
                         <div className={styles.modalButtons}>
                             <button className={styles.buttonCancel} onClick={onClose}>Cancel</button>
-                            <button className={styles.buttonSave} onClick={handleSave}>Salvar</button>
+                            <button 
+                            className={styles.buttonSave} 
+                            onClick={handleSave}
+                            disabled={error.input}
+
+                            >Salvar</button>
                         </div>
                     </form>
                 }

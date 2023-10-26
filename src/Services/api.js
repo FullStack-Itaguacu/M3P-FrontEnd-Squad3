@@ -274,7 +274,7 @@ export const getProductById = async (token, productId) => {
 export const updateProduct = async (token, updateProduct) => {
   const response = await api.patch(
     `/products/admin/${updateProduct.id}`,
-    updateProduct,
+    updateProduct.product,
     {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -4,6 +4,7 @@ import useApi from '../../hooks/useApi';
 import LoadingSpinner from '../Loading_Snipper/Loading_Snipper';
 import ModalEditProducts from './ModalEditProducts/ModalEditProducts';
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
+import SucessoModal from '../Modal/SucessoModal/SucessoModal';
 
 const TableAllProducts = () => {
     const [products, setProducts] = useState([]);
@@ -18,6 +19,13 @@ const TableAllProducts = () => {
         limit: 20,
     });
 
+    const [showModal, setShowModal] = useState(true);
+
+    const handleButtonClick = () => {
+      setShowModal(true);
+    };
+  
+
 
     const { listAdminProducts } = useApi();
 
@@ -29,6 +37,7 @@ const TableAllProducts = () => {
     const getProducts = async () => {
         setLoading(true);
         const response = await listAdminProducts(pagination);
+        console.log(response.data)
         setProducts(response.data.products);
         setLoading(false);
 
@@ -79,11 +88,13 @@ const TableAllProducts = () => {
     };
     const handleCloseModal = () => {
         setSelectedProduct(null);
+        setShowModal(false);
     };
 
     const handleSaveUser = () => {
-        getProducts()
+        setShowModal(true);
         setSelectedProduct(null);
+        getProducts()
     };
 
 
@@ -135,9 +146,9 @@ const TableAllProducts = () => {
                                 <tr key={product.id} className={index % 2 === 0 ? styles.evenRow : styles.oddRow}>
                                     <td>{product.id}</td>
                                     <td>{product.name}</td>
-                                    <td>{product.dosage}</td>
+                                    <td>{product.dosage} {product.typeDosage}</td>
                                     <td>{product.typeProduct}</td>
-                                    <td>R$ {Number(product.unitPrice).toFixed(2).replace('.', ',')}</td>
+                                    <td>R$ {Number(product.unitPrice).toFixed(2).replace('.', ',')} </td>
                                     <td>{product.description}</td>
                                     <td>{product.totalStock}</td>
                                     <td>
@@ -166,6 +177,10 @@ const TableAllProducts = () => {
             }
             {selectedProduct && (
                 <ModalEditProducts productId={selectedProduct} onClose={handleCloseModal} onSave={handleSaveUser} />
+            )}
+
+            {showModal && (
+                <SucessoModal mensagem="Atualização realizada com sucesso!" onClose={handleCloseModal} />
             )}
         </>
     );
