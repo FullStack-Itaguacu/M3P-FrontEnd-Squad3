@@ -18,12 +18,9 @@ export const loginAdmin = async (email, password) => {
 };
 
 // Usuários
-export const signupUser = async (userData, addresses) => {
-  const response = await api.post("/user/signup", {
-    user: userData,
-    addresses,
-  });
-  return response.data;
+export const signupUser = async (payload) => {
+  const response = await api.post("/user/signup", payload);
+  return response;
 };
 
 /**
@@ -68,14 +65,46 @@ export const getUserAddresses = async (token) => {
   });
   return response.data;
 };
+/**
+ * @param {string} token - Token JWT de autenticação
+ * @param {object} PageParams - Parâmetros da requisição- exemplo: {offset: 0, limit: 20}
+ * @param {number} PageParams.offset - inicio da paginação
+ * @param {number} PageParams.limit - fim da paginação
+ */
+export const listUsers = async (token, PageParams) => {
+  try {
+    if (
+      !PageParams ||
+      typeof PageParams !== "object" ||
+      PageParams.offset === undefined ||
+      PageParams.limit === undefined
+    ) {
+      throw new Error(
+        'Parâmetros de paginação inválidos. "offset" e "limit" são obrigatórios.'
+      );
+    }
 
-export const listUsers = async (token, offset, limit) => {
-  const response = await api.get(`/buyers/admin/${offset}/${limit}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
+    if (
+      typeof PageParams.offset !== "number" ||
+      typeof PageParams.limit !== "number" ||
+      PageParams.offset < 0 ||
+      PageParams.limit <= 0
+    ) {
+      throw new Error(
+        'Valores inválidos para "offset" e "limit". Eles devem ser números inteiros positivos.'
+      );
+    }
+
+    const { offset = 0, limit = 20 } = PageParams || {};
+    const response = await api.get(`/buyers/admin/${offset}/${limit}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const getUserById = async (token, userId) => {
@@ -84,16 +113,21 @@ export const getUserById = async (token, userId) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data;
+  return response;
 };
 
-export const updateUser = async (token, userId, userData) => {
-  const response = await api.patch(`/buyers/admin/${userId}`, userData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
+export const updateUser = async (token, dataUpdateUser) => {
+  console.log(dataUpdateUser.userId);
+  const response = await api.patch(
+    `/buyers/admin/${dataUpdateUser.userId}`,
+    dataUpdateUser.userData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response;
 };
 
 /**
@@ -122,7 +156,7 @@ export const cadastrarProduto = async (token, cadastrarProduto) => {
 
     return response;
   } catch (error) {
-    return error.response.data;
+    return error.response;
   }
 };
 
@@ -140,9 +174,9 @@ export const uploadImage = async (token, imageFile) => {
 
     const response = await api.post("/upload", formData, config);
 
-    return response.data;
+    return response;
   } catch (error) {
-    return error.response.data;
+    return error.response;
   }
 };
 
@@ -175,7 +209,7 @@ export const listProducts = async (params) => {
 
   const url = baseUrl + concatQuery;
   const response = await api.get(url);
-  return response.data;
+  return response;
 };
 
 /**
@@ -214,7 +248,7 @@ export const listAdminProducts = async (token, params) => {
     },
   });
 
-  return response.data;
+  return response;
 };
 
 /**
@@ -228,10 +262,18 @@ export const getProductById = async (token, productId) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data;
+  return response;
 };
 
-export const updateProduct = async (token, productId, productData) => {
+/**
+ * @param {object} updateProduct - Dados do produto a ser atualizado
+ * @param {string} updateProduct.id - ID do produto
+ * @param {string} updateProduct.name - Nome do produto
+ * @param {string} updateProduct.imageLink - link da imagem do produto
+ * @param {number} updateProduct.dosage - dosagem do produto
+ * @param {number} updateProduct.totalStock - Total de estoque do produto - obrigatorio
+ */
+export const updateProduct = async (token, updateProduct) => {
   const response = await api.patch(
     `/products/admin/${productId}`,
     productData,
@@ -244,6 +286,14 @@ export const updateProduct = async (token, productId, productData) => {
   return response.data;
 };
 
+/**
+ * @param {Object[]} orders - Lista de pedidos deve estar dentro de um array
+ * @param {number} orders[].productId - ID do produto
+ * @param {number} orders[].amountBuy - Quantidade comprada
+ * @param {number} orders[].addressId - ID do endereço de entrega
+ * @param {string} orders[].typePayment - Tipo de pagamento
+ */
+
 // Vendas
 export const createSale = async (token, items) => {
   const response = await api.post("/sales", items, {
@@ -251,7 +301,7 @@ export const createSale = async (token, items) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data;
+  return response;
 };
 
 export const getUserSales = async (token) => {
@@ -260,7 +310,7 @@ export const getUserSales = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data;
+  return response;
 };
 
 export const getAdminSales = async (token) => {
@@ -269,7 +319,7 @@ export const getAdminSales = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data;
+  return response;
 };
 
 export const getSalesDashboard = async (token) => {
@@ -278,7 +328,7 @@ export const getSalesDashboard = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data;
+  return response;
 };
 
 export const getSaleById = async (token, saleId) => {
@@ -287,7 +337,6 @@ export const getSaleById = async (token, saleId) => {
       Authorization: `Bearer ${token}`,
     },
   });
-
   return response.data;
 };
 
