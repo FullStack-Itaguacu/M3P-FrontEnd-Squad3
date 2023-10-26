@@ -19,12 +19,7 @@ const TableAllProducts = () => {
         limit: 20,
     });
 
-    const [showModal, setShowModal] = useState(true);
-
-    const handleButtonClick = () => {
-      setShowModal(true);
-    };
-  
+    const [showModal, setShowModal] = useState(false);
 
 
     const { listAdminProducts } = useApi();

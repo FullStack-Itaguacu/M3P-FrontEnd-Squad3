@@ -56,10 +56,6 @@ const ModalEditProducts = ({ productId, onClose, onSave }) => {
         }
     }
 
-    const handleChange = (e) => {
-        setTotalStock(e.target.value);
-        setError('')
-    }
 
 
     const handleSave = async (e) => {
