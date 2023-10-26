@@ -8,11 +8,12 @@ import typeUserEnum from '../constants/enums/typeUserEnum';
 import Unauthorized from '../pages/Unauthorized/Unauthorized';
 import Login from "../pages/Auth/Login/Login";
 import Dashbord from '../pages/Admin/Dashboard/Dashboard';
-import Table from '../components/Table/Table';
 import Users from '../pages/Admin/Users/Users';
 import DashBoardIndex from '../pages/Admin/DashBoardIndex/DashBoardIndex';
 import Sales from '../pages/Admin/Sales/Sales';
 import AllUsers from '../pages/Admin/AllUsers/AllUsers';
+import TableAllProducts from '../components/Table/TableAllProducts';
+
 
 
 
@@ -45,7 +46,7 @@ export default function AllRoutes() {
           <Route path='resumo' element={<DashBoardIndex />} />
           <Route path='register/products' element={<CadastrarProduto />} />
           <Route path='sales' element={<Sales />} />
-          <Route path='products' element={<Table />} />
+          <Route path='products' element={<TableAllProducts />} />
           <Route path='register/user' element={<Users />} />
           <Route path='users' element={<AllUsers />} />
         </Route>
@@ -57,3 +58,4 @@ export default function AllRoutes() {
     </Router>
   );
 }
+

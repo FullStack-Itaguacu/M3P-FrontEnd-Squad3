@@ -274,7 +274,7 @@ export const getProductById = async (token, productId) => {
 export const updateProduct = async (token, updateProduct) => {
   const response = await api.patch(
     `/products/admin/${updateProduct.id}`,
-    updateProduct,
+    updateProduct.product,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -335,8 +335,11 @@ export const getSaleById = async (token, saleId) => {
       Authorization: `Bearer ${token}`,
     },
   });
+
   return response;
 };
+
+
 
 export const getCep = async (cep) => {
   try {
@@ -348,3 +351,4 @@ export const getCep = async (cep) => {
     return error.response.data;
   }
 };
+
