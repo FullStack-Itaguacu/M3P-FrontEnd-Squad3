@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useApi from "../../../hooks/useApi";
 import styles from "./RegisterUser.module.css";
 import { useNavigate } from "react-router-dom";
+import InputMask from 'react-input-mask'
 import { isValidCpf, isValidEmail, isValidPassword, formatDateForBackend } from "../../../utils/validateRegisterUser";
 
 const RegisterUser = () => {
@@ -64,8 +65,8 @@ const handleCepChange = async (event) => {
                 setCity(response.city);
                 setNeighborhood(response.neighborhood);
                 setStreet(response.street);
-                setLatitude(response.latitude);
-                setLongitude(response.longitude);
+                setLatitude(response.location.coordinates.latitude);
+                setLongitude(response.location.coordinates.longitude);
             } else {
                 console.log("Invalid response:", response);
             }
@@ -77,32 +78,35 @@ const handleCepChange = async (event) => {
 };
 }
 
-  const handleSubmit = async (event) => {
+const handleSubmit = async (event) => {
     event.preventDefault();
-    
+   
     if (!isValidCpf(cpf)) {
+        console.log("Cadastrando usuário... parou aqui no cpf");
       setErrorMessage('CPF inválido.');
-      return;
+
     }
 
     if (!isValidEmail(email)) {
+        console.log("Cadastrando usuário... parou aqui no email");
       setErrorMessage('E-mail inválido.');
-      return;
+
     }
 
     if (!isValidPassword(password)) {
+        console.log("Cadastrando usuário... parou aqui no password");
       setErrorMessage('A senha não atende aos critérios de segurança.');
-      return;
+
     }
 
     if (!formatDateForBackend(birthDate)) {
+        console.log("Cadastrando usuário... parou aqui no data de aniversario");
       setErrorMessage('Data de nascimento inválida.');
-      return;
-    }
+        }
 
     if (!zip || !state || !city || !neighborhood || !street || !number) {
+        console.log("Cadastrando usuário... parou aqui no no endereço");
         setErrorMessage('Por favor, preencha todos os campos do endereço.');
-        return;
       }
   
     const newUser = {
@@ -126,25 +130,25 @@ const handleCepChange = async (event) => {
             long: longitude,
         },]
       };
+      const registerUser = await signupUser(newUser);
+      
+      console.log("Resposta da API:", registerUser);
 
-    try {
-        const registerUser = await signupUser(newUser);
-        
-        console.log("Resposta da API:", registerUser);
+  
     
         if (registerUser.status === 201) {
           setSuccessMessage('Seu cadastro foi realizado com sucesso.');
           handleAssUser(); 
           navigate("/user/login");
         }
-    } catch (error) {
+   
       if (error.response.status === 409) {
         setErrorMessage('E-mail já cadastrado.');
       } else {
         setErrorMessage('Ocorreu um erro ao realizar o cadastro, tente novamente mais tarde.');
       }
     }
-  }
+
 
     return (
 
@@ -185,12 +189,15 @@ const handleCepChange = async (event) => {
             </div>
             <div>
                 <label className={styles.labelUsuario} htmlFor="phone">Telefone</label>
-                <input className={styles.inputUsuario}
-                    type="text"
-                    id="phone"
+                <InputMask
+                    mask="(99)99999-9999"
+                    maskChar=""
                     value={phone}
-                    placeholder='(48)99999-9999'
                     onChange={(event) => setPhone(event.target.value)}
+                    placeholder="(48)99999-9999"
+                    id="phone"
+                    type="text"
+                    className={styles.inputUsuario}
                     required
                 />
             </div>
@@ -199,25 +206,31 @@ const handleCepChange = async (event) => {
         <div className={styles.grup2}>
             <div>
                 <label className={styles.labelUsuario} htmlFor="cpf">CPF</label>
-                <input className={styles.inputUsuario}
-                    type="text"
-                    id="cpf"
+                <InputMask
+                    mask="999.999.999-99"
+                    maskChar=""
                     value={cpf}
-                    placeholder='000.000.000-00'
                     onChange={(event) => setCpf(event.target.value)}
+                    placeholder="000.000.000-00"
+                    id="cpf"
+                    type="text"
+                    className={styles.inputUsuario}
                     required
-                />
+                    />
             </div>
             <div>
                 <label className={styles.labelUsuario} htmlFor="birthDate">Data Nascimento</label>
-                <input className={styles.inputUsuario}
-                    type="text"
-                    id="birthDate"
+                <InputMask
+                    mask="99/99/9999"
+                    maskChar=""
                     value={birthDate}
-                    placeholder='DD/MM/AAAA'
                     onChange={(event) => setBirthDate(event.target.value)}
+                    placeholder="DD/MM/AAAA"
+                    id="birthDate"
+                    type="text"
+                    className={styles.inputUsuario}
                     required
-                />
+                    />
             </div>
             <div>
                 <label className={styles.labelUsuario} htmlFor="password">Senha</label>
@@ -239,14 +252,17 @@ const handleCepChange = async (event) => {
             <div className={styles.grup3}>
             <div>
                 <label className={styles.labelAddress} htmlFor="zip">CEP</label>
-                <input className={styles.inputAddress}
-                    type="text"
-                    id="zip"
+                <InputMask
+                    mask="99999-999"
+                    maskChar=""
                     value={zip}
-                    placeholder='88888-888'
-                    onChange= {(event) => setZip(event.target.value)}
-                    onBlur ={handleCepChange}
+                    onChange={(event) => setZip(event.target.value)}
+                    placeholder="88888-888"
+                    id="zip"
+                    type="text"
+                    className={styles.inputAddress}
                     required
+                    onBlur={handleCepChange}
                 />
             </div>
             <div>
