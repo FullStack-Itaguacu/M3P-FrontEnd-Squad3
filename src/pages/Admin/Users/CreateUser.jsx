@@ -2,7 +2,6 @@ import { useState } from "react";
 import UserForm from "../../../components/Form/UserForm";
 import { getCep } from "../../../Services/api";
 import { signupAdmin } from "../../../Services/api";
-//import { useApi } from "../../../hooks/useApi";
 
 const CreateUser = () => {
   const [user, setUser] = useState({
@@ -59,34 +58,24 @@ const CreateUser = () => {
     setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      signupAdmin(user);
+      const cadastrarUser = await signupAdmin(user);
 
       if (cadastrarUser.status === 201) {
         alert("Usuário cadastrado com sucesso!");
-      }
-
-      if (cadastrarUser.status === 400) {
-        alert("requisição inválida");
-      }
-
-      if (cadastrarUser.status === 401) {
-        alert("não autorizado");
-      }
-
-      if (cadastrarUser.status === 403) {
-        alert("proibido");
-      }
-
-      if (cadastrarUser.status === 409) {
-        alert("conflito");
-      }
-
-      if (cadastrarUser.status === 422) {
-        alert("entidade invalida");
+      } else if (cadastrarUser.status === 400) {
+        alert("Requisição inválida");
+      } else if (cadastrarUser.status === 401) {
+        alert("Não autorizado");
+      } else if (cadastrarUser.status === 403) {
+        alert("Proibido");
+      } else if (cadastrarUser.status === 409) {
+        alert("Conflito");
+      } else if (cadastrarUser.status === 422) {
+        alert("Entidade inválida");
       }
     } catch (error) {
       console.error("Erro no cadastro:", error);

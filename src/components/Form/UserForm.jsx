@@ -109,13 +109,13 @@ const UserForm = ({
       };
 
       try {
-        console.log(formattedUser);
-
+        await handleSubmit(formattedUser);
         setUserRegistered(true);
       } catch (error) {
         alert(
           "Erro ao cadastrar usuário. Verifique os dados e tente novamente."
         );
+        console.log(error);
       }
     } else {
       alert(
