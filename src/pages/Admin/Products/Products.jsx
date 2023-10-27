@@ -18,7 +18,6 @@ function NewProduct () {
     const { cadastrarProduto,uploadImage } = useApi();
     const [carregandoImagem, setCarregandoImagem] = useState(false);
     const [showModal, setShowModal] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null);
 
     const product = {
       name: name,
@@ -34,15 +33,15 @@ function NewProduct () {
 
   const handleAddProduct = () => {
     const newProduct = {
-      name,
-      labName,
-      imageLink,
-      dosage,
-      typeDosage,
-      unitPrice,
-      totalStock,
-      typeProduct,
-      description,
+        name,
+        labName,
+        imageLink,
+        dosage, 
+        typeDosage,
+        unitPrice, 
+        totalStock, 
+        typeProduct,
+        description,
     };
 
     setListProducts([...listProducts, newProduct]);
@@ -60,15 +59,13 @@ function NewProduct () {
     setShowModal(true);
   };
 
-const [isUploading, setIsUploading] = useState(false);
 
 const handleImageChange = async (e) => {
     const selectedImage = e.target.files[0];
-
-    if (selectedImage) {
+    if (selectedImage){
         try {
             const response = await uploadImage(selectedImage);
-            setImageLink(response.links[0]);
+            setImageLink(response.data.links[0]);
             setCarregandoImagem(true);
         } catch (error) {
             alert("Erro ao fazer upload da imagem!")
@@ -77,11 +74,11 @@ const handleImageChange = async (e) => {
     }
 }
 
-async function haddlerNewProduct(event) {
+
+async function haddleNewProduct(event) {
     event.preventDefault();
     console.log("haddlerNewProduct foi chamada");
   
-    if (!isUploading) {
       try {
         const registerProduct = await cadastrarProduto(product);
         console.log("Resposta da API:", registerProduct); 
@@ -91,16 +88,13 @@ async function haddlerNewProduct(event) {
           handleAddProduct();
 
         } else {
-            setErrorMessage("Produto já cadastrado");
+            alert("Produto já cadastrado");
         }
       } catch (error) {
         console.error("Erro ao fazer a chamada para cadastrar o produto:", error);
         alert("Erro ao cadastrar o produto. Verifique sua conexão de rede.");
       }
-    } else {
-      console.log("Aguarde o upload da imagem ser concluído.");
-    }
-  }
+}
 
 return (
     <div className={styles.fomulario}>
@@ -110,7 +104,7 @@ return (
 
         <div className={styles.gridContainer}>
 
-            <form onSubmit={haddlerNewProduct}>
+            <form onSubmit={haddleNewProduct}>
 
                 <div className={styles.grupo1}>
                     <div>
@@ -145,7 +139,7 @@ return (
                 <div className={styles.grupo2}>
                     <div >
                         <label htmlFor="dosagem-produto">Dosagem:</label>
-                        <input className={styles.inputProduto} type="text" name="dosagem-produto" id="dosagem-produto" placeholder="Dosagem" onChange={(e) => setDosage(e.target.value)} required />
+                        <input className={styles.inputProduto} type="number" name="dosagem-produto" id="dosagem-produto" placeholder="Dosagem" onChange={(e) => setDosage(e.target.value)} required />
                     </div>
                     <div>
                         <label htmlFor="nome-laboratorio">Laboratório:</label>
@@ -160,11 +154,11 @@ return (
                 <div className={styles.grupo3}>
                     <div>
                         <label htmlFor="total-estoque">Quantidade:</label>
-                        <input className={styles.inputProduto} type="text" name="totalEstoque" id="totalEstoque" placeholder="Total estoque" onChange={(e) => setTotalStock(e.target.value)} required />
+                        <input className={styles.inputProduto} type="number" name="totalEstoque" id="totalEstoque" placeholder="Total estoque" onChange={(e) => setTotalStock(e.target.value)} required />
                     </div>
                     <div>
                         <label htmlFor="preco-produto">Preço: R$</label>
-                        <input className={styles.inputProduto} type="text" min="0" name="preco-produto" id="preco-produto" placeholder="Preço" onChange={(e) => setUnitPrice(e.target.value)} required />
+                        <input className={styles.inputProduto} type="number" min="0" name="preco-produto" id="preco-produto" placeholder="Preço" onChange={(e) => setUnitPrice(e.target.value)} required />
                     </div>
                     <div>
                         <label htmlFor="imagemProduto">Imagem:</label>
@@ -185,14 +179,9 @@ return (
             </form>
         </div>
 
-        {errorMessage && (
-            <div className={styles.errorMessage}>
-            {errorMessage}
-        </div>
-)}
       {showModal && (
                 <SucessoModal mensagem="Atualização realizada com sucesso!" onClose={handleCloseModal} />
-            )}
+            ) }
     </div>
 );
 }
