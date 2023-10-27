@@ -50,7 +50,7 @@ export default function AllRoutes() {
             </PrivateRoute>
           }>
           <Route path='resumo' element={<DashBoardIndex />} />
-          <Route path='register/products' element={<CadastrarProduto />} />
+          <Route path='register/products' element={<NewProduct />} />
           <Route path='sales' element={<Sales />} />
 
           <Route path='users' element={<Users />} />
