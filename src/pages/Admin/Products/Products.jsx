@@ -1,8 +1,6 @@
-import React from "react";
-import { useState } from "react";
-import Table from "../../../components/Table/Table"
+import React, { useState } from "react";
 import useApi from "../../../hooks/useApi";
-import ModalSucess from "../../../components/Modal/ModalSucess"
+import SucessoModal from "../../../components/Modal/SucessoModal/sucessoModal"
 import styles from "./Products.module.css"
 
 
@@ -18,9 +16,7 @@ function NewProduct () {
     const [description, setDescription] = useState('');
     const [listProducts, setListProducts] = useState([]);
     const { cadastrarProduto,uploadImage } = useApi();
-    const [cadastroOk, setCadastroOk] = useState(false);
     const [carregandoImagem, setCarregandoImagem] = useState(false);
-    const [modalSuccessVisible, setModalSuccessVisible] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
 
     const product = {
@@ -92,42 +88,18 @@ async function haddlerNewProduct(event) {
         if (registerProduct.status === 201) {
           
           handleAddProduct();
-          handleShowModalSucess()
-          handleOpenTable();
+
         } else {
             setErrorMessage("Produto já cadastrado");
         }
       } catch (error) {
         console.error("Erro ao fazer a chamada para cadastrar o produto:", error);
-        setErrorMessage("Erro ao cadastrar o produto. Verifique sua conexão de rede.");
+        alert("Erro ao cadastrar o produto. Verifique sua conexão de rede.");
       }
     } else {
       console.log("Aguarde o upload da imagem ser concluído.");
     }
   }
-
-function handleOpenTable() {
-  const newWindow = window.open('', '_blank', 'width=800,height=600');
-  const tableContainer = newWindow.document.getElementById('table');
-  ReactDOM.render(<Table data={listProducts} />, tableContainer);
-}
-
-async function haddlerNewProduct(event) {
-    event.preventDefault();
-    console.log(product);
-    try {
-        const registerProduct = await cadastrarProduto(product);
-
-        if (registerProduct.status === 201) {
-            setCadastroOk(true);
-            setModalSuccessVisible(true);
-            
-        }
-    } catch (error) {
-        console.error(error);
-        
-    }
-}
 
 return (
     <div className={styles.fomulario}>
@@ -217,15 +189,9 @@ return (
             {errorMessage}
         </div>
 )}
-
-
-        {modalSuccessVisible && (
-            <ModalSucess
-                showModal={modalSuccessVisible}
-                onCloseModal={() => setModalSuccessVisible(false)}
-            />
-        )}
-
+      {showModal && (
+                <SucessoModal mensagem="Atualização realizada com sucesso!" onClose={handleCloseModal} />
+            )}
     </div>
 );
 }
