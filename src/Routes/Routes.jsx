@@ -13,6 +13,12 @@ import Users from "../pages/Admin/Users/Users";
 import DashBoardIndex from "../pages/Admin/DashBoardIndex/DashBoardIndex";
 import Sales from "../pages/Admin/Sales/Sales";
 import CreateUser from "../pages/Admin/Users/CreateUser";
+import Dashbord from "../pages/Admin/Dashboard/Dashboard";
+import Users from "../pages/Admin/Users/Users";
+import DashBoardIndex from "../pages/Admin/DashBoardIndex/DashBoardIndex";
+import Sales from "../pages/Admin/Sales/Sales";
+import AllUsers from "../pages/Admin/AllUsers/AllUsers";
+import TableAllProducts from "../components/Table/TableAllProducts";
 
 export default function AllRoutes() {
   return (
