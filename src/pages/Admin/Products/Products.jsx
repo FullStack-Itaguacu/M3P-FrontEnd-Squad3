@@ -17,6 +17,7 @@ function NewProduct () {
     const [listProducts, setListProducts] = useState([]);
     const { cadastrarProduto,uploadImage } = useApi();
     const [carregandoImagem, setCarregandoImagem] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
 
     const product = {
