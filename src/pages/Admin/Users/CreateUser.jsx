@@ -84,28 +84,28 @@ const CreateUser = () => {
         case 201:
           setSuccess({
             success: true,
-            mensagem: "Usuario cadastrado com sucesso!",
+            mensagem: "Usuário cadastrado com sucesso!",
           });
           break;
         case 400:
           setErro({
             erro: true,
-            typeErro: "Solictação invalida",
+            typeErro: "Solicitação invalida",
             mensagem: "Dados enviados invalidos",
           });
           break;
         case 401:
           setErro({
             erro: true,
-
-            mensagem: "Email ou cpf ja cadastrado",
+            typeErro: "Não autorizado",
+            mensagem: "Usuário não cadastrado",
           });
           break;
         case 409:
           setErro({
             erro: true,
-            typeErro: "Dados enviados ja cadastrado",
-            mensagem: "Email ou cpf ja cadastrado",
+            typeErro: "Dados enviados já cadastrados",
+            mensagem: "Email ou cpf já cadastrados",
           });
           break;
         case 422:
