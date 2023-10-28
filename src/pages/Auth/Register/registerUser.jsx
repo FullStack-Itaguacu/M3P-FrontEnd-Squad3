@@ -3,6 +3,7 @@ import useApi from "../../../hooks/useApi";
 import styles from "./RegisterUser.module.css";
 import { useNavigate } from "react-router-dom";
 import InputMask from 'react-input-mask'
+import Navbar from "../../../components/Header/navbar"
 
 
 const RegisterUser = () => {
@@ -130,13 +131,18 @@ const handleSubmit = async (event) => {
 
     return (
 
+      
+
         <div className={styles.formUser}>
+        <header>
+            <Navbar />
+        </header>
         <div>
             <h2 className={styles.titulo}>Cadastro do Usuário</h2>
         </div>
 
         <div className={styles.container}>
-        <form  onSubmit={handleSubmit}>
+        <form  className={styles.formCadastro} onSubmit={handleSubmit}>
 
         <div>
             <h4 className={styles.dataUser}>Dados do usuário</h4>

@@ -2,7 +2,7 @@
 
 .titulo {
     display: flex;
-    margin-top: 20px;
+    margin-top: 30px;
     margin-left: 35%;
     text-align: center;
     color: #343a40;
@@ -12,11 +12,12 @@
 .dataUser {
     display: flex;
     flex-direction: column;
-    margin-left: 43%;
+    text-align: center;
     margin-top: 50px;
     color: #343a40;
     font-size: 30px;
 }
+
 .labelUsuario {
     display: flex;
     margin-top: 20px;
@@ -24,7 +25,6 @@
     font-size: 18px;
 
 }
-
 .inputUsuario {
     display: flex;
     margin-top: 10px;
@@ -40,10 +40,10 @@
 .grup1 {
     display: flex;
     flex-direction: column;
-    margin-left: 200px;
+    margin-left: 300px;
     font-size: 20px;
     margin-top: 35px;
-    color: #343a40
+    color: #343a40;
 }
 
 .grup2 {
@@ -51,14 +51,14 @@
     flex-direction: column;
     font-size: 20px;
     margin-top: -243px;
-    margin-left: 800px;
+    margin-left: 900px;
     color: #343a40
 }
 
 .dataAddress{
     display: flex;
     flex-direction: column;
-    margin-left: 43%;
+    text-align: center;
     margin-top: 50px;
     color: #343a40;
     font-size: 30px;
@@ -87,7 +87,7 @@
 .grup3 {
        display: flex;
     flex-direction: column;
-    margin-left: 200px;
+    margin-left: 300px;
     font-size: 20px;
     margin-top: 50px;
     color: #343a40
@@ -96,7 +96,7 @@
 .grup4 {
     display: flex;
     flex-direction: column;
-    margin-left: 550px;
+    margin-left:650px;
     font-size: 20px;
     margin-top: -243px;
     color: #343a40
@@ -105,7 +105,7 @@
 .grup5 {
     display: flex;
     flex-direction: column;
-    margin-left: 900px;
+    margin-left: 1000px;
     font-size: 20px;
     margin-top: -243px;
     color: #343a40
