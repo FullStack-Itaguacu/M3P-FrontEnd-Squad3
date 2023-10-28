@@ -4,6 +4,7 @@ import { MdEmail, MdVpnKey } from "react-icons/md";
 import { Link } from 'react-router-dom'; 
 import useAuth from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../../components/Navbar/navbar"
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -20,8 +21,11 @@ const { userLogin } = useAuth();
   
 
   return (
+      <div >
+      <div>
+        <Navbar />
+      </div>
       <div className={styles.contPrimario}>
-      
           <div className={styles.imgLogin}>
             <img src="/imgLoginAdm.png" alt="" />
       </div>
@@ -72,6 +76,7 @@ const { userLogin } = useAuth();
         </form>
         </div>
       </div>
+        </div>
         </div>
       )
     }
