@@ -19,10 +19,12 @@ export const loginAdmin = async (email, password) => {
 
 // Usuários
 export const signupUser = async (payload) => {
-  const response = await api.post("/user/signup", 
-    payload
-  );
-  return response;
+  try {
+    const response = await api.post("/user/signup", payload);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
 };
 
 /**
@@ -50,13 +52,17 @@ export const signupUser = async (payload) => {
  * @returns {Promise} Uma promessa que representa o resultado da operação de cadastro.
  */
 export const signupAdmin = async (token, payload) => {
-  const response = await api.post("/user/admin/signup", payload, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  console.log(response);
-  return response;
+  try {
+    const response = await api.post("/user/admin/signup", payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response;
+  } catch (error) {
+    return error.response;
+  }
 };
 
 export const getUserAddresses = async (token) => {
@@ -74,39 +80,36 @@ export const getUserAddresses = async (token) => {
  * @param {number} PageParams.limit - fim da paginação
  */
 export const listUsers = async (token, PageParams) => {
-  try {
-    if (
-      !PageParams ||
-      typeof PageParams !== "object" ||
-      PageParams.offset === undefined ||
-      PageParams.limit === undefined
-    ) {
-      throw new Error(
-        'Parâmetros de paginação inválidos. "offset" e "limit" são obrigatórios.'
-      );
-    }
-
-    if (
-      typeof PageParams.offset !== "number" ||
-      typeof PageParams.limit !== "number" ||
-      PageParams.offset < 0 ||
-      PageParams.limit <= 0
-    ) {
-      throw new Error(
-        'Valores inválidos para "offset" e "limit". Eles devem ser números inteiros positivos.'
-      );
-    }
-
-    const { offset = 0, limit = 20 } = PageParams || {};
-    const response = await api.get(`/buyers/admin/${offset}/${limit}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response;
-  } catch (error) {
-    throw error;
+  if (
+    !PageParams ||
+    typeof PageParams !== "object" ||
+    PageParams.offset === undefined ||
+    PageParams.limit === undefined
+  ) {
+    throw new Error(
+      'Parâmetros de paginação inválidos. "offset" e "limit" são obrigatórios.'
+    );
   }
+
+  if (
+    typeof PageParams.offset !== "number" ||
+    typeof PageParams.limit !== "number" ||
+    PageParams.offset < 0 ||
+    PageParams.limit <= 0
+  ) {
+    throw new Error(
+      'Valores inválidos para "offset" e "limit". Eles devem ser números inteiros positivos.'
+    );
+  }
+
+  const { offset = 0, limit = 20 } = PageParams || {};
+  const response = await api.get(`/buyers/admin/${offset}/${limit}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response;
 };
 
 export const getUserById = async (token, userId) => {
@@ -119,12 +122,16 @@ export const getUserById = async (token, userId) => {
 };
 
 export const updateUser = async (token, dataUpdateUser) => {
-console.log(dataUpdateUser.userId);
-  const response = await api.patch(`/buyers/admin/${dataUpdateUser.userId}`, dataUpdateUser.userData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  console.log(dataUpdateUser.userId);
+  const response = await api.patch(
+    `/buyers/admin/${dataUpdateUser.userId}`,
+    dataUpdateUser.userData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return response;
 };
 
@@ -339,16 +346,22 @@ export const getSaleById = async (token, saleId) => {
   return response;
 };
 
-
-
 export const getCep = async (cep) => {
-  try {
-    const response = await api.get(
-      `https://brasilapi.com.br/api/cep/v2/${cep}`
-    );
-    return response.data;
-  } catch (error) {
-    return error.response.data;
-  }
-};
+  const urlCep1 = `https://viacep.com.br/ws/${cep}/json/`;
+  const urlCep2 = `https://brasilapi.com.br/api/cep/v2/${cep}`;
 
+  const response = await api.get(urlCep2);
+  console.log(response);
+  console.log(response.type);
+  if (response.type === "service_error") {
+    await api.get(urlCep1);
+    return {
+      cep: response.data.cep,
+      street: response.data.bairro,
+      neighborhood: response.data.logradouro,
+      city: response.data.localidade,
+      state: response.data.uf,
+    };
+  }
+  return response.data;
+};

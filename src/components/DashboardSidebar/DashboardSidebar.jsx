@@ -1,7 +1,6 @@
 import styles from './DashboardSidebar.module.css';
 import { AiOutlineHome, AiOutlineShoppingCart, AiOutlineTeam, AiOutlineShop, AiOutlineSetting,AiOutlineUsergroupAdd } from 'react-icons/ai';
 import { Link, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
 
 
@@ -12,15 +11,7 @@ const DashboardSidebar = () => {
     const { logout } = useAuth();
     const location = useLocation();
     const { pathname } = location;
-    useEffect(() => {
-        if (pathname === '/dashboard') {
-            setNome('Dashboard');
-        } else if (pathname === '/unidade-geradora') {
-            setNome('Unidades');
-        } else if (pathname === '/lancamento-mensal') {
-            setNome('Cadastro de energia geradora');
-        }
-    }, [pathname]);
+ 
 
     const handleLogout = () => {
         window.location.href = "/login/admin";

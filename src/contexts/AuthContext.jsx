@@ -1,6 +1,7 @@
 import { createContext, useState } from 'react';
 import { loginAdmin, loginUser } from '../Services/api';
 import validateToken from '../utils/validateToken';
+import PropTypes from 'prop-types';
 
 export const AuthContext = createContext();
 
@@ -24,13 +25,6 @@ export const AuthProvider = ({ children }) => {
       };
 
 
-    
-
-
-    function isTokenValid(decoded) {
-        return (decoded.exp * 1000) > new Date().getTime();
-
-    }
 
 
     const adminLogin = async (email, password) => {
@@ -86,6 +80,9 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     )
 
-
+    
 }
+AuthProvider.propTypes = {
+    children: PropTypes.node.isRequired,
+};
 
