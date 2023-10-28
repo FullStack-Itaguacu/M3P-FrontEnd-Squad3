@@ -1,0 +1,22 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #EDF4FF;
+    color: #5555;
+    padding: 80px;
+
+}
+
+.navbar a {
+    color: #30303055;
+    background-color: #EDF4FF;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 9px;
+
+}
+
+.navbar a:hover {
+    background-color: #01B8C2;
+    color: #30303055;
+}
