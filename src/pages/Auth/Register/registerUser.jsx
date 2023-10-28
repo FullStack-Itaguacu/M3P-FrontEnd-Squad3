@@ -25,7 +25,6 @@ const RegisterUser = () => {
   const [listUser, setListUser] = useState([]);
   const { signupUser } = useApi();
   const { getCep } = useApi();
-  const [fetchingCep, setFetchingCep] = useState(false);
   const navigate = useNavigate();
 
   const handleAssUser = () => {
@@ -48,16 +47,10 @@ const RegisterUser = () => {
   setLongitude('');
   };
 
-const handleCepChange = async (event) => {
-    if (fetchingCep) {
-    }
-    
-    if (zip.length===8) {
-            
-        try {
-            setFetchingCep(true);
-            const response = await getCep( zip.replace(/[-\s]/g, ''));
-            
+  const handleCepChange = async (event) => {
+
+            const response = await getCep(zip.split('-').join(''));
+
             if (response) {
                 setState(response.state);
                 setCity(response.city);
@@ -66,38 +59,38 @@ const handleCepChange = async (event) => {
                 setLatitude(response.location.coordinates.latitude);
                 setLongitude(response.location.coordinates.longitude);
             } else {
-                console.log("Invalid response:", response);
+                alert("Invalid response:", response);
             }
-        } catch (error) {
-            alert("Erro: CEP não encontrado");
-        } finally {
-            setFetchingCep(false);
     }
-};
-console.log("CEP:", zip)
-}
 
+    const isPasswordValid = (password) => {
+        const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/;
+        return passwordRegex.test(password);
+      };
+    
 const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Cadastrando usuário...");
 
     if (!zip || !state || !city || !neighborhood || !street || !number) {
-        console.log("Cadastrando usuário... parou aqui no no endereço");
-        setErrorMessage('Por favor, preencha todos os campos do endereço.');
-      }
+        alert('Por favor, preencha todos os campos do endereço.');
+    }
+    if (!isPasswordValid(password)) {
+        alert('A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um número.');
+    }
+  
 
-    
     const newUser = {
+        
         user: {
-          cpf: zip.replace(/[-\s]/g, ''),
-          birthDate: birthDate.split("/").reverse().join("-"),
+          cpf: cpf.replace(/[^0-9]/g, ''),
+          birthDate: birthDate.split("/").reverse().join('-'),
           fullName: fullName,
           email: email,
           phone:phone.replace(/\D/g, ""),
           password: password,
         },
         addresses: [{
-            zip: zip.replace(/[-\s]/g, ''),
+            zip:zip.split('-').join(''),
             state: state,
             city: city,
             neighborhood: neighborhood,
@@ -107,26 +100,25 @@ const handleSubmit = async (event) => {
             lat: latitude,
             long: longitude,
         },]
+        
       };
-
-      const registerUser = await signupUser(newUser);
       
-      console.log("Resposta da API:", registerUser);
 
+      const registerUser = await signupUser(newUser) 
     
         if (registerUser.status === 201) {
-          alert("Cadastro realizado com sucesso.");
           handleAssUser(); 
-          navigate("/user/login");
         }
+        navigate("/user/login")
    
       if (error.response.status === 409) {
         alert("E-mail já cadastrado.");
       } else {
         alert("correu um erro ao realizar o cadastro, tente novamente mais tarde.");
       }
+     
     }
-
+   
 
     return (
 
@@ -230,7 +222,7 @@ const handleSubmit = async (event) => {
             <div className={styles.grup3}>
             <div>
                 <label className={styles.labelAddress} htmlFor="zip">CEP</label>
-                <InputMask
+                <InputMask 
                     className={styles.inputAddress}
                     mask="99999-999"
                     maskChar=""
@@ -339,7 +331,6 @@ const handleSubmit = async (event) => {
         <button type="submit" className={styles.buttonUser}>Cadastrar</button>
         </form>
         </div>
-        
         </div>
     );
     }
