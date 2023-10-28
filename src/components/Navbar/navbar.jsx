@@ -3,20 +3,20 @@ import { Link } from 'react-router-dom';
 import  useAuth  from '../../hooks/useAuth';
 import styles from "./navbar.module.css"
 
-const Navbar = ({ user, handleLogout, cart  }) => {
-    const { onLoadUser } = useAuth()
+const Navbar = ({  handleLogout, cart  }) => {
+    const { user, userLogin  } = useAuth()
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         const loadUser = async () => {
-            await onLoadUser();
+            await userLogin ();
             setIsLoading(false);
         };
         if (isLoading) {
             loadUser();
         }
-    }, [isLoading, onLoadUser]);
+    }, [isLoading, userLogin ]);
 
     async function fetchProductsFilter(params) {
         const data = await listAdminProducts(params);
@@ -33,14 +33,15 @@ const Navbar = ({ user, handleLogout, cart  }) => {
     return (
         <div>
             <div className={styles.navbar}>
+                
                 <img className={styles.navbarImagem} src="/screen.png" alt="" />
                 <div className={styles.containerText}>
-                    {user && (
-                    <>
+                
+  
                 <h1>Olá, {user.fullName}</h1>
                 <p>Seja bem-vindo</p>
-                    </>
-                )}
+
+
                 </div>
 
         <div className={styles.containerInput}>
