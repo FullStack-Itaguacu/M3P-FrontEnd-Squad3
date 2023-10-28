@@ -3,26 +3,33 @@ import { Link } from 'react-router-dom';
 import  useAuth  from '../../hooks/useAuth';
 import styles from "./navbar.module.css"
 
-const Navbar = ({  handleLogout, cart  }) => {
-    const { user, userLogin  } = useAuth()
-    const [isLoading, setIsLoading] = useState(true);
+const Navbar = ({  cart  }) => {
+    
     const [searchTerm, setSearchTerm] = useState("");
+    const {user, onLoadUser, logout} = useAuth();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const loadUser = async () => {
-            await userLogin ();
+            await onLoadUser();
             setIsLoading(false);
         };
+
         if (isLoading) {
             loadUser();
         }
-    }, [isLoading, userLogin ]);
+    }, [isLoading, onLoadUser]);
+
+    async function handleLogout ()  {
+        await logout();
+        window.location.reload();
+    };
 
     async function fetchProductsFilter(params) {
         const data = await listAdminProducts(params);
         setProducts(data.data.products);
     }
-
+    console.log(user)
     const handleSearch = (e) => {
         const params = {
             name: searchTerm
@@ -36,14 +43,9 @@ const Navbar = ({  handleLogout, cart  }) => {
                 
                 <img className={styles.navbarImagem} src="/screen.png" alt="" />
                 <div className={styles.containerText}>
-                
-  
-                <h1>Olá, {user.fullName}</h1>
+                <h1>Olá, {user && user.fullName}</h1>
                 <p>Seja bem-vindo</p>
-
-
                 </div>
-
         <div className={styles.containerInput}>
             <input className={styles.navbarFilter}
                 type="text"
@@ -60,12 +62,13 @@ const Navbar = ({  handleLogout, cart  }) => {
                 </Link>
                 {user ? (
     <>
-        <span className={styles.navbarUsername}>{user.name}</span>
         <Link className={styles.navbarLogout} to="/" onClick={handleLogout}>Sair</Link>
     </>
 ) : (
     <>
-        <Link className={styles.navbarLogin} to="/user/login">Minha Conta</Link>
+        <Link className={styles.navbarLogin} to="/user/login">
+  {user ? 'Sair' : 'Minha Conta'}
+</Link>
         <Link className={styles.navbarCadastro} to="/user/register">Cadastro</Link>
     </>
 )}
