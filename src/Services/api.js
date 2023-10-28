@@ -7,9 +7,13 @@ const api = axios.create({
 
 // Autenticação
 export const loginUser = async (email, password) => {
-  const response = await api.post("/user/login", { email, password });
+  try{
+    const response = await api.post("/user/login", { email, password });
 
   return response;
+  }catch(error){
+    return error.response;
+  }
 };
 
 export const loginAdmin = async (email, password) => {

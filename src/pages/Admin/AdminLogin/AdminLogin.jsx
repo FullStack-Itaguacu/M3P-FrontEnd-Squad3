@@ -1,5 +1,5 @@
 import styles from "./AdminLogin.module.css";
-import React, { useState } from "react";
+import { useState } from "react";
 import { MdEmail, MdVpnKey } from "react-icons/md";
 import useAuth from "../../../hooks/useAuth"
 import LoadingSpinner from "../../../components/Loading_Snipper/Loading_Snipper";
@@ -37,7 +37,9 @@ function AdminLogin() {
       case 403:
         setErroLogin(response.data.cause);
         setLoading(false);
+        break;
       default:
+        break;
 
     }
   }
