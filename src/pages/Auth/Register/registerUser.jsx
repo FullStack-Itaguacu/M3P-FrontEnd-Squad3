@@ -402,6 +402,7 @@ const RegisterUser = () => {
                     typeErro={erro.typeErro}
                     onClose={() => setErro({ erro: false, mensagem: "" })}
                 />)}
+                
         </div>
     );
 };
