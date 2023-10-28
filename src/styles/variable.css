@@ -12,11 +12,12 @@
     --white: #fff;
     --black: #000;
     --color-text-Primary: #5555;
-    --color-hover:#01B8C2
+    --color-hover:#01b8c279;
     --border-color:#01B8C2;
     --border-color-hover:#01B8C2;
     --border-color-focus:#01B8C2;
-    --border-color-active:#01B8C2;
+    --border-color-active:#03787e;
     --color-border:#01B8C2;
     --bg-color-hover-btn:#EDF4FF;
+    --bg-color-table:#01b8c217;
   }

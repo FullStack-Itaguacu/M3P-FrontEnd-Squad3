@@ -11,7 +11,6 @@ const DashboardHeader = () => {
         const loadUser = async () => {
             await onLoadUser();
             setIsLoading(false);
-            console.log(user);
         };
 
         if (isLoading) {
