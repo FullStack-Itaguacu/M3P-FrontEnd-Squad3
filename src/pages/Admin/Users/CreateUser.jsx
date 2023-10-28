@@ -2,6 +2,7 @@ import { useState } from "react";
 import UserForm from "../../../components/Form/UserForm";
 import useApi from "../../../hooks/useApi";
 import ErroModal from "../../../components/Modal/ErroModal/ErroModal";
+import SucessoModal from "../../../components/Modal/SucessoModal/SucessoModal";
 
 const CreateUser = () => {
   const [user, setUser] = useState({
@@ -25,6 +26,11 @@ const CreateUser = () => {
   });
   const [erro, setErro] = useState({
     erro: false,
+    mensagem: "",
+  });
+
+  const [success, setSuccess] = useState({
+    success: false,
     mensagem: "",
   });
 
@@ -76,7 +82,10 @@ const CreateUser = () => {
 
       switch (salveUser.status) {
         case 201:
-          console.log("Usuário cadastrado com sucesso!");
+          setSuccess({
+            success: true,
+            mensagem: "Usuario cadastrado com sucesso!",
+          });
           break;
         case 400:
           setErro({
@@ -88,7 +97,7 @@ const CreateUser = () => {
         case 401:
           setErro({
             erro: true,
-            typeErro: "Dados enviados ja cadastrado",
+
             mensagem: "Email ou cpf ja cadastrado",
           });
           break;
@@ -130,6 +139,12 @@ const CreateUser = () => {
           mensagem={erro.mensagem}
           typeErro={erro.typeErro}
           onClose={() => setErro({ erro: false, mensagem: "" })}
+        />
+      )}
+      {success.success && (
+        <SucessoModal
+          mensagem={success.mensagem}
+          onClose={() => setSuccess({ success: false, mensagem: "" })}
         />
       )}
     </>
