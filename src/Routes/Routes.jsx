@@ -16,6 +16,7 @@ import Sales from '../pages/Admin/Sales/Sales';
 import AllUsers from '../pages/Admin/AllUsers/AllUsers';
 import TableAllProducts from '../components/Table/TableAllProducts';
 import Navbar from "../components/Navbar/navbar"
+import { AuthContext } from '../contexts/AuthContext';
 
 
 
@@ -27,8 +28,9 @@ export default function AllRoutes() {
         <Route path="/login/admin" element={<AdminLogin />} />
  loginUser
 
-        <Route path="/navbar" 
-        element={<Navbar />} >  </Route>
+ <Route path="/navbar" 
+          element={<Navbar user={AuthContext.user} />} 
+        />
         <Route path="/user/login" element={<Login/>} />
         <Route path="/user/register" element={<RegisterUser />} />
        
