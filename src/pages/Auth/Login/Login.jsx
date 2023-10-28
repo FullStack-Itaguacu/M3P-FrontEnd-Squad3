@@ -3,20 +3,19 @@ import { useState } from "react";
 import { MdEmail, MdVpnKey } from "react-icons/md";
 import { Link } from 'react-router-dom'; 
 import useAuth from "../../../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 import Navbar from "../../../components/Navbar/navbar"
 
 function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const navigate = useNavigate();
+
 
 const { userLogin } = useAuth();
   const handleLogin = async (e) => {
     e.preventDefault();
     const response = await userLogin(email, senha); 
     console.log(response);
-    navigate("/");
+
   }
   
 
