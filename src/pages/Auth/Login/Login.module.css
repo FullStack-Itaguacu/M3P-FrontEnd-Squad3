@@ -1,13 +1,11 @@
-
-
-.containerDireita{
-display: flex;
-flex-direction: column;
-justify-content: center;
-width: 100%;
+.containerDireita {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 }
 
-.imgContainer{
+.imgContainer {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -27,7 +25,7 @@ width: 100%;
   color: var(--info);
 }
 
-.forEsquerda{
+.forEsquerda {
   display: flex;
   justify-content: center;
   width: 100%;
@@ -44,6 +42,7 @@ width: 100%;
 
 .forContainer input {
   border-bottom: 2px solid #323232;
+  color: var(--black);
   padding: 4px;
   font-size: 1rem;
   border-bottom: 1px solid var(--info);
@@ -71,7 +70,7 @@ width: 100%;
   left: 0;
 }
 
-.registerLink{
+.registerLink {
   text-align: right;
   margin-top: 10px;
 }

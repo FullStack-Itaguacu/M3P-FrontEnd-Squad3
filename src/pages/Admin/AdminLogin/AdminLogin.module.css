@@ -24,7 +24,7 @@
 
 .formContainer input {
   border-bottom: 2px solid #323232;
-  color: var(--info);
+  color: var(--black);
   padding: 4px 4px 4px 25px;
   font-size: 1rem;
   border-bottom: 1px solid var(--info);
@@ -62,7 +62,7 @@
 }
 .icons svg {
   margin-right: -18px;
-position: absolute;
+  position: absolute;
   background-color: transparent;
   z-index: 5;
 }
@@ -89,11 +89,11 @@ position: absolute;
   color: var(--white);
 }
 
-.erroLogin{
-  background-color:var(--bg-danger) ;
+.erroLogin {
+  background-color: var(--bg-danger);
   padding: 10px;
   border-radius: 5px;
-  border:solid 1px var(--danger);
+  border: solid 1px var(--danger);
   color: var(--danger);
   font-size: 0.8rem;
   margin-top: 10px;
