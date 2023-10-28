@@ -3,23 +3,25 @@ import { useState } from "react";
 import { MdEmail, MdVpnKey } from "react-icons/md";
 import { Link } from 'react-router-dom'; 
 import useAuth from "../../../hooks/useAuth";
-
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const navigate = useNavigate();
 
 const { userLogin } = useAuth();
   const handleLogin = async (e) => {
     e.preventDefault();
     const response = await userLogin(email, senha); 
     console.log(response);
+    navigate("/");
   }
   
 
   return (
-        
       <div className={styles.contPrimario}>
+      
           <div className={styles.imgLogin}>
             <img src="/imgLoginAdm.png" alt="" />
       </div>
@@ -61,11 +63,11 @@ const { userLogin } = useAuth();
               </div>
               <div className={styles.registerLink}>
                 <p>
-                  Não tem cadastro? <Link to="#">Cadastre-se</Link>
+                  Não tem cadastro? <Link to="/user/register">Cadastre-se</Link>
                 </p>
               </div>
-              <button className={styles.envLogin} type="submit" value="Entrar">
-                Entrar
+              <button className={styles.envLogin} type="submit" value="Entrar" >
+               Entrar 
               </button>
         </form>
         </div>
