@@ -3,7 +3,7 @@ import useApi from "../../../hooks/useApi";
 import styles from "./RegisterUser.module.css";
 import { useNavigate } from "react-router-dom";
 import InputMask from 'react-input-mask'
-import Navbar from "../../../components/Header/navbar"
+import Navbar from "../../../components/Navbar/navbar"
 
 
 const RegisterUser = () => {
