@@ -14,7 +14,6 @@ const UserForm = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [touchedConfirmPassword, setTouchedConfirmPassword] = useState(false);
-  const [userRegistered, setUserRegistered] = useState(false);
   const [ageError, setAgeError] = useState("");
   const [cpfError, setCPFError] = useState("");
   const [error, setError] = useState({
@@ -115,7 +114,6 @@ const UserForm = ({
 
       try {
         await handleSubmit(formattedUser);
-        setUserRegistered(true);
       } catch (error) {
         setError({ ...error, form: "Erro ao cadastrar usuário." });
       }
@@ -147,12 +145,6 @@ const UserForm = ({
           )}
           <div className={styles.flex_container}>
             <div className={styles.user_container}>
-              {userRegistered && (
-                <div className={styles.success_message}>
-                  Usuário cadastrado com sucesso
-                </div>
-              )}
-
               <h3>Dados pessoais</h3>
               <div className={styles.input_group}>
                 <div className={styles.input_box}>

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import UserForm from "../../../components/Form/UserForm";
 import useApi from "../../../hooks/useApi";
+import ErroModal from "../../../components/Modal/ErroModal/ErroModal";
 
 const CreateUser = () => {
   const [user, setUser] = useState({
@@ -21,6 +22,10 @@ const CreateUser = () => {
     complement: "",
     latitude: "",
     longitude: "",
+  });
+  const [erro, setErro] = useState({
+    erro: false,
+    mensagem: "",
   });
 
   const { getCep, signupAdmin } = useApi();
@@ -68,33 +73,50 @@ const CreateUser = () => {
     };
     try {
       const salveUser = await signupAdmin(newUser);
-      console.log(salveUser);
 
       switch (salveUser.status) {
         case 201:
           console.log("Usuário cadastrado com sucesso!");
           break;
         case 400:
-          console.log("Requisição inválida!");
+          setErro({
+            erro: true,
+            typeErro: "Solictação invalida",
+            mensagem: "Dados enviados invalidos",
+          });
           break;
         case 401:
-          console.log("Não autorizado!");
+          setErro({
+            erro: true,
+            typeErro: "Dados enviados ja cadastrado",
+            mensagem: "Email ou cpf ja cadastrado",
+          });
           break;
         case 409:
-          console.log("Usuário já cadastrado!");
+          setErro({
+            erro: true,
+            typeErro: "Dados enviados ja cadastrado",
+            mensagem: "Email ou cpf ja cadastrado",
+          });
           break;
         case 422:
-          console.log("Dados inválidos!");
+          setErro({
+            erro: true,
+            typeErro: "Erro de validação",
+            mensagem: "Verifique os dados enviados e tente novamente",
+          });
           break;
         default:
-          console.log("Erro ao cadastrar usuário!");
+          setErro({
+            erro: true,
+            mensagem: "Erro desconhecido",
+          });
           break;
       }
     } catch (error) {
       console.error("Erro no cadastro:", error);
     }
   };
-
   return (
     <>
       <UserForm
@@ -103,6 +125,13 @@ const CreateUser = () => {
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
       />
+      {erro.erro && (
+        <ErroModal
+          mensagem={erro.mensagem}
+          typeErro={erro.typeErro}
+          onClose={() => setErro({ erro: false, mensagem: "" })}
+        />
+      )}
     </>
   );
 };
