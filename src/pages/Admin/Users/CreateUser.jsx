@@ -37,16 +37,26 @@ const CreateUser = () => {
   const { getCep, signupAdmin } = useApi();
 
   const handleSearchCep = async () => {
-    const response = await getCep(user.zip);
-    setUser((prevUser) => ({
-      ...prevUser,
-      street: response.street,
-      neighborhood: response.neighborhood,
-      city: response.city,
-      state: response.state,
-      latitude: response.location.coordinates.latitude,
-      longitude: response.location.coordinates.longitude,
-    }));
+    try {
+      const response = await getCep(user.zip);
+
+      if (response.name === "CepPromiseError") {
+        alert("CEP inválido ou não encontrado. Verifique o CEP digitado.");
+      } else {
+        setUser((prevUser) => ({
+          ...prevUser,
+          street: response.street,
+          neighborhood: response.neighborhood,
+          city: response.city,
+          state: response.state,
+          latitude: response.location.coordinates.latitude,
+          longitude: response.location.coordinates.longitude,
+        }));
+      }
+    } catch (error) {
+      console.error("Ocorreu um erro ao buscar o CEP:", error);
+      alert("Ocorreu um erro ao buscar o CEP. Tente novamente mais tarde.");
+    }
   };
 
   const handleInputChange = (e) => {
