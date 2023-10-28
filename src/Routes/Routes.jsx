@@ -15,6 +15,7 @@ import DashBoardIndex from '../pages/Admin/DashBoardIndex/DashBoardIndex';
 import Sales from '../pages/Admin/Sales/Sales';
 import AllUsers from '../pages/Admin/AllUsers/AllUsers';
 import TableAllProducts from '../components/Table/TableAllProducts';
+import Navbar from "../pages/Navbar/navbar"
 
 
 
@@ -31,6 +32,7 @@ export default function AllRoutes() {
  loginUser
         <Route path="/user/login" element={<Login/>} />
         <Route path="/user/register" element={<RegisterUser />} />
+        <Route path="/navbar" element={<Navbar />} />
 
 
 
