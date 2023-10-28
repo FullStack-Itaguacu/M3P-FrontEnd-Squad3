@@ -15,8 +15,13 @@ const UserForm = ({
   const [showPassword, setShowPassword] = useState(false);
   const [touchedConfirmPassword, setTouchedConfirmPassword] = useState(false);
   const [userRegistered, setUserRegistered] = useState(false);
-  const [cpfError, setCPFError] = useState("");
   const [ageError, setAgeError] = useState("");
+  const [cpfError, setCPFError] = useState("");
+  const [error, setError] = useState({
+    cpf: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   const handleClick = () => {
     setShowPassword(!showPassword);
@@ -76,8 +81,8 @@ const UserForm = ({
 
   const handleCadastroClick = async () => {
     const cpfWithoutMask = user.cpf.replace(/[\D]/g, "");
-
     const phoneWithoutMask = user.phone.replace(/[\D]/g, "");
+
     if (
       isFormValid(user) &&
       isCPFValid(cpfWithoutMask) &&
@@ -100,7 +105,7 @@ const UserForm = ({
             neighborhood: user.neighborhood,
             city: user.city,
             state: user.state,
-            zip: user.cep.replace(/[\D]/g, ""), // Remove a formatação do CEP
+            zip: user.zip.replace(/[\D]/g, ""), // Remove a formatação do CEP
             lat: user.latitude,
             long: user.longitude,
             ...(user.complement && { complement: user.complement }),
@@ -112,15 +117,18 @@ const UserForm = ({
         await handleSubmit(formattedUser);
         setUserRegistered(true);
       } catch (error) {
-        alert(
-          "Erro ao cadastrar usuário. Verifique os dados e tente novamente."
-        );
-        console.log(error);
+        setError({ ...error, form: "Erro ao cadastrar usuário." });
       }
     } else {
-      alert(
-        "Por favor, verifique se todos os campos foram preenchidos corretamente."
-      );
+      setError({
+        cpf: !isCPFValid(cpfWithoutMask) ? "CPF inválido" : "",
+        password: !isPasswordValid(user.password) ? "Senha inválida" : "",
+        confirmPassword:
+          user.password !== user.confirmPassword
+            ? "As senhas não coincidem"
+            : "",
+        form: "Por favor, verifique os campos do formulário.",
+      });
     }
   };
 
@@ -131,17 +139,12 @@ const UserForm = ({
           className={styles.form}
           onSubmit={(e) => {
             e.preventDefault();
-            if (isFormValid(user) && isCPFValid(user.cpf)) {
-              handleSubmit(e);
-
-              setUserRegistered(true);
-            } else {
-              alert(
-                "Por favor, verifique se a senha digitada atende os requisitos ou se o CPF é válido."
-              );
-            }
+            handleCadastroClick();
           }}
         >
+          {error.form && (
+            <div className={styles.error_message2}>{error.form}</div>
+          )}
           <div className={styles.flex_container}>
             <div className={styles.user_container}>
               {userRegistered && (
@@ -324,7 +327,7 @@ const UserForm = ({
               <h3>Dados de endereço</h3>
               <div className={styles.input_group}>
                 <div className={styles.input_box}>
-                  <label htmlFor="cep" className={styles.label}>
+                  <label htmlFor="zip" className={styles.label}>
                     CEP:
                   </label>
                   <InputMask
@@ -333,9 +336,9 @@ const UserForm = ({
                     maskPlaceholder={null}
                     placeholder="somente números"
                     type="text"
-                    id="cep"
-                    name="cep"
-                    value={user.cep}
+                    id="zip"
+                    name="zip"
+                    value={user.zip}
                     onChange={handleInputChange}
                     onBlur={handleSearchCep}
                     required

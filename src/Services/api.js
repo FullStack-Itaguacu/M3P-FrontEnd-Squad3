@@ -340,8 +340,6 @@ export const getSaleById = async (token, saleId) => {
     },
   });
   return response.data;
-
-  return response;
 };
 
 export const getCep = async (cep) => {

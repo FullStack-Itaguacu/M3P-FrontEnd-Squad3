@@ -1,5 +1,6 @@
 import { useState } from "react";
 import UserForm from "../../../components/Form/UserForm";
+//import useApi from "../../../hooks/useApi";
 import { getCep } from "../../../Services/api";
 import { signupAdmin } from "../../../Services/api";
 
@@ -20,13 +21,15 @@ const CreateUser = () => {
     city: "",
     state: "",
     complement: "",
-    lat: "",
-    long: "",
+    latitude: "",
+    longitude: "",
   });
+
+  //const { getCep, signupAdmin } = useApi;
 
   const handleSearchCep = async () => {
     try {
-      const response = await getCep(user.cep);
+      const response = await getCep(user.zip);
 
       if (
         response.name === "CepPromiseError" &&
@@ -34,7 +37,7 @@ const CreateUser = () => {
       ) {
         alert("CEP não encontrado");
 
-        setUser((prevUser) => ({ ...prevUser, cep: "" }));
+        setUser((prevUser) => ({ ...prevUser, zip: "" }));
       } else {
         setUser((prevUser) => ({
           ...prevUser,
@@ -58,25 +61,36 @@ const CreateUser = () => {
     setUser({ ...user, [name]: value });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const token = localStorage.getItem("token");
 
+  const handleSubmit = async () => {
+    console.log("Início de handleSubmit");
     try {
-      const cadastrarUser = await signupAdmin(user);
-
-      if (cadastrarUser.status === 201) {
-        alert("Usuário cadastrado com sucesso!");
-      } else if (cadastrarUser.status === 400) {
-        alert("Requisição inválida");
-      } else if (cadastrarUser.status === 401) {
-        alert("Não autorizado");
-      } else if (cadastrarUser.status === 403) {
-        alert("Proibido");
-      } else if (cadastrarUser.status === 409) {
-        alert("Conflito");
-      } else if (cadastrarUser.status === 422) {
-        alert("Entidade inválida");
+      const salveUser = await signupAdmin(token, user);
+      console.log(salveUser);
+      console.log("Após a requisição Axios");
+      switch (salveUser.status) {
+        case 201:
+          console.log("Usuário cadastrado com sucesso!");
+          break;
+        case 400:
+          console.log("Requisição inválida!");
+          break;
+        case 401:
+          console.log("Não autorizado!");
+          break;
+        case 409:
+          console.log("Usuário já cadastrado!");
+          break;
+        case 422:
+          console.log("Dados inválidos!");
+          break;
+        default:
+          console.log("Erro ao cadastrar usuário!");
+          break;
       }
+      console.log("Após o switch");
+      console.log("Teste antes do switch");
     } catch (error) {
       console.error("Erro no cadastro:", error);
     }
