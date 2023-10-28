@@ -1,13 +1,11 @@
-
-
-.containerDireita{
-display: flex;
-flex-direction: column;
-justify-content: center;
-width: 100%;
+.containerDireita {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 }
 
-.imgContainer{
+.imgContainer {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -27,11 +25,12 @@ width: 100%;
   color: var(--info);
 }
 
-.forEsquerda{
+.forEsquerda {
   display: flex;
   justify-content: center;
   width: 100%;
 }
+
 .forContainer {
   margin-top: 30px;
   display: flex;
@@ -40,18 +39,27 @@ width: 100%;
   text-align: left;
   color: var(--info);
   width: 300px;
+  position: relative;
 }
 
 .forContainer input {
   border-bottom: 2px solid #323232;
-  padding: 4px;
+  color: var(--info);
+  padding: 4px 25px 4px 25px;
   font-size: 1rem;
   border-bottom: 1px solid var(--info);
   border-top: none;
   border-left: none;
   border-right: none;
   display: flex;
-  width: 100%;
+  width: 300px;
+  
+}
+.forContainer input:focus {
+  outline: none;
+}
+.forContainer input::placeholder {
+  color: var(--info);
 }
 
 .forContainer label {
@@ -64,29 +72,62 @@ width: 100%;
   color: var(--info);
 }
 
-.icon {
-  color: var(--info);
-  display: block;
-  width: 100%;
-  left: 0;
+.icon div{
+  display: flex;
+  align-items: center;
 }
 
-.registerLink{
+.icon svg {
+  position: absolute;
+  background-color: transparent;
+  z-index: 5;
+
+} 
+
+.registerLink {
   text-align: right;
   margin-top: 10px;
 }
-.envLogin {
+.registerLink a{
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.enviarLogin {
   text-align: center;
   text-transform: uppercase;
   font-weight: bold;
   border: none;
   border-radius: 10px;
-  margin-top: 30px;
+  margin-top: 20px;
   color: var(--white);
   background-color: var(--info);
   cursor: pointer;
   width: 50%;
   height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.enviarLogin:hover {
+  background-color: var(--hover);
+  color: var(--white);
+}
+
+.erroLogin{
+  background-color:var(--bg-danger) ;
+  padding: 10px;
+  border-radius: 5px;
+  border:solid 1px var(--danger);
+  color: var(--danger);
+  font-size: 0.8rem;
+  margin-top: 10px;
+  text-align: center;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

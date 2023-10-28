@@ -7,9 +7,13 @@ const api = axios.create({
 
 // Autenticação
 export const loginUser = async (email, password) => {
-  const response = await api.post("/user/login", { email, password });
+  try{
+    const response = await api.post("/user/login", { email, password });
 
   return response;
+  }catch(error){
+    return error.response;
+  }
 };
 
 export const loginAdmin = async (email, password) => {
@@ -19,8 +23,12 @@ export const loginAdmin = async (email, password) => {
 
 // Usuários
 export const signupUser = async (payload) => {
-  const response = await api.post("/user/signup", payload);
-  return response;
+  try {
+    const response = await api.post("/user/signup", payload);
+    return response;
+  } catch (error) {
+    return error.response;
+  }
 };
 
 /**
@@ -54,6 +62,7 @@ export const signupAdmin = async (token, payload) => {
         Authorization: `Bearer ${token}`,
       },
     });
+
     return response;
   } catch (error) {
     return error.response;
@@ -75,39 +84,36 @@ export const getUserAddresses = async (token) => {
  * @param {number} PageParams.limit - fim da paginação
  */
 export const listUsers = async (token, PageParams) => {
-  try {
-    if (
-      !PageParams ||
-      typeof PageParams !== "object" ||
-      PageParams.offset === undefined ||
-      PageParams.limit === undefined
-    ) {
-      throw new Error(
-        'Parâmetros de paginação inválidos. "offset" e "limit" são obrigatórios.'
-      );
-    }
-
-    if (
-      typeof PageParams.offset !== "number" ||
-      typeof PageParams.limit !== "number" ||
-      PageParams.offset < 0 ||
-      PageParams.limit <= 0
-    ) {
-      throw new Error(
-        'Valores inválidos para "offset" e "limit". Eles devem ser números inteiros positivos.'
-      );
-    }
-
-    const { offset = 0, limit = 20 } = PageParams || {};
-    const response = await api.get(`/buyers/admin/${offset}/${limit}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response;
-  } catch (error) {
-    throw error;
+  if (
+    !PageParams ||
+    typeof PageParams !== "object" ||
+    PageParams.offset === undefined ||
+    PageParams.limit === undefined
+  ) {
+    throw new Error(
+      'Parâmetros de paginação inválidos. "offset" e "limit" são obrigatórios.'
+    );
   }
+
+  if (
+    typeof PageParams.offset !== "number" ||
+    typeof PageParams.limit !== "number" ||
+    PageParams.offset < 0 ||
+    PageParams.limit <= 0
+  ) {
+    throw new Error(
+      'Valores inválidos para "offset" e "limit". Eles devem ser números inteiros positivos.'
+    );
+  }
+
+  const { offset = 0, limit = 20 } = PageParams || {};
+  const response = await api.get(`/buyers/admin/${offset}/${limit}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response;
 };
 
 export const getUserById = async (token, userId) => {
@@ -278,8 +284,6 @@ export const getProductById = async (token, productId) => {
  */
 export const updateProduct = async (token, updateProduct) => {
   const response = await api.patch(
-    `/products/admin/${productId}`,
-    productData,
     `/products/admin/${updateProduct.id}`,
     updateProduct.product,
     {
@@ -288,7 +292,7 @@ export const updateProduct = async (token, updateProduct) => {
       },
     }
   );
-  return response.data;
+  return response;
 };
 
 /**
@@ -300,8 +304,8 @@ export const updateProduct = async (token, updateProduct) => {
  */
 
 // Vendas
-export const createSale = async (token, items) => {
-  const response = await api.post("/sales", items, {
+export const createSale = async (token, orders) => {
+  const response = await api.post("/sales", orders, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -342,16 +346,26 @@ export const getSaleById = async (token, saleId) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data;
+
+  return response;
 };
 
 export const getCep = async (cep) => {
-  try {
-    const response = await api.get(
-      `https://brasilapi.com.br/api/cep/v2/${cep}`
-    );
-    return response.data;
-  } catch (error) {
-    return error.response.data;
+  const urlCep1 = `https://viacep.com.br/ws/${cep}/json/`;
+  const urlCep2 = `https://brasilapi.com.br/api/cep/v2/${cep}`;
+
+  const response = await api.get(urlCep2);
+  console.log(response);
+  console.log(response.type);
+  if (response.type === "service_error") {
+    await api.get(urlCep1);
+    return {
+      cep: response.data.cep,
+      street: response.data.bairro,
+      neighborhood: response.data.logradouro,
+      city: response.data.localidade,
+      state: response.data.uf,
+    };
   }
+  return response.data;
 };

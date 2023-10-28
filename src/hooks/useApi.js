@@ -54,7 +54,7 @@ export default function useApi() {
    * @returns {Promise} Uma promessa que representa o resultado da operação de cadastro.
    */
   async function signupUser(payload) {
-    await api.signupUser(payload);
+    return await api.signupUser(payload);
   }
 
   /**
@@ -115,11 +115,6 @@ export default function useApi() {
     return api.updateUser(token, dataUpdateUser);
   }
 
-  async function getProductById(productId) {
-    const token = await getTokenFromStorage();
-    return api.getProductById(token, productId);
-  }
-
   /**
    * @param {Object} cadastrarProduto
    * @param {string} cadastrarProduto.name - Nome do laboratório.
@@ -141,8 +136,19 @@ export default function useApi() {
     return api.uploadImage(token, imageFile);
   }
 
-  async function listProducts(offset, limit, filters) {
-    return api.listProducts(offset, limit, filters);
+
+   /**
+   *
+   *
+   * @param {object} params - Parâmetros da requisição
+   * @param {number} params.offset - Offset para paginação
+   * @param {number} params.limit - Limite de resultados
+   * @param {string} params.name - Filtro por nome do produto
+   * @param {string} params.typeProduct - Filtro por tipo de produto
+   *
+   */
+  async function listProducts(params) {
+    return api.listProducts(params);
   }
 
   /**
@@ -160,7 +166,9 @@ export default function useApi() {
     const token = await getTokenFromStorage();
     return api.listAdminProducts(token, params);
   }
-
+  /** 
+   * @param {number} productId - id do produto que sera procurado
+   */
   async function getProductById(productId) {
     const token = await getTokenFromStorage();
     return api.getProductById(token, productId);

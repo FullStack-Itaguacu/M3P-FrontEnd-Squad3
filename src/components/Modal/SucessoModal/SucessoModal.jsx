@@ -1,5 +1,5 @@
-import React from 'react';
 import styles from './SucessoModal.module.css';
+import PropTypes from 'prop-types';
 
 const SucessoModal = ({ mensagem, onClose }) => {
     return (
@@ -13,4 +13,11 @@ const SucessoModal = ({ mensagem, onClose }) => {
     );
 };
 
+SucessoModal.propTypes = {
+    mensagem: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+};
+
 export default SucessoModal;
+
+

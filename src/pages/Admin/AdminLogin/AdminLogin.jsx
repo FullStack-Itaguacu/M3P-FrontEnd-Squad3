@@ -1,8 +1,8 @@
 import styles from "./AdminLogin.module.css";
-import { MdEmail, MdVpnKey } from "react-icons/md";
-import useAuth from "../../../hooks/useAuth";
-import LoadingSpinner from "../../../components/Loading_Snipper/Loading_Snipper";
 import { useState } from "react";
+import { MdEmail, MdVpnKey } from "react-icons/md";
+import useAuth from "../../../hooks/useAuth"
+import LoadingSpinner from "../../../components/Loading_Snipper/Loading_Snipper";
 
 function AdminLogin() {
   const [email, setEmail] = useState("");
@@ -13,8 +13,11 @@ function AdminLogin() {
 
   const { adminLogin } = useAuth();
 
+
+
   async function HandleLogin(e) {
     e.preventDefault();
+
 
     setLoading(true);
     const response = await adminLogin(email, senha);
@@ -37,8 +40,10 @@ function AdminLogin() {
         break;
       default:
         break;
+
     }
   }
+
 
   return (
     <div className={styles.containerPrimario}>
@@ -55,7 +60,7 @@ function AdminLogin() {
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
-              setErroLogin("");
+              setErroLogin("")
             }}
             type="email"
             name="email"
@@ -63,6 +68,7 @@ function AdminLogin() {
             placeholder="Digite seu email"
             autoComplete="off"
           />
+
         </div>
         <label htmlFor="password">senha</label>
         <div className={styles.icons}>
@@ -79,11 +85,13 @@ function AdminLogin() {
             id="password"
             placeholder="Digite sua senha"
           />
+
         </div>
 
         {erroLogin && <p className={styles.erroLogin}>{erroLogin}</p>}
 
         {loading ? (
+
           <LoadingSpinner />
         ) : (
           <button className={styles.enviarLogin} type="submit" value="Entrar">
@@ -91,6 +99,7 @@ function AdminLogin() {
           </button>
         )}
       </form>
+
     </div>
   );
 }

@@ -1,107 +1,117 @@
-.titulo{
+@import '../../../styles/variable.css';
+
+.conatiner{
     display: flex;
-    margin-top: 100px;
-    margin-left: 40%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    width: 800px;
+    height: 100%;
+    padding: 20px;
+    border-radius: 10px;
+   
+ 
+    
 }
 
-  .gridContainer {
-    display: grid;
-    grid-template-columns: 3fr;
-    grid-gap: 5px;
-    font-family: Poppins;
-  }
-  .inputProduto {
-    display: flex;
-    border: solid 3px;
-    border-radius: 3px;
-    border-color:#01B8C2;
-    font-family: Poppins;
-    font-size: 20px;
-    margin-top: 5px;
-    height: 40px;
-    align-items: center;
-    text-align: center;
-  }
+.conatiner h2{
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
 
-  .inputDescricao {
-    display: flex;
-    border: solid 3px;
-    border-radius: 3px;
-    border-color:#01B8C2;
-    font-family: Poppins;
-    font-size: 20px;
-    margin-top: 5px;
-    height: 60px;
-    width: 247px;
-    align-items: center;
-    text-align: center;
-  }
 
-  .selecDosagem {
-    display: flex;
-    border: solid 3px;
-    border-radius: 3px;
-    border-color:#01B8C2;
-    font-family: Poppins;
-    font-size: 20px;
-    margin-top: 5px;
-    height: 40px;
-    width: 247px;
-    align-items: center;
-    text-align: center;
-  }
-
-  .inputImagem {
-    display: flex;
-    font-family: Poppins;
-    font-size: 20px;
-    margin-top: 5px;
-    height: 40px;
-    width: 247px;
-    align-items: center;
-    text-align: center;
-  }
-
-  .grupo1 {
+}
+.conatiner form{
     display: flex;
     flex-direction: column;
-    font-size: 20px;
-    margin-top: 50px;
-    margin-left: 100px;
-    
-   
-  }
-
-  .grupo2{
-    display: flex;
-    flex-direction: column;
-    font-size: 20px;
-    margin-top: -206px;
-    margin-left: 495px;
-  }
-
-  .grupo3 {
-    display: flex;
-    flex-direction: column;
-    font-size: 20px;
-    margin-top: -223px;
-    margin-left: 880px;
-  }
-
-  .buttonProdutos {
-    display: flex;
     justify-content: center;
-    font-size: 20px;
-    border-color:#01B8C2;
-    background-color: #01B8C2;
-    font-family: Poppins;
-    color: #fff;
-    margin-top: 60px;
-    margin-left: 43%;
-    width: 200px;
-    height: 50px;
-    border-radius: 4px;
-    align-items: center;
-    text-align: center;
+    gap:20px;
+    width: 600px;
+    text-align: left;
+}
+
+.conatiner form input{
+    width: 100%;
+    padding: 10px;
+    height: 40px;
+    margin-bottom: 10px;
+    border: 1px solid var( --color-border);
+    border-radius: 5px;
+    outline: none;
+}
+
+.conatiner form input:focus{
+    border: 1px solid #000;
+}
+
+.conatiner form label{
+  text-align: left;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.conatiner form button{
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
     cursor: pointer;
-  }
+    background-color: var(--light);
+    color: var(--primary);
+    border: solid 1px var(--color-border);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.conatiner form button:hover{
+    background-color: var(--color-hover);
+    color: var(--light);
+}
+
+.groupInput{
+    display: flex;
+
+}
+.groupInput div{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.groupInput div:first-child{
+    margin-right: 20px;
+}
+.groupInput select{
+    width: 100%;
+    padding: 10px;
+    height: 40px;
+    margin-bottom: 10px;
+    border: 1px solid var( --color-border);
+    border-radius: 5px;
+    outline: none;
+}
+
+.conatiner textarea{
+    width: 100%;
+    padding: 10px;
+    height: 100px;
+    margin-bottom: 10px;
+    border: 1px solid var( --color-border);
+    border-radius: 5px;
+    outline: none;
+}
+
+.conatiner form button:disabled{
+    background-color: var(--color-disabled);
+    color: var(--color-text);
+    cursor: not-allowed;
+}
+
+
+.conatiner sup {
+    color: red; /* Cor vermelha */
+}
