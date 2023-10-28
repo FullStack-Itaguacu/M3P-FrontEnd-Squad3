@@ -8,7 +8,6 @@ import typeUserEnum from "../constants/enums/typeUserEnum";
 import Unauthorized from "../pages/Unauthorized/Unauthorized";
 import Login from "../pages/Auth/Login/Login";
 import Dashbord from "../pages/Admin/Dashboard/Dashboard";
-import Users from "../pages/Admin/Users/Users";
 import DashBoardIndex from "../pages/Admin/DashBoardIndex/DashBoardIndex";
 import Sales from "../pages/Admin/Sales/Sales";
 import CreateUser from "../pages/Admin/Users/CreateUser";
@@ -21,6 +20,7 @@ export default function AllRoutes() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/login/admin" element={<AdminLogin />} />
+        <Route path="/login/user" element={<Login />} />
 
         <Route path="/admin/product" element={<CadastrarProduto />} />
         <Route path="/admin/dashboard" element={<CadastrarProduto />} />
@@ -35,8 +35,9 @@ export default function AllRoutes() {
           <Route path="resumo" element={<DashBoardIndex />} />
           <Route path="register/products" element={<CadastrarProduto />} />
           <Route path="sales" element={<Sales />} />
+          <Route path="products" element={<TableAllProducts />} />
 
-          <Route path="users" element={<Users />} />
+          <Route path="users" element={<AllUsers />} />
           <Route path="register/user" element={<CreateUser />} />
         </Route>
         <Route path="*" element={<NotFound />} />

@@ -1,8 +1,6 @@
 import { useState } from "react";
 import UserForm from "../../../components/Form/UserForm";
-//import useApi from "../../../hooks/useApi";
-import { getCep } from "../../../Services/api";
-import { signupAdmin } from "../../../Services/api";
+import useApi from "../../../hooks/useApi";
 
 const CreateUser = () => {
   const [user, setUser] = useState({
@@ -25,34 +23,19 @@ const CreateUser = () => {
     longitude: "",
   });
 
-  //const { getCep, signupAdmin } = useApi;
+  const { getCep, signupAdmin } = useApi();
 
   const handleSearchCep = async () => {
-    try {
-      const response = await getCep(user.zip);
-
-      if (
-        response.name === "CepPromiseError" &&
-        response.errors.some((error) => error.message === "CEP NAO ENCONTRADO")
-      ) {
-        alert("CEP não encontrado");
-
-        setUser((prevUser) => ({ ...prevUser, zip: "" }));
-      } else {
-        setUser((prevUser) => ({
-          ...prevUser,
-          street: response.street,
-          neighborhood: response.neighborhood,
-          city: response.city,
-          state: response.state,
-          latitude: response.location.coordinates.latitude,
-          longitude: response.location.coordinates.longitude,
-        }));
-      }
-    } catch (error) {
-      alert("Erro ao buscar o CEP");
-      console.log(error);
-    }
+    const response = await getCep(user.zip);
+    setUser((prevUser) => ({
+      ...prevUser,
+      street: response.street,
+      neighborhood: response.neighborhood,
+      city: response.city,
+      state: response.state,
+      latitude: response.location.coordinates.latitude,
+      longitude: response.location.coordinates.longitude,
+    }));
   };
 
   const handleInputChange = (e) => {
@@ -61,14 +44,32 @@ const CreateUser = () => {
     setUser({ ...user, [name]: value });
   };
 
-  const token = localStorage.getItem("token");
-
   const handleSubmit = async () => {
-    console.log("Início de handleSubmit");
+    const newUser = {
+      user: {
+        fullName: user.fullName,
+        cpf: user.cpf.replace(/\D/g, ""),
+        birthDate: user.birthDate,
+        phone: user.phone.replace(/\D/g, ""),
+        email: user.email,
+        typeUser: user.userType,
+        password: user.password,
+      },
+      addresses: [
+        {
+          zip: user.zip.replace(/\D/g, ""),
+          street: user.street,
+          numberStreet: user.number,
+          neighborhood: user.neighborhood,
+          city: user.city,
+          state: user.state,
+        },
+      ],
+    };
     try {
-      const salveUser = await signupAdmin(token, user);
+      const salveUser = await signupAdmin(newUser);
       console.log(salveUser);
-      console.log("Após a requisição Axios");
+
       switch (salveUser.status) {
         case 201:
           console.log("Usuário cadastrado com sucesso!");
@@ -89,8 +90,6 @@ const CreateUser = () => {
           console.log("Erro ao cadastrar usuário!");
           break;
       }
-      console.log("Após o switch");
-      console.log("Teste antes do switch");
     } catch (error) {
       console.error("Erro no cadastro:", error);
     }

@@ -48,13 +48,16 @@ export const signupUser = async (payload) => {
  * @returns {Promise} Uma promessa que representa o resultado da operação de cadastro.
  */
 export const signupAdmin = async (token, payload) => {
-  const response = await api.post("/user/admin/signup", payload, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  console.log(response);
-  return response;
+  try {
+    const response = await api.post("/user/admin/signup", payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
 };
 
 export const getUserAddresses = async (token) => {

@@ -230,9 +230,9 @@ const UserForm = ({
                   </label>
                   <InputMask
                     className={styles.input_smaller}
-                    mask="(999) 99999-9999"
+                    mask="(99) 99999-9999"
                     maskPlaceholder={null}
-                    placeholder="(999) 99999-9999"
+                    placeholder="(99) 99999-9999"
                     type="text"
                     id="phone"
                     name="phone"
