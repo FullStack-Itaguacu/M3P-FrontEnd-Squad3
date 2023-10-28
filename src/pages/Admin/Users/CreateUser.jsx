@@ -5,7 +5,7 @@ import ErroModal from "../../../components/Modal/ErroModal/ErroModal";
 import SucessoModal from "../../../components/Modal/SucessoModal/SucessoModal";
 
 const CreateUser = () => {
-  const [user, setUser] = useState({
+  const initialState = {
     fullName: "",
     cpf: "",
     birthDate: "",
@@ -23,7 +23,11 @@ const CreateUser = () => {
     complement: "",
     latitude: "",
     longitude: "",
-  });
+  };
+
+  const [user, setUser] = useState(initialState);
+  const [modalClosed, setModalClosed] = useState(true);
+
   const [erro, setErro] = useState({
     erro: false,
     mensagem: "",
@@ -96,6 +100,7 @@ const CreateUser = () => {
             success: true,
             mensagem: "Usuário cadastrado com sucesso!",
           });
+          setModalClosed(false);
           break;
         case 400:
           setErro({
@@ -136,6 +141,15 @@ const CreateUser = () => {
       console.error("Erro no cadastro:", error);
     }
   };
+
+  const handleSuccessModalClose = () => {
+    if (!modalClosed) {
+      setUser(initialState);
+      setModalClosed(true);
+      setSuccess({ success: false, mensagem: "" });
+    }
+  };
+
   return (
     <>
       <UserForm
@@ -154,7 +168,7 @@ const CreateUser = () => {
       {success.success && (
         <SucessoModal
           mensagem={success.mensagem}
-          onClose={() => setSuccess({ success: false, mensagem: "" })}
+          onClose={handleSuccessModalClose}
         />
       )}
     </>
