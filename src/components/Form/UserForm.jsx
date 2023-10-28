@@ -284,7 +284,7 @@ const UserForm = ({
 
                     {!isPasswordValid(user.password) && user.password && (
                       <span className={styles.error_message}>
-                        A Senha Deve conter no mínimo 8 caracteres
+                        A Senha deve conter no mínimo 8 caracteres
                         incluindo:letra maiúscula, letra minúscula, número e
                         caractere especial.
                       </span>
