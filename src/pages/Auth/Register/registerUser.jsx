@@ -4,7 +4,6 @@ import styles from "./RegisterUser.module.css";
 import { useNavigate } from "react-router-dom";
 import InputMask from 'react-input-mask'
 
-
 const RegisterUser = () => {
     
   const [cpf, setCpf] = useState('');
@@ -13,7 +12,7 @@ const RegisterUser = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [zip, setZip] = useState(''); // Corrigi o nome da variável para "cep"
+  const [zip, setZip] = useState(''); 
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
   const [neighborhood, setNeighborhood] = useState('');
@@ -28,66 +27,60 @@ const RegisterUser = () => {
   const navigate = useNavigate();
 
   const handleAssUser = () => {
-    setListUser([...listUser, newUser]);
-    
     setCpf('');
-  setBirthDate('');
-  setFullName('');
-  setEmail('');
-  setPhone('');
-  setPassword('');
-  setZip('');
-  setState('');
-  setCity('');
-  setNeighborhood('');
-  setStreet('');
-  setNumber('');
-  setComplement('');
-  setLatitude('');
-  setLongitude('');
+    setBirthDate('');
+    setFullName('');
+    setEmail('');
+    setPhone('');
+    setPassword('');
+    setZip('');
+    setState('');
+    setCity('');
+    setNeighborhood('');
+    setStreet('');
+    setNumber('');
+    setComplement('');
+    setLatitude('');
+    setLongitude('');
   };
 
-  const handleCepChange = async (event) => {
+    const handleCepChange = async (event) => {
 
-            const response = await getCep(zip.split('-').join(''));
+        const response = await getCep(zip.split('-').join(''));
 
-            if (response) {
-                setState(response.state);
-                setCity(response.city);
-                setNeighborhood(response.neighborhood);
-                setStreet(response.street);
-                setLatitude(response.location.coordinates.latitude);
-                setLongitude(response.location.coordinates.longitude);
-            } else {
-                alert("Invalid response:", response);
+        if (response) {
+            setState(response.state);
+            setCity(response.city);
+            setNeighborhood(response.neighborhood);
+            setStreet(response.street);
+            setLatitude(response.location.coordinates.latitude);
+            setLongitude(response.location.coordinates.longitude);
+        } else {
+            alert("Invalid response:", response);
             }
     }
 
-    const isPasswordValid = (password) => {
+        const isPasswordValid = (password) => {
         const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/;
         return passwordRegex.test(password);
       };
-    
-const handleSubmit = async (event) => {
-    event.preventDefault();
 
-    if (!zip || !state || !city || !neighborhood || !street || !number) {
-        alert('Por favor, preencha todos os campos do endereço.');
-    }
+    const handleSubmit = async (event) => {
+
+        event.preventDefault();
+
     if (!isPasswordValid(password)) {
-        alert('A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um número.');
+        return alert('A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um número.');
     }
-  
 
     const newUser = {
-        
         user: {
-          cpf: cpf.replace(/[^0-9]/g, ''),
-          birthDate: birthDate.split("/").reverse().join('-'),
-          fullName: fullName,
-          email: email,
-          phone:phone.replace(/\D/g, ""),
-          password: password,
+            cpf: cpf.replace(/[^0-9]/g, ''),
+            birthDate: birthDate.split("/").reverse().join('-'),
+            fullName: fullName,
+            email: email,
+            phone:phone.replace(/\D/g, ""),
+            password: password,
         },
         addresses: [{
             zip:zip.split('-').join(''),
@@ -100,25 +93,29 @@ const handleSubmit = async (event) => {
             lat: latitude,
             long: longitude,
         },]
-        
-      };
-      
 
-      const registerUser = await signupUser(newUser) 
+      };
+
+      setListUser([...listUser, newUser]);
+
+      
+    const registerUser = await signupUser(newUser) 
+    console.log("RegisterUser")
     
         if (registerUser.status === 201) {
-          handleAssUser(); 
+            console.log('Cadastro com sucesso!')
+            handleAssUser();
+            alert("Usuário cadastrado com sucesso!")
+            navigate('/user/login')
         }
-        navigate("/user/login")
-   
-      if (error.response.status === 409) {
-        alert("E-mail já cadastrado.");
-      } else {
+         else if ( registerUser.response.data.status ===409) {
+            console.log('E-mail ou CPF já cadastrado')
+        alert("E-mail ou CPF já cadastrado, tente contato com o suporte!");
+        } else {
+            console.log('Erro ao cadastrar')
         alert("correu um erro ao realizar o cadastro, tente novamente mais tarde.");
-      }
-     
+        }
     }
-   
 
     return (
 
@@ -328,11 +325,12 @@ const handleSubmit = async (event) => {
             </div>
             
         </div>
-        <button type="submit" className={styles.buttonUser}>Cadastrar</button>
+        <button  type="submit" className={styles.buttonUser}>Cadastrar</button>
         </form>
         </div>
         </div>
     );
     }
+
 
 export default RegisterUser;
