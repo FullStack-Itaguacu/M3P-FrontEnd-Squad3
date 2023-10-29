@@ -52,7 +52,7 @@ npm rum dev
 - /admin/dashboard/register/products - cadastrar um produto admin
 - /admin/dashboard/products - produtos registrados do admin
 
-*Usuário
+* Usuário
 - /login/user - login usuário
 - /user/register - cadastrar um usuário
 - /user/profile - página principal user
