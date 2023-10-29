@@ -56,7 +56,7 @@ const Navbar = ({  cart  }) => {
         </div>
 
                 <Link className={styles.navbarCompras} to="/">Meus pedidos</Link>
-                <Link className={styles.navbarCarrinho} to="/cart">
+                <Link className={styles.navbarCarrinho} to="/buyers/addreess">
                     Carrinho {cart ? `(${cart.items.length})` : '(0)'}
                 </Link>
                 {user ? (
