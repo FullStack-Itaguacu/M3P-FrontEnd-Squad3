@@ -218,6 +218,8 @@ export const listProducts = async (params) => {
 
   const url = baseUrl + concatQuery;
   const response = await api.get(url);
+
+  
   return response;
 };
 

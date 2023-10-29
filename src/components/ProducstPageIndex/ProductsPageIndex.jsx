@@ -1,27 +1,17 @@
 import Card from "../Card/Card";
 import styles from "./ProductsPageIndex.module.css"
-import useApi from "../../hooks/useApi";
-import{ useState, useEffect } from 'react';
 import useAuth from "../../hooks/useAuth";
+import useFetchProducts from "../../hooks/useFecthProducts";
+import LoadingSpinner from "../Loading_Snipper/Loading_Snipper";
 
 
 function ProductsPageIndex() {
-const {listProducts} = useApi();
-const [products, setProducts] = useState([]);
+
 const { addToCart} = useAuth();
 
 
-useEffect(()  => {
-    listproductsDatabase();
-}
-, []);
+const { loading, error, products } = useFetchProducts();
 
-async function listproductsDatabase() {
-    const fetchProducts = await listProducts();
-    setProducts(fetchProducts.data.products);
-    
-   
-}
 
 const addProductToCart = (productData) => {
   
@@ -32,18 +22,26 @@ const addProductToCart = (productData) => {
 
 
 
-    return (
-        <div className={styles.containerProducts}>
-           
-              {products.map((product) => (
-                <Card 
-                key={product.id}
-                product={product} 
-                addToCart={addProductToCart} />
-              ))}
-           
-        </div>
-      );
+
+return (
+  <div className={styles.containerProducts}>
+    {loading ? (
+      <LoadingSpinner />
+    ) : (
+      products.products && products.products.map(product => (
+        <Card 
+        key={product.id} 
+        product={product} 
+        addToCart={addProductToCart}
+        />  
+      ))
+    )}
+  </div>
+);
+
+
+
+
 }
 
 export default ProductsPageIndex;

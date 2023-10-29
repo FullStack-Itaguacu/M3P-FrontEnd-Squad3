@@ -117,11 +117,6 @@ export default function useApi() {
     return api.updateUser(token, dataUpdateUser);
   }
 
-  async function getProductById(productId) {
-    const token = await getTokenFromStorage();
-    return api.getProductById(token, productId);
-
-  }
 
   /**
    * @param {Object} cadastrarProduto
