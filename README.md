@@ -42,6 +42,9 @@ npm install
 npm rum dev
 ```
 ## Rotas 
+
+- / - rota principal
+  
 * Administrador:
 - /login/admin - login  admin
 - /admin/dashboard - dasboard admin
@@ -56,8 +59,8 @@ npm rum dev
 - /login/user - login usuário
 - /user/register - cadastrar um usuário
 - /user/profile - página principal user
-- /sales - finalizar compra (carrinho)
-- /sales/buyers/addreess - enreços para entrega
+- /sales - Meus Pedidos
+- /sales/buyers/addreess - endereços para entrega
 
 
 ## Melhorias Futuras
