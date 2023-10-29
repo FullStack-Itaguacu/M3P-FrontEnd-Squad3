@@ -1,0 +1,74 @@
+.cardContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 5px;
+}
+
+.card {
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+    border: solid 3px;
+    border-color: #01b8c2;
+    width: 50%; 
+    margin-bottom: 20px;
+    text-align: center;
+    margin-left: 23%;
+    
+}
+
+.titulo {
+    font-size: 1.8rem;
+    font-weight: 100;
+    margin-bottom: 20px;
+    text-align: center;
+    margin-top: 40px;
+    color: var(--primary);
+    font-size: 1.8rem;
+}
+
+.titulo1 {
+    font-size: 1.8rem;
+    font-weight: 100;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.3rem;
+    margin-top: 15px;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+}
+
+.modal h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.modal p {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.cardButton {
+    background-color: #0077ff;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.cardButton:hover {
+    background-color: #005ae6;
+}
