@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 300px;
+    width: 200px;
     border-radius: 10px;
 }
 
@@ -21,7 +21,16 @@
     border-radius: 10px;
     margin-bottom: 90px;
   }
-
+.containerText{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 10px;
+    background-color: transparent;
+}
+.containerText h1 p{
+  background-color: transparent;
+}
   .navbarFilter {
     width: 200px;
     height: 30px;
@@ -40,6 +49,10 @@
     text-align: center;
     height: 30px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
   }
   
   .navbarButton:hover {
@@ -69,7 +82,13 @@
     padding: 5px;
     border-radius: 8px;
     margin-top: 70px; 
-
+    width: 12%;
+    height: 40px;
+    background-color: var( --bg-color-hover-btn);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
 }
 
 .navbar a:hover {
@@ -77,7 +96,7 @@
     border: 1px solid var(--color-border);
     border-radius: 5px;
     transition: 0.3s;
-    width: 15%;
+    width: 12%;
     height: 40px;
     background-color: var( --bg-color-hover-btn)
 }
