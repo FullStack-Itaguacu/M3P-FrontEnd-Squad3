@@ -65,6 +65,7 @@ npm rum dev
 - /sales/buyers/addreess - endereços para entrega
 
 
+
 ## Melhorias Futuras
 
 - Deletar ou desativar um produto, uma vez que o produto pode não estar mais disponível para comercialização ou por outras razões que justifiquem a exclusão.
@@ -74,3 +75,36 @@ npm rum dev
 - Atualização de dados / endereço do usuário.
 - Alteração de senha.
 
+
+## Porjeto em deploy
+
+*usuario: admin teste
+```json
+
+pedro5@gmail.com
+
+1234567!Cc
+
+```
+
+
+
+
+- / - rota principal
+  
+* Administrador:
+- https://squad3.vercel.app/login/admin - login  admin
+- https://squad3.vercel.app/admin/dashboard - dasboard admin
+- https://squad3.vercel.app/admin/dashboard/resumo - relatório de vendas admin
+- https://squad3.vercel.app/admin/dashboard/sales - vendas do admin
+- https://squad3.vercel.app/admin/dashboard/users - usuário cadastrados admin
+- https://squad3.vercel.app/admin/dashboard/register/user - adicionar um novo usuário
+- https://squad3.vercel.app/admin/dashboard/register/products - cadastrar um produto admin
+- https://squad3.vercel.app/admin/dashboard/products - produtos registrados do admin
+
+* Usuário
+- https://squad3.vercel.app/login/user - login usuário
+- https://squad3.vercel.app/user/register - cadastrar um usuário
+- https://squad3.vercel.app/user/profile - página principal user
+- https://squad3.vercel.app/sales - Meus Pedidos
+- https://squad3.vercel.app/sales/buyers/addreess - endereços para entrega
