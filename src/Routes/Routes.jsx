@@ -30,7 +30,7 @@ export default function AllRoutes() {
         <Route path="/user/register" element={<RegisterUser />} />
         <Route path="/user/profile"
           element={
-            <PrivateRoute acessControll>
+            <PrivateRoute accessControl>
               <Profile />
             </PrivateRoute>
           }/>
@@ -40,7 +40,7 @@ export default function AllRoutes() {
 
         <Route path='/admin/dashboard'
           element={
-            <PrivateRoute acessControll={typeUserEnum.ADMIN}>
+            <PrivateRoute accessControl={typeUserEnum.ADMIN}>
               <Dashbord
               />
             </PrivateRoute>

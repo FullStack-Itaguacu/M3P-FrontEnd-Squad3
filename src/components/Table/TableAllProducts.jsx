@@ -73,7 +73,7 @@ const TableAllProducts = () => {
         const params = {
             typeProduct: e.target.value
         }
-        fetchProductsFilter(params);;
+        fetchProductsFilter(params);
 
     };
     const handleSearch = (e) => {

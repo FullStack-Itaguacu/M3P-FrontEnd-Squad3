@@ -26,8 +26,7 @@ const Navbar = ({  cart  }) => {
     };
 
     async function fetchProductsFilter(params) {
-        const data = await listAdminProducts(params);
-        setProducts(data.data.products);
+       
     }
     console.log(user)
     const handleSearch = (e) => {
