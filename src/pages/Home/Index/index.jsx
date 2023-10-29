@@ -1,12 +1,7 @@
-import Navbar from "../../../components/Navbar/navbar"
-
-
 const Index = () => {
     return (
         <div>
-            <header>
-                <Navbar />
-            </header>
+        <h1>Index</h1>
         </div>
     );
     }
