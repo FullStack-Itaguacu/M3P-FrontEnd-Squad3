@@ -6,11 +6,15 @@ import PropTypes from 'prop-types';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-
+    
     const [user, setUser] = useState(null);
-
-
-
+    const [cart, setCart] = useState(() => {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        return cart;
+      });
+    
+    
+    
     const onLoadUser = async () => {
         try {
             const decoded = await validateToken.decodeToken();
@@ -53,6 +57,18 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     }
 
+    
+    const addToCart = (item) => {
+
+        const updatedCart = [...cart]; 
+      
+        updatedCart.push(item); 
+      
+        setCart(updatedCart); 
+      
+        localStorage.setItem('cart', JSON.stringify(updatedCart)); 
+      
+      }
 
 
     return (
@@ -62,7 +78,9 @@ export const AuthProvider = ({ children }) => {
                 userLogin,
                 user,
                 onLoadUser,
-                logout
+                logout,
+                cart,
+                addToCart,
 
             }}
         >

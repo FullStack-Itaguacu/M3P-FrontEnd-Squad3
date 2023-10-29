@@ -5,7 +5,7 @@ import { AuthContext } from '../contexts/AuthContext';
 
 export default function useAuth() {
 
-  const {adminLogin, userLogin,user,onLoadUser,logout} = useContext(AuthContext);
+  const {adminLogin, userLogin,user,onLoadUser,logout,cart,addToCart} = useContext(AuthContext);
 
 
  
@@ -15,7 +15,9 @@ export default function useAuth() {
     userLogin,
     user,
     onLoadUser,
-    logout
+    logout,
+    cart,
+    addToCart
   }
 
 }

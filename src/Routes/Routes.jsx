@@ -19,11 +19,13 @@ import Cart from '../pages/Client/Cart/Cart';
 
 
 
+
 export default function AllRoutes() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Index />} />
+        
         <Route path="/login/admin" element={<AdminLogin />} />
         <Route path="/login/user" element={<Login />} />
         <Route path="/user/register" element={<RegisterUser />} />
