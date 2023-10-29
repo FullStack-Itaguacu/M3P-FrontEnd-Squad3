@@ -4,7 +4,7 @@ import useAuth from '../hooks/useAuth';
 import typeUserEnum from '../constants/enums/typeUserEnum';
 import PropTypes from 'prop-types';
 
-function PrivateRoute({ children, accessControl }) { 
+function PrivateRoute({ children, accessControl }) {
     const [isLoading, setIsLoading] = useState(true);
     const { user, onLoadUser } = useAuth();
 
@@ -22,22 +22,25 @@ function PrivateRoute({ children, accessControl }) {
     if (isLoading) {
         return <div>Loading...</div>;
     }
-
+console.log(accessControl)
     if (!user) {
+       
         if (accessControl && accessControl.includes(typeUserEnum.ADMIN)) {
             return <Navigate to="/login/admin" />;
+        } else {
+            return <Navigate to="/login/user" />;
         }
-        return <Navigate to="/login/user" />;
     }
 
-    if (accessControl && !accessControl.includes(user.role)) { 
+    if (accessControl && !accessControl.includes(user.role)) {
+       
         return <Navigate to="/unauthorized" />;
     }
 
     return children;
 }
 
-PrivateRoute.propTypes = { 
+PrivateRoute.propTypes = {
     children: PropTypes.node.isRequired,
     accessControl: PropTypes.arrayOf(PropTypes.string),
 };

@@ -13,11 +13,9 @@ import DashBoardIndex from '../pages/Admin/DashBoardIndex/DashBoardIndex';
 import Sales from '../pages/Admin/Sales/Sales';
 import AllUsers from '../pages/Admin/AllUsers/AllUsers';
 import TableAllProducts from '../components/Table/TableAllProducts';
+
 import Profile from '../pages/Client/Profile/Profile';
 import CreateUser from '../pages/Admin/Users/CreateUser';
-
-
-
 
 
 
@@ -28,21 +26,21 @@ export default function AllRoutes() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/login/admin" element={<AdminLogin />} />
-        loginUser
         <Route path="/login/user" element={<Login />} />
         <Route path="/user/register" element={<RegisterUser />} />
         <Route path="/user/profile"
           element={
-            <PrivateRoute acessControll>
+            <PrivateRoute accessControl>
               <Profile />
             </PrivateRoute>
           }/>
 
 
 
+
         <Route path='/admin/dashboard'
           element={
-            <PrivateRoute acessControll={typeUserEnum.ADMIN}>
+            <PrivateRoute accessControl={typeUserEnum.ADMIN}>
               <Dashbord
               />
             </PrivateRoute>
@@ -53,6 +51,7 @@ export default function AllRoutes() {
           <Route path='products' element={<TableAllProducts />} />
           <Route path='register/user' element={<CreateUser />} />
           <Route path='users' element={<AllUsers />} />
+
         </Route>
 
 
