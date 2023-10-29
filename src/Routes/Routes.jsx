@@ -13,10 +13,9 @@ import DashBoardIndex from '../pages/Admin/DashBoardIndex/DashBoardIndex';
 import Sales from '../pages/Admin/Sales/Sales';
 import AllUsers from '../pages/Admin/AllUsers/AllUsers';
 import TableAllProducts from '../components/Table/TableAllProducts';
-
 import Profile from '../pages/Client/Profile/Profile';
 import CreateUser from '../pages/Admin/Users/CreateUser';
-
+import Cart from '../pages/Client/Cart/Cart';
 
 
 
@@ -35,8 +34,7 @@ export default function AllRoutes() {
             </PrivateRoute>
           }/>
 
-
-
+          <Route path="sales/buyers/addreess" element={<Cart />}/>
 
         <Route path='/admin/dashboard'
           element={
