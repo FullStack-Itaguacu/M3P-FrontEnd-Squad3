@@ -55,8 +55,8 @@ const Navbar = ({  cart  }) => {
             <button className={styles.navbarButton} onClick={handleSearch}>Buscar</button>
         </div>
 
-                <Link className={styles.navbarCompras} to="/">Meus pedidos</Link>
-                <Link className={styles.navbarCarrinho} to="/sales">
+                <Link className={styles.navbarCompras} to="/sales">Meus pedidos</Link>
+                <Link className={styles.navbarCarrinho} to="/">
                     Carrinho {cart ? `(${cart.items.length})` : '(0)'}
                 </Link>
                 {user ? (
