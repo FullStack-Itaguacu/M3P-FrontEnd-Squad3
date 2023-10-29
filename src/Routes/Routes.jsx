@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NotFound from '../pages/NotFound/NotFound';
-import Index from '../pages/Home/Index';
+import Index from '../pages/Home/Index/Index';
 import AdminLogin from '../pages/Admin/AdminLogin/AdminLogin';
 import PrivateRoute from '../components/PrivateRoute';
 import CadastrarProduto from '../pages/Admin/Products/Products';
@@ -8,7 +8,7 @@ import typeUserEnum from '../constants/enums/typeUserEnum';
 import Unauthorized from '../pages/Unauthorized/Unauthorized';
 import Login from "../pages/Auth/Login/Login";
 import Dashbord from '../pages/Admin/Dashboard/Dashboard';
-import RegisterUser from "../pages/Auth/Register/registerUser"
+import RegisterUser from "../pages/Auth/Register/RegisterUser"
 import DashBoardIndex from '../pages/Admin/DashBoardIndex/DashBoardIndex';
 import Sales from '../pages/Admin/Sales/Sales';
 import AllUsers from '../pages/Admin/AllUsers/AllUsers';

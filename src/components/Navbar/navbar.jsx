@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
-import styles from "./navbar.module.css"
+import styles from "./Navbar.module.css"
 import useFetchProducts from '../../hooks/useFecthProducts';
 
 
@@ -28,6 +28,7 @@ const Navbar = () => {
     async function handleLogout() {
         await logout();
         window.location.reload();
+        // history.push('/');
     }
 
     const handleSearch = () => {
