@@ -213,11 +213,13 @@ export const listProducts = async (params) => {
       skipEmptyString: true,
     }
   );
-  const baseUrl = `/products/admin/${offset}/${limit}`;
+  const baseUrl = `/products/${offset}/${limit}`;
   const concatQuery = `?${query}`;
 
   const url = baseUrl + concatQuery;
   const response = await api.get(url);
+
+  
   return response;
 };
 
