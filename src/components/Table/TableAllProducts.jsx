@@ -4,9 +4,7 @@ import useApi from '../../hooks/useApi';
 import LoadingSpinner from '../Loading_Snipper/Loading_Snipper';
 import ModalEditProducts from './ModalEditProducts/ModalEditProducts';
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
-
 import SucessoModal from '../Modal/SucessoModal/SucessoModal';
-
 
 const TableAllProducts = () => {
     const [products, setProducts] = useState([]);
