@@ -59,8 +59,10 @@ const Navbar = () => {
                 </div>
 
                 <Link className={styles.navbarCompras} to="/">Meus pedidos</Link>
+
                 <Link className={styles.navbarCarrinho} to="/cart">
                     Carrinho {cart ? `(${cart.length})` : '(0)'}
+
                 </Link>
                 {user ? (
                     <>
