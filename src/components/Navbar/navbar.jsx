@@ -66,7 +66,7 @@ const Navbar = ({  cart  }) => {
     </>
 ) : (
     <>
-        <Link className={styles.navbarLogin} to="/user/login">
+        <Link className={styles.navbarLogin} to="/login/user">
   {user ? 'Sair' : 'Minha Conta'}
 </Link>
         <Link className={styles.navbarCadastro} to="/user/register">Cadastro</Link>

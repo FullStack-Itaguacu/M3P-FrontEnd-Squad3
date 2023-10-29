@@ -14,15 +14,8 @@ import Sales from '../pages/Admin/Sales/Sales';
 import AllUsers from '../pages/Admin/AllUsers/AllUsers';
 import TableAllProducts from '../components/Table/TableAllProducts';
 
-import Navbar from "../components/Navbar/navbar"
-import { AuthContext } from '../contexts/AuthContext';
-
 import Profile from '../pages/Client/Profile/Profile';
 import CreateUser from '../pages/Admin/Users/CreateUser';
-
-
-
-
 
 
 
@@ -33,20 +26,6 @@ export default function AllRoutes() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/login/admin" element={<AdminLogin />} />
-
- loginUser
-
- <Route path="/navbar" 
-          element={<Navbar user={AuthContext.user} />} 
-        />
-        <Route path="/user/login" element={<Login/>} />
-        <Route path="/user/register" element={<RegisterUser />} />
-       
-        
-        <Route path="/admin/product" element={<CadastrarProduto />}/>
-
-
-        loginUser
         <Route path="/login/user" element={<Login />} />
         <Route path="/user/register" element={<RegisterUser />} />
         <Route path="/user/profile"
@@ -67,16 +46,8 @@ export default function AllRoutes() {
             </PrivateRoute>
           }>
           <Route path='resumo' element={<DashBoardIndex />} />
-          <Route path='register/products' element={<NewProduct />} />
+          <Route path='register/products' element={<CadastrarProduto />} />
           <Route path='sales' element={<Sales />} />
-
-
-          <Route path='users' element={<Users />} />
-
-          <Route path='products' element={<TableAllProducts />} />
-          <Route path='register/user' element={<Users />} />
-          <Route path='users' element={<AllUsers />} />
-
           <Route path='products' element={<TableAllProducts />} />
           <Route path='register/user' element={<CreateUser />} />
           <Route path='users' element={<AllUsers />} />

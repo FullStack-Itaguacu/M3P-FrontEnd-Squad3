@@ -1,6 +1,5 @@
 
 import styles from './SucessoModal.module.css';
-import styles from './SucessoModal.module.css';
 import PropTypes from 'prop-types';
 
 
