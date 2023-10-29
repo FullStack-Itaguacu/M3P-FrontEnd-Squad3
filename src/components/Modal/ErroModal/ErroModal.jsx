@@ -1,14 +1,11 @@
-
-import styles from './SucessoModal.module.css';
-import styles from './SucessoModal.module.css';
+import styles from './ErroModal.module.css';
 import PropTypes from 'prop-types';
 
-
-const SucessoModal = ({ mensagem, onClose }) => {
+const ErroModal = ({ typeErro,mensagem, onClose }) => {
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>
-                <h2>Sucesso!</h2>
+                <h2>{typeErro}</h2>
                 <p>{mensagem}</p>
                 <button onClick={onClose}>Fechar</button>
             </div>
@@ -16,15 +13,12 @@ const SucessoModal = ({ mensagem, onClose }) => {
     );
 };
 
-
-
-
-SucessoModal.propTypes = {
+ErroModal.propTypes = {
     mensagem: PropTypes.string.isRequired,
+    typeErro: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
 };
 
-export default SucessoModal;
-
+export default ErroModal;
 
 
