@@ -16,7 +16,7 @@ import TableAllProducts from '../components/Table/TableAllProducts';
 
 import Profile from '../pages/Client/Profile/Profile';
 import CreateUser from '../pages/Admin/Users/CreateUser';
-
+import Cart from '../pages/Client/Cart/Cart';
 
 
 
@@ -34,6 +34,9 @@ export default function AllRoutes() {
               <Profile />
             </PrivateRoute>
           }/>
+          <Route path="buyers/addreess" elemente={
+            <Cart />}
+          />
 
 
 
