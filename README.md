@@ -41,19 +41,24 @@ npm install
 ```sh
 npm rum dev
 ```
-## Alguns exemplos de páginas do nosso sistema
-* Login do Usuário
+## Rotas 
+* Administrador:
+- /login/admin - login  admin
+- /admin/dashboard - dasboard admin
+- /admin/dashboard/resumo - relatório de vendas admin
+- /admin/dashboard/sales - vendas do admin
+- /admin/dashboard/users - usuário cadastrados admin
+- /admin/dashboard/register/user - adicionar um novo usuário
+- /admin/dashboard/register/products - cadastrar um produto admin
+- /admin/dashboard/products - produtos registrados do admin
 
-![image](https://github.com/FullStack-Itaguacu/M3P-FrontEnd-Squad3/assets/115937834/1030053a-0e31-4535-b9fc-d38aec3114d3)
+*Usuário
+- /login/user - login usuário
+- /user/register - cadastrar um usuário
+- /user/profile - página principal user
+- /sales - finalizar compra (carrinho)
+- /sales/buyers/addreess - enreços para entrega
 
-* Login do Admin
-
-![image](https://github.com/FullStack-Itaguacu/M3P-FrontEnd-Squad3/assets/115937834/0d06b5e7-f54e-4b8d-8c1e-4c40bd989778)
-
-
-* Cadastro de produtos
-  
-![image](https://github.com/FullStack-Itaguacu/M3P-FrontEnd-Squad3/assets/115937834/a44933a8-6da4-4496-b577-48956e7764e8)
 
 ## Melhorias Futuras
 
