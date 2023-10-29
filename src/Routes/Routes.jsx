@@ -16,6 +16,7 @@ import TableAllProducts from '../components/Table/TableAllProducts';
 import Profile from '../pages/Client/Profile/Profile';
 import CreateUser from '../pages/Admin/Users/CreateUser';
 import Cart from '../pages/Client/Cart/Cart';
+import SalesPage from "../pages/Client/Cart/GetSales/GetSales"
 
 
 
@@ -34,6 +35,7 @@ export default function AllRoutes() {
             </PrivateRoute>
           }/>
 
+          <Route path="/sales" element={<SalesPage />} />
           <Route path="sales/buyers/addreess" element={<Cart />}/>
 
         <Route path='/admin/dashboard'
